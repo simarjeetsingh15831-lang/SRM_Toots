@@ -988,3 +988,86 @@ function imagesToPDF() {
   });
 }
 </script>
+<div class="tool-card">
+  <h3>📄 Image to PDF</h3>
+  <p>Images nu PDF vich convert karo</p>
+  <input type="file" id="pdfImages" accept="image/*" multiple>
+  <button onclick="imagesToPDF()">Convert to PDF</button>
+</div><script>
+function imagesToPDF() {
+  const files = document.getElementById("pdfImages").files;
+
+  if (!files.length) {
+    alert("Pehla image select karo!");
+    return;
+  }
+
+  const win = window.open("", "_blank");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>SRM Tools - Image to PDF</title>
+      <style>
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          text-align: center;
+        }
+
+        .page {
+          width: 210mm;
+          min-height: 297mm;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          page-break-after: always;
+        }
+
+        img {
+          max-width: 190mm;
+          max-height: 277mm;
+          object-fit: contain;
+        }
+
+        @media print {
+          .page {
+            page-break-after: always;
+          }
+        }
+      </style>
+    </head>
+    <body>
+  `);
+
+  let loaded = 0;
+
+  [...files].forEach(file => {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      win.document.write(`
+        <div class="page">
+          <img src="${e.target.result}">
+        </div>
+      `);
+
+      loaded++;
+
+      if (loaded === files.length) {
+        win.document.write(`
+          </body>
+          </html>
+        `);
+        win.document.close();
+
+        setTimeout(() => {
+          win.print();
+        }, 700);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+</script>
