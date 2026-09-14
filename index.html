@@ -1,54 +1,34 @@
 <!DOCTYPE html>
-<html lang="pa">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SRM Tools</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#f4f7fb;
   color:#172033;
-  transition:.3s;
 }
 
 header{
   background:#172033;
   color:white;
   text-align:center;
-  padding:35px 15px;
+  padding:30px 15px;
 }
 
-header h1{
-  margin:0;
-  font-size:34px;
-}
-
-header p{
-  margin:10px 0 0;
-  color:#cbd5e1;
-}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0;color:#cbd5e1}
 
 .container{
   max-width:900px;
   margin:auto;
-  padding:25px 15px;
-}
-
-.search{
-  width:100%;
-  padding:15px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  font-size:16px;
-  margin-bottom:25px;
+  padding:20px 15px;
 }
 
 .tools{
@@ -59,62 +39,43 @@ header p{
 
 .card{
   background:white;
-  padding:25px;
+  padding:22px;
   border-radius:18px;
   box-shadow:0 5px 20px rgba(0,0,0,.08);
   text-align:center;
-  transition:.2s;
 }
 
-.card:hover{
-  transform:translateY(-4px);
-}
+.icon{font-size:42px}
 
-.icon{
-  font-size:42px;
-}
+.card h2{margin:10px 0}
 
-.card h2{
-  margin:10px 0;
-}
+.card p{color:#667085}
 
-.card p{
-  color:#667085;
+input,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
 }
 
 button{
   border:0;
   background:#172033;
   color:white;
-  padding:11px 20px;
+  padding:11px 18px;
   border-radius:10px;
+  margin-top:8px;
   cursor:pointer;
-  font-size:15px;
 }
 
-.dark{
-  background:#0f172a;
-  color:white;
+.result{
+  margin-top:12px;
 }
 
-.dark .card{
-  background:#1e293b;
-}
-
-.dark .card p{
-  color:#cbd5e1;
-}
-
-.dark .search{
-  background:#1e293b;
-  color:white;
-  border-color:#475569;
-}
-
-.toggle{
-  position:absolute;
-  right:15px;
-  top:15px;
+img{
+  max-width:100%;
+  border-radius:10px;
 }
 
 footer{
@@ -127,87 +88,225 @@ footer{
 
 <body>
 
-<button class="toggle" onclick="darkMode()">🌙</button>
-
 <header>
-  <h1>🛠️ SRM Tools</h1>
-  <p>Simple • Fast • Free Tools</p>
+<h1>🛠️ SRM Tools</h1>
+<p>Simple • Fast • Free Tools</p>
 </header>
 
 <div class="container">
 
-<input
-  class="search"
-  id="search"
-  type="text"
-  placeholder="🔍 Search tools..."
-  onkeyup="searchTools()"
->
+<div class="tools">
 
-<div class="tools" id="tools">
-
+<!-- IMAGE RESIZE -->
 <div class="card">
-  <div class="icon">🖼️</div>
-  <h2>Image Resize</h2>
-  <p>Resize your images easily.</p>
-  <button onclick="alert('Image Resize Tool Coming Soon!')">
-    Open Tool
-  </button>
+<div class="icon">🖼️</div>
+<h2>Image Resize</h2>
+<p>Resize your image</p>
+
+<input type="file" id="resizeFile" accept="image/*">
+<input type="number" id="resizeWidth" placeholder="Width (px)">
+<input type="number" id="resizeHeight" placeholder="Height (px)">
+
+<button onclick="resizeImage()">Resize & Save</button>
+
+<div id="resizeResult" class="result"></div>
 </div>
 
+
+<!-- IMAGE CROP -->
 <div class="card">
-  <div class="icon">✂️</div>
-  <h2>Image Crop</h2>
-  <p>Crop your image quickly.</p>
-  <button onclick="alert('Image Crop Tool Coming Soon!')">
-    Open Tool
-  </button>
+<div class="icon">✂️</div>
+<h2>Image Crop</h2>
+<p>Crop your image</p>
+
+<input type="file" id="cropFile" accept="image/*">
+
+<button onclick="cropImage()">Crop Image</button>
+
+<div id="cropResult" class="result"></div>
 </div>
 
+
+<!-- IMAGE CONVERTER -->
 <div class="card">
-  <div class="icon">🔄</div>
-  <h2>Image Converter</h2>
-  <p>Convert images into different formats.</p>
-  <button onclick="alert('Image Converter Coming Soon!')">
-    Open Tool
-  </button>
+<div class="icon">🔄</div>
+<h2>Image Converter</h2>
+<p>Convert image format</p>
+
+<input type="file" id="convertFile" accept="image/*">
+
+<select id="format">
+<option value="png">PNG</option>
+<option value="jpeg">JPG</option>
+<option value="webp">WEBP</option>
+</select>
+
+<button onclick="convertImage()">Convert & Save</button>
+
+<div id="convertResult" class="result"></div>
 </div>
 
+
+<!-- QR GENERATOR -->
 <div class="card">
-  <div class="icon">📱</div>
-  <h2>QR Generator</h2>
-  <p>Create QR codes easily.</p>
-  <button onclick="alert('QR Generator Coming Soon!')">
-    Open Tool
-  </button>
+<div class="icon">📱</div>
+<h2>QR Generator</h2>
+<p>Create QR Code</p>
+
+<input type="text" id="qrText" placeholder="Enter text or link">
+
+<button onclick="generateQR()">Generate QR</button>
+
+<div id="qrResult" class="result"></div>
 </div>
 
 </div>
 </div>
 
 <footer>
-  © 2026 SRM Tools
+© 2026 SRM Tools
 </footer>
+
 
 <script>
 
-function darkMode(){
-  document.body.classList.toggle("dark");
+function resizeImage(){
+
+let file=document.getElementById("resizeFile").files[0];
+let width=document.getElementById("resizeWidth").value;
+let height=document.getElementById("resizeHeight").value;
+
+if(!file || !width || !height){
+alert("Please select image and enter width & height");
+return;
 }
 
-function searchTools(){
-  let input=document.getElementById("search").value.toLowerCase();
-  let cards=document.querySelectorAll(".card");
+let img=new Image();
 
-  cards.forEach(card=>{
-    let text=card.innerText.toLowerCase();
+img.onload=function(){
 
-    if(text.includes(input)){
-      card.style.display="";
-    }else{
-      card.style.display="none";
-    }
-  });
+let canvas=document.createElement("canvas");
+canvas.width=width;
+canvas.height=height;
+
+let ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0,width,height);
+
+canvas.toBlob(function(blob){
+
+let url=URL.createObjectURL(blob);
+
+document.getElementById("resizeResult").innerHTML=
+'<a href="'+url+'" download="resized-image.png"><button>⬇️ Download Image</button></a>';
+
+});
+
+};
+
+img.src=URL.createObjectURL(file);
+}
+
+
+function cropImage(){
+
+let file=document.getElementById("cropFile").files[0];
+
+if(!file){
+alert("Please select an image");
+return;
+}
+
+let img=new Image();
+
+img.onload=function(){
+
+let canvas=document.createElement("canvas");
+
+let size=Math.min(img.width,img.height);
+
+canvas.width=size;
+canvas.height=size;
+
+let ctx=canvas.getContext("2d");
+
+let x=(img.width-size)/2;
+let y=(img.height-size)/2;
+
+ctx.drawImage(img,x,y,size,size,0,0,size,size);
+
+canvas.toBlob(function(blob){
+
+let url=URL.createObjectURL(blob);
+
+document.getElementById("cropResult").innerHTML=
+'<a href="'+url+'" download="cropped-image.png"><button>⬇️ Download Crop</button></a>';
+
+});
+
+};
+
+img.src=URL.createObjectURL(file);
+}
+
+
+function convertImage(){
+
+let file=document.getElementById("convertFile").files[0];
+let format=document.getElementById("format").value;
+
+if(!file){
+alert("Please select an image");
+return;
+}
+
+let img=new Image();
+
+img.onload=function(){
+
+let canvas=document.createElement("canvas");
+
+canvas.width=img.width;
+canvas.height=img.height;
+
+let ctx=canvas.getContext("2d");
+
+ctx.drawImage(img,0,0);
+
+let mime="image/"+format;
+
+canvas.toBlob(function(blob){
+
+let url=URL.createObjectURL(blob);
+
+document.getElementById("convertResult").innerHTML=
+'<a href="'+url+'" download="converted-image.'+
+(format==="jpeg"?"jpg":format)+
+'"><button>⬇️ Download Image</button></a>';
+
+},mime);
+
+};
+
+img.src=URL.createObjectURL(file);
+}
+
+
+function generateQR(){
+
+let text=document.getElementById("qrText").value;
+
+if(!text){
+alert("Please enter text or link");
+return;
+}
+
+let url=
+"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+
+encodeURIComponent(text);
+
+document.getElementById("qrResult").innerHTML=
+'<img src="'+url+'"><br><a href="'+url+'" target="_blank"><button>⬇️ Open QR</button></a>';
+
 }
 
 </script>
