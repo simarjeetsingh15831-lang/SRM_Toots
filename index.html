@@ -1,200 +1,216 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pa">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SRM Tools</title>
+
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{padding:28px 18px;text-align:center;background:#172033;color:white}
-h1{margin:0 0 8px;font-size:36px}.tag{opacity:.85}
-main{max-width:900px;margin:28px auto;padding:0 16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
-.card{background:white;border-radius:16px;padding:22px;box-shadow:0 5px 18px #0001}
-.card h2{margin-top:0}.card p{color:#667085}
-button{border:0;border-radius:10px;padding:11px 16px;background:#172033;color:white;cursor:pointer}
-textarea,input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccd3df;border-radius:10px;margin:8px 0}
-.tool{margin-top:25px}
-footer{text-align:center;padding:30px;color:#667085}
+*{
+  box-sizing:border-box;
+}
 
-.image-tool input[type="file"]{width:100%;padding:10px;margin:8px 0}
-.image-preview{max-width:100%;max-height:220px;border-radius:12px;margin:10px 0;display:none}
-.tool-actions{display:flex;gap:8px;flex-wrap:wrap}
-.tool-actions button{flex:1;min-width:120px}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+  transition:.3s;
+}
+
+header{
+  background:#172033;
+  color:white;
+  text-align:center;
+  padding:35px 15px;
+}
+
+header h1{
+  margin:0;
+  font-size:34px;
+}
+
+header p{
+  margin:10px 0 0;
+  color:#cbd5e1;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:25px 15px;
+}
+
+.search{
+  width:100%;
+  padding:15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:25px;
+}
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+  text-align:center;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.icon{
+  font-size:42px;
+}
+
+.card h2{
+  margin:10px 0;
+}
+
+.card p{
+  color:#667085;
+}
+
+button{
+  border:0;
+  background:#172033;
+  color:white;
+  padding:11px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.dark{
+  background:#0f172a;
+  color:white;
+}
+
+.dark .card{
+  background:#1e293b;
+}
+
+.dark .card p{
+  color:#cbd5e1;
+}
+
+.dark .search{
+  background:#1e293b;
+  color:white;
+  border-color:#475569;
+}
+
+.toggle{
+  position:absolute;
+  right:15px;
+  top:15px;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:#667085;
+}
 </style>
-<style id="srm-modern-style">:root{--bg:#f5f7fb;--card:#fff;--text:#182033;--muted:#667085;--accent:#6c5ce7;--border:#e7e9f0}body{background:var(--bg)!important;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{padding:28px 16px!important;text-align:center}header h1{font-size:34px!important;margin:0 0 6px!important}header p{color:var(--muted);margin:0}.srm-search{width:min(720px,92%);display:block;margin:8px auto 18px;padding:14px 18px;border:1px solid var(--border);border-radius:16px;font-size:16px;box-sizing:border-box}.srm-cats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 auto 20px}.srm-cats button{border:1px solid var(--border);background:var(--card);padding:9px 14px;border-radius:999px;cursor:pointer}.tool{background:var(--card)!important;border:1px solid var(--border)!important;border-radius:18px!important;box-shadow:0 6px 20px rgba(20,25,40,.06);padding:20px!important;margin:14px auto!important;max-width:720px}.tool h2{margin-top:0}.tool input,.tool textarea,.tool select{border:1px solid var(--border);border-radius:12px;padding:11px;box-sizing:border-box}.tool button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;background:var(--accent);color:#fff;font-weight:600}@media(max-width:600px){header h1{font-size:28px!important}.tool{margin:10px!important}}</style></head>
+</head>
+
 <body>
-<header><h1>SRM Tools 🛠️</h1><div class="tag">Simple • Free • Useful</div></header><div class="srm-cats"><button onclick="filterTools('all')">🏠 All</button><button onclick="filterTools('text')">✍️ Text</button><button onclick="filterTools('image')">🖼️ Image</button><button onclick="filterTools('other')">🧰 Other</button></div><input class="srm-search" id="toolSearch" type="search" placeholder="🔎 Search tool..." oninput="searchTools()">
-<main>
-<h2>Our Tools</h2>
-<div class="grid">
-<div class="card"><h2>📝 Text Counter</h2><p>Words ਅਤੇ characters ਗਿਣੋ।</p><button onclick="show('text')">Open</button></div>
-<div class="card"><h2>🔢 Calculator</h2><p>Simple calculation ਕਰੋ।</p><button onclick="show('calc')">Open</button></div>
 
-<div class="card"><h2>#️⃣ Hashtag Generator</h2><p>Topic ਲਿਖੋ ਤੇ hashtags ਬਣਾਓ।</p><button onclick="show('hashtags')">Open</button></div>
-<div class="card"><h2>✍️ Caption Generator</h2><p>Reels ਲਈ ਛੋਟੀ caption ਬਣਾਓ।</p><button onclick="show('caption')">Open</button></div>
-<div class="card"><h2>📱 Social Tools</h2><p>ਅੱਗੇ ਚੱਲ ਕੇ captions, hashtags ਅਤੇ ਹੋਰ tools।</p><button onclick="alert('Coming soon!')">Coming Soon</button></div>
+<button class="toggle" onclick="darkMode()">🌙</button>
+
+<header>
+  <h1>🛠️ SRM Tools</h1>
+  <p>Simple • Fast • Free Tools</p>
+</header>
+
+<div class="container">
+
+<input
+  class="search"
+  id="search"
+  type="text"
+  placeholder="🔍 Search tools..."
+  onkeyup="searchTools()"
+>
+
+<div class="tools" id="tools">
+
+<div class="card">
+  <div class="icon">🖼️</div>
+  <h2>Image Resize</h2>
+  <p>Resize your images easily.</p>
+  <button onclick="alert('Image Resize Tool Coming Soon!')">
+    Open Tool
+  </button>
 </div>
 
-
-<div id="hashtags" class="card tool" style="display:none">
-<h2>#️⃣ Hashtag Generator</h2>
-<input id="topic" placeholder="ਜਿਵੇਂ: Punjabi Sad Song">
-<button onclick="makeTags()">Generate</button>
-<p id="tags"></p>
+<div class="card">
+  <div class="icon">✂️</div>
+  <h2>Image Crop</h2>
+  <p>Crop your image quickly.</p>
+  <button onclick="alert('Image Crop Tool Coming Soon!')">
+    Open Tool
+  </button>
 </div>
 
-<div id="caption" class="card tool" style="display:none">
-<h2>✍️ Caption Generator</h2>
-<input id="capTopic" placeholder="ਜਿਵੇਂ: Sad Love">
-<button onclick="makeCaption()">Generate</button>
-<p id="captionResult"></p>
-</div>
-<div id="text" class="card tool" style="display:none">
-<h2>Text Counter</h2><textarea id="txt" rows="7" placeholder="ਇੱਥੇ text ਲਿਖੋ..."></textarea>
-<p id="count">Words: 0 | Characters: 0</p>
+<div class="card">
+  <div class="icon">🔄</div>
+  <h2>Image Converter</h2>
+  <p>Convert images into different formats.</p>
+  <button onclick="alert('Image Converter Coming Soon!')">
+    Open Tool
+  </button>
 </div>
 
-<div id="calc" class="card tool" style="display:none">
-<h2>Calculator</h2>
-<input id="a" type="number" placeholder="Number 1">
-<input id="b" type="number" placeholder="Number 2">
-<button onclick="calculate('+')">+</button>
-<button onclick="calculate('-')">−</button>
-<button onclick="calculate('*')">×</button>
-<button onclick="calculate('/')">÷</button>
-<p id="result">Result: —</p>
-</div>
-</main>
-
-<div class="tool">
-  <h2>🖼️ Image Resizer</h2>
-  <p>Photo upload karo, size/width set karo te resized image save karo.</p>
-  <div class="image-tool">
-    <input type="file" id="imgFile" accept="image/*">
-    <input type="number" id="imgWidth" placeholder="Width (px), e.g. 800" min="1">
-    <img id="imgPreview" class="image-preview">
-    <div class="tool-actions">
-      <button onclick="resizeImage()">Resize & Save</button>
-    </div>
-    <p id="imgMsg"></p>
-  </div>
+<div class="card">
+  <div class="icon">📱</div>
+  <h2>QR Generator</h2>
+  <p>Create QR codes easily.</p>
+  <button onclick="alert('QR Generator Coming Soon!')">
+    Open Tool
+  </button>
 </div>
 
-<div class="tool">
-  <h2>📱 Image Compressor</h2>
-  <p>Photo nu JPG format ch compress karke file size ghatao.</p>
-  <div class="image-tool">
-    <input type="file" id="compressFile" accept="image/*">
-    <div class="tool-actions">
-      <button onclick="compressImage()">Compress & Save</button>
-    </div>
-    <p id="compressMsg"></p>
-  </div>
+</div>
 </div>
 
-<div class="tool">
-  <h2>🎂 Age Calculator</h2>
-  <p>Apni date of birth pao te age calculate karo.</p>
-  <input type="date" id="dob">
-  <button onclick="calculateAge()">Calculate Age</button>
-  <p id="ageResult"></p>
-</div>
-
-<div class="tool">
-  <h2>🔲 QR Code Generator</h2>
-  <p>Text ya link pao te QR code banao.</p>
-  <input type="text" id="qrText" placeholder="Text ya website link">
-  <button onclick="makeQR()">Generate QR</button>
-  <div id="qrResult"></div>
-</div>
-
-<footer>© 2026 SRM Tools</footer>
-<script>
-function show(id){document.getElementById(id).style.display='block'}
-document.getElementById('txt').addEventListener('input',e=>{
- let t=e.target.value.trim();
- document.getElementById('count').textContent='Words: '+(t?t.split(/\s+/).length:0)+' | Characters: '+(t?e.target.value.length:0);
-});
-function calculate(op){
- let a=Number(document.getElementById('a').value),b=Number(document.getElementById('b').value),r;
- if(op==='+')r=a+b;if(op==='-')r=a-b;if(op==='*')r=a*b;
- if(op==='/' )r=b===0?'Cannot divide by zero':a/b;
- document.getElementById('result').textContent='Result: '+r;
-}
-
-function makeTags(){
- let t=document.getElementById('topic').value.trim();
- if(!t){document.getElementById('tags').textContent='ਪਹਿਲਾਂ topic ਲਿਖੋ।';return;}
- let clean=t.replace(/[^a-zA-Z0-9 ]/g,'').trim().split(/\s+/).join('');
- document.getElementById('tags').textContent='#'+clean+' #Reels #Shorts #Viral #Trending #Punjabi';
-}
-function makeCaption(){
- let t=document.getElementById('capTopic').value.trim();
- if(!t){document.getElementById('captionResult').textContent='ਪਹਿਲਾਂ topic ਲਿਖੋ।';return;}
- document.getElementById('captionResult').textContent='ਕੁਝ ਗੱਲਾਂ ਦਿਲ ਵਿੱਚ ਹੀ ਰਹਿ ਜਾਂਦੀਆਂ ਨੇ… ❤️‍🩹 #'+t.replace(/\s+/g,'');
-}
-</script>
+<footer>
+  © 2026 SRM Tools
+</footer>
 
 <script>
-function resizeImage(){
-  const file=document.getElementById('imgFile').files[0];
-  const w=parseInt(document.getElementById('imgWidth').value);
-  const msg=document.getElementById('imgMsg');
-  if(!file || !w){msg.textContent='Photo te width dono select karo.';return;}
-  const img=new Image();
-  img.onload=()=>{
-    const ratio=w/img.width, h=Math.round(img.height*ratio);
-    const c=document.createElement('canvas'); c.width=w; c.height=h;
-    c.getContext('2d').drawImage(img,0,0,w,h);
-    c.toBlob(blob=>{
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob); a.download='srm-resized.jpg'; a.click();
-      msg.textContent='✅ Resized image save ho gayi!';
-    },'image/jpeg',0.9);
-  };
-  img.src=URL.createObjectURL(file);
+
+function darkMode(){
+  document.body.classList.toggle("dark");
 }
 
-document.getElementById('imgFile')?.addEventListener('change', function(){
-  const file=this.files[0], preview=document.getElementById('imgPreview');
-  if(file){preview.src=URL.createObjectURL(file);preview.style.display='block';}
-});
+function searchTools(){
+  let input=document.getElementById("search").value.toLowerCase();
+  let cards=document.querySelectorAll(".card");
 
-function compressImage(){
-  const file=document.getElementById('compressFile').files[0];
-  const msg=document.getElementById('compressMsg');
-  if(!file){msg.textContent='Photo select karo.';return;}
-  const img=new Image();
-  img.onload=()=>{
-    const max=1400, scale=Math.min(1,max/img.width);
-    const c=document.createElement('canvas'); c.width=Math.round(img.width*scale); c.height=Math.round(img.height*scale);
-    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-    c.toBlob(blob=>{
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob); a.download='srm-compressed.jpg'; a.click();
-      msg.textContent='✅ Compressed image save ho gayi!';
-    },'image/jpeg',0.65);
-  };
-  img.src=URL.createObjectURL(file);
+  cards.forEach(card=>{
+    let text=card.innerText.toLowerCase();
+
+    if(text.includes(input)){
+      card.style.display="";
+    }else{
+      card.style.display="none";
+    }
+  });
 }
 
-function calculateAge(){
-  const dob=new Date(document.getElementById('dob').value), r=document.getElementById('ageResult');
-  if(!document.getElementById('dob').value){r.textContent='DOB select karo.';return;}
-  const now=new Date(); let y=now.getFullYear()-dob.getFullYear();
-  let m=now.getMonth()-dob.getMonth(); let d=now.getDate()-dob.getDate();
-  if(d<0){m--; d+=new Date(now.getFullYear(),now.getMonth(),0).getDate();}
-  if(m<0){y--;m+=12;}
-  r.textContent=`🎉 Tuhadi age: ${y} saal, ${m} mahine, ${d} din`;
-}
-
-function makeQR(){
-  const text=document.getElementById('qrText').value.trim(), box=document.getElementById('qrResult');
-  if(!text){box.innerHTML='Text ya link pao.';return;}
-  box.innerHTML=`<div style="margin-top:12px"><img alt="QR Code" style="max-width:220px;border-radius:10px" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(text)}"><p>QR code ready ✅</p></div>`;
-}
 </script>
 
-<script id="srm-modern-js">function searchTools(){const q=(document.getElementById('toolSearch')?.value||'').toLowerCase();document.querySelectorAll('.tool').forEach(t=>t.style.display=t.innerText.toLowerCase().includes(q)?'':'none')}function filterTools(type){document.querySelectorAll('.tool').forEach(t=>{const x=t.innerText.toLowerCase();let show=true;if(type==='text')show=/text|hashtag|caption/.test(x);if(type==='image')show=/image|photo|picture|qr/.test(x);if(type==='other')show=!/text|hashtag|caption|image|photo|picture|qr/.test(x);t.style.display=show?'':'none'})}</script></body>
+</body>
 </html>
