@@ -946,7 +946,49 @@ function aiSummary(){
   document.getElementById("aiResult").value =
     "📝 Short Version:\n\n" + shortText;
 }
-   </script>
+   </script><!-- AI Caption Generator -->
+<div class="card">
+  <h2>🤖 AI Caption Generator</h2>
+
+  <input
+    id="captionTopic"
+    type="text"
+    placeholder="Topic likho, jivein: Sad Love"
+  >
+
+  <button onclick="generateCaption()">✨ Generate Caption</button>
+
+  <textarea
+    id="captionResult"
+    placeholder="Caption ithhe aavega..."
+    readonly
+  ></textarea>
+</div>
+
+<script>
+function generateCaption() {
+  const topic = document.getElementById("captionTopic").value.trim();
+
+  if (!topic) {
+    alert("Pehla topic likho!");
+    return;
+  }
+
+  const captions = [
+    "Kujh gallan lafzan naal nahi, feelings naal samjhiyaan jandiyan ne. ❤️",
+    "Har smile de pichhe ik kahani hundi aa. ✨",
+    "Jo dil de kareeb hove, ohnu bhulna aukha hunda. 💭",
+    "Kujh yaadan hamesha dil vich reh jandiyan ne. 🥀",
+    "Zindagi ch kujh pal dubara nahi aunde. ❤️"
+  ];
+
+  const randomCaption =
+    captions[Math.floor(Math.random() * captions.length)];
+
+  document.getElementById("captionResult").value =
+    "Topic: " + topic + "\n\n" + randomCaption;
+}
+</script>
 
 </body>
 </html>
