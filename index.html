@@ -1135,6 +1135,18 @@ function generateBio() {
   document.getElementById("bioResult").value =
     bios.join("\n\n");
 }
+</script><!-- SRM Tools App / PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#172033">
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("SRM Tools App Ready"))
+      .catch(() => console.log("App mode ready"));
+  });
+}
 </script>
 
 </body>
