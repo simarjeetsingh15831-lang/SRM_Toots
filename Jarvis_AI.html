@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>JARVIS AI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:white;
+}
+
+header{
+  text-align:center;
+  padding:25px;
+  background:#0d2035;
+}
+
+h1{
+  margin:0;
+  font-size:32px;
+}
+
+header p{
+  color:#9fc7e8;
+}
+
+#chat{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+  min-height:60vh;
+}
+
+.message{
+  padding:14px;
+  margin:12px 0;
+  border-radius:15px;
+}
+
+.jarvis{
+  background:#102b43;
+}
+
+.user{
+  background:#18506a;
+  text-align:right;
+}
+
+.input-area{
+  max-width:700px;
+  margin:auto;
+  padding:15px;
+  display:flex;
+  gap:8px;
+}
+
+input{
+  flex:1;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  font-size:16px;
+}
+
+button{
+  padding:0 20px;
+  border:0;
+  border-radius:12px;
+  background:#19a7d8;
+  color:white;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 JARVIS AI</h1>
+  <p>Your Personal AI Assistant</p>
+</header>
+
+<div id="chat">
+
+  <div class="message jarvis">
+    <b>JARVIS:</b><br>
+    Sat Sri Akal! 👋 Main JARVIS haan. Dassō, ki kam kariye?
+  </div>
+
+</div>
+
+<div class="input-area">
+
+  <input
+    id="userInput"
+    type="text"
+    placeholder="Jarvis nu message likho..."
+    onkeydown="if(event.key==='Enter') sendMessage()"
+  >
+
+  <button onclick="sendMessage()">
+    Send
+  </button>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+  let input = document.getElementById("userInput");
+  let text = input.value.trim();
+
+  if(text === ""){
+    return;
+  }
+
+  let chat = document.getElementById("chat");
+
+  chat.innerHTML += `
+    <div class="message user">
+      ${text}
+    </div>
+  `;
+
+  input.value = "";
+
+  let reply =
+    "Main JARVIS AI haan 🤖. Tusi jo vi puchna chaunde ho, pucho.";
+
+  let lower = text.toLowerCase();
+
+  if(lower.includes("hello") ||
+     lower.includes("hi") ||
+     lower.includes("sat sri")){
+    reply =
+      "Sat Sri Akal! 😎 Dassō, ajj ki kam kariye?";
+  }
+
+  else if(lower.includes("naam") ||
+          lower.includes("name")){
+    reply =
+      "Mera naam JARVIS AI hai. 🤖";
+  }
+
+  else if(lower.includes("website")){
+    reply =
+      "Haan ji! Main website banan vich tuhadi help kar sakda haan. 🌐";
+  }
+
+  setTimeout(function(){
+
+    chat.innerHTML += `
+      <div class="message jarvis">
+        <b>JARVIS:</b><br>
+        ${reply}
+      </div>
+    `;
+
+    chat.lastElementChild.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  },500);
+
+}
+
+</script>
+
+</body>
+</html>
