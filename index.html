@@ -988,6 +988,51 @@ function generateCaption() {
   document.getElementById("captionResult").value =
     "Topic: " + topic + "\n\n" + randomCaption;
 }
+</script><!-- AI Hashtag Generator -->
+<div class="card">
+  <h2>🤖 AI Hashtag Generator</h2>
+
+  <input id="hashTopic" type="text"
+    placeholder="Topic likho, jivein: Punjabi Sad Song">
+
+  <button onclick="generateHashtags()">🔥 Generate Hashtags</button>
+
+  <textarea id="hashResult"
+    placeholder="Hashtags ithhe aunge..."
+    readonly></textarea>
+</div>
+
+<script>
+function generateHashtags() {
+  const topic = document.getElementById("hashTopic").value.trim();
+
+  if (!topic) {
+    alert("Pehla topic likho!");
+    return;
+  }
+
+  const words = topic.toLowerCase()
+    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .split(/\s+/)
+    .filter(Boolean);
+
+  let main = words.map(word => "#" + word);
+
+  let tags = [
+    ...main,
+    "#punjabi",
+    "#punjabireels",
+    "#punjabishorts",
+    "#reels",
+    "#shorts",
+    "#viral",
+    "#trending",
+    "#SRMEditer"
+  ];
+
+  document.getElementById("hashResult").value =
+    tags.join(" ");
+}
 </script>
 
 </body>
