@@ -1033,6 +1033,108 @@ function generateHashtags() {
   document.getElementById("hashResult").value =
     tags.join(" ");
 }
+</script><!-- AI Idea Generator -->
+<div class="card">
+  <h2>🤖 AI Idea Generator</h2>
+
+  <input id="ideaTopic" type="text"
+    placeholder="Topic likho, jivein: Punjabi Reels">
+
+  <button onclick="generateIdeas()">💡 Generate Ideas</button>
+
+  <textarea id="ideaResult"
+    placeholder="Ideas ithhe aunge..."
+    readonly></textarea>
+</div>
+
+<script>
+function generateIdeas() {
+  const topic = document.getElementById("ideaTopic").value.trim();
+
+  if (!topic) {
+    alert("Pehla topic likho!");
+    return;
+  }
+
+  const ideas = [
+    "🔥 " + topic + " te 15-second short video banao",
+    "💡 " + topic + " di 3 interesting facts wali video banao",
+    "🎬 " + topic + " te before/after style video banao",
+    "❤️ " + topic + " te emotional short banao",
+    "🚀 " + topic + " da trending-style hook banao"
+  ];
+
+  document.getElementById("ideaResult").value =
+    ideas.join("\n\n");
+}
+</script><!-- AI Title Generator -->
+<div class="card">
+  <h2>🤖 AI Title Generator</h2>
+
+  <input id="titleTopic" type="text"
+    placeholder="Topic likho, jivein: Punjabi Sad Song">
+
+  <button onclick="generateTitles()">🔥 Generate Titles</button>
+
+  <textarea id="titleResult"
+    placeholder="Titles ithhe aunge..."
+    readonly></textarea>
+</div>
+
+<script>
+function generateTitles() {
+  const topic = document.getElementById("titleTopic").value.trim();
+
+  if (!topic) {
+    alert("Pehla topic likho!");
+    return;
+  }
+
+  const titles = [
+    "🔥 " + topic + " | Dil Nu Chhoo Jaan Wala Moment",
+    "❤️ " + topic + " | Eh Gall Yaad Rakhi",
+    "🥀 " + topic + " | Kujh Yaadan Kade Nahi Bhuldiyan",
+    "💔 " + topic + " | Feeling Samjhan Wale Zaroor Dekhan",
+    "✨ " + topic + " | Must Watch Short"
+  ];
+
+  document.getElementById("titleResult").value =
+    titles.join("\n\n");
+}
+</script><!-- AI Bio Generator -->
+<div class="card">
+  <h2>🤖 AI Bio Generator</h2>
+
+  <input id="bioTopic" type="text"
+    placeholder="Apna topic likho, jivein: Video Editor">
+
+  <button onclick="generateBio()">✨ Generate Bio</button>
+
+  <textarea id="bioResult"
+    placeholder="Bio ithhe aavegi..."
+    readonly></textarea>
+</div>
+
+<script>
+function generateBio() {
+  const topic = document.getElementById("bioTopic").value.trim();
+
+  if (!topic) {
+    alert("Pehla topic likho!");
+    return;
+  }
+
+  const bios = [
+    "🎬 " + topic + " | Creating • Editing • Sharing ✨",
+    "🔥 " + topic + " | New videos every week 🚀",
+    "❤️ " + topic + " | Follow for more amazing content!",
+    "🎥 " + topic + " | Turning ideas into videos ✨",
+    "🚀 " + topic + " | Dream • Create • Repeat"
+  ];
+
+  document.getElementById("bioResult").value =
+    bios.join("\n\n");
+}
 </script>
 
 </body>
