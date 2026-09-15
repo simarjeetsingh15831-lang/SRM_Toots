@@ -1,343 +1,465 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pa">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SRM Tools</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;font-family:Arial,sans-serif;
- background:#f4f7fb;color:#172033
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
 }
+
 header{
- background:#172033;color:white;text-align:center;padding:28px 15px
+  padding:28px 18px;
+  text-align:center;
+  background:#172033;
+  color:white;
 }
-header h1{margin:0;font-size:32px}
-header p{margin:8px 0;color:#cbd5e1}
-.container{max-width:1100px;margin:auto;padding:20px 15px}
+
+header h1{
+  margin:0 0 8px;
+  font-size:30px;
+}
+
+header p{
+  margin:0;
+  opacity:.85;
+}
+
 .search{
- width:100%;padding:14px;border:1px solid #ddd;
- border-radius:12px;margin-bottom:20px;font-size:16px
+  width:92%;
+  max-width:600px;
+  margin:20px auto;
+  display:block;
+  padding:14px;
+  border:1px solid #ccd3df;
+  border-radius:12px;
+  font-size:16px;
 }
+
 .tools{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
- gap:18px
+  width:92%;
+  max-width:1100px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
 }
+
 .card{
- background:white;padding:20px;border-radius:18px;
- box-shadow:0 5px 20px rgba(0,0,0,.08)
+  background:white;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
-.icon{font-size:38px}
-.card h2{margin:8px 0}
-.card p{color:#667085}
-input,select,textarea{
- width:100%;padding:11px;margin:6px 0;
- border:1px solid #ddd;border-radius:10px;font-size:15px
+
+.card h2{
+  margin-top:0;
+  font-size:20px;
 }
-textarea{min-height:110px;resize:vertical}
+
+input,textarea,select{
+  width:100%;
+  padding:11px;
+  margin:7px 0;
+  border:1px solid #ccd3df;
+  border-radius:9px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
 button{
- border:0;background:#172033;color:white;padding:11px 16px;
- border-radius:10px;margin-top:7px;cursor:pointer
+  border:0;
+  padding:11px 14px;
+  margin:5px 3px 5px 0;
+  border-radius:9px;
+  background:#172033;
+  color:white;
+  cursor:pointer;
 }
-button:hover{opacity:.85}
+
+button:hover{
+  opacity:.9;
+}
+
 .result{
- margin-top:12px;padding:8px;word-break:break-word
+  margin-top:10px;
+  padding:10px;
+  background:#f1f4f8;
+  border-radius:9px;
+  min-height:20px;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
-canvas,img{max-width:100%;border-radius:10px}
-footer{text-align:center;padding:30px;color:#667085}
-.hidden{display:none}
-.big-result{font-size:20px;font-weight:bold}
+
+canvas{
+  max-width:100%;
+}
+
+.preview-img{
+  max-width:100%;
+  margin-top:10px;
+  border-radius:10px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#666;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>🛠️ SRM Tools</h1>
-<p>Simple • Fast • Free Tools</p>
+  <h1>🛠️ SRM Tools</h1>
+  <p>Simple • Fast • Mobile Friendly</p>
 </header>
 
-<div class="container">
+<input
+  class="search"
+  id="searchTools"
+  type="text"
+  placeholder="🔍 Search tool..."
+  oninput="searchTools()"
+>
 
-<input class="search" id="search" oninput="searchTools()"
-placeholder="🔎 Search tools...">
-
-<div class="tools" id="tools">
-
+<div class="tools">
 
 <!-- 1 IMAGE RESIZE -->
-<div class="card tool">
-<div class="icon">🖼️</div>
-<h2>Image Resize</h2>
-<p>Resize image</p>
+<div class="card">
+<h2>🖼️ Image Resize</h2>
+
 <input type="file" id="resizeFile" accept="image/*">
-<input type="number" id="resizeWidth" placeholder="Width (px)">
-<input type="number" id="resizeHeight" placeholder="Height (px)">
-<button onclick="resizeImage()">Resize & Save</button>
+<input type="number" id="resizeWidth" placeholder="Width">
+<input type="number" id="resizeHeight" placeholder="Height">
+
+<button onclick="resizeImage()">Resize</button>
+
 <div id="resizeResult" class="result"></div>
 </div>
 
-
 <!-- 2 IMAGE CROP -->
-<div class="card tool">
-<div class="icon">✂️</div>
-<h2>Image Crop</h2>
-<p>Square center crop</p>
+<div class="card">
+<h2>✂️ Image Crop</h2>
+
 <input type="file" id="cropFile" accept="image/*">
-<button onclick="cropImage()">Crop & Save</button>
+<input type="number" id="cropWidth" placeholder="Crop Width">
+<input type="number" id="cropHeight" placeholder="Crop Height">
+
+<button onclick="cropImage()">Crop</button>
+
 <div id="cropResult" class="result"></div>
 </div>
 
-
 <!-- 3 IMAGE CONVERTER -->
-<div class="card tool">
-<div class="icon">🔄</div>
-<h2>Image Converter</h2>
-<p>PNG / JPG / WEBP</p>
+<div class="card">
+<h2>🔄 Image Converter</h2>
+
 <input type="file" id="convertFile" accept="image/*">
-<select id="format">
-<option value="png">PNG</option>
-<option value="jpeg">JPG</option>
-<option value="webp">WEBP</option>
+
+<select id="convertFormat">
+<option value="image/png">PNG</option>
+<option value="image/jpeg">JPG</option>
+<option value="image/webp">WEBP</option>
 </select>
-<button onclick="convertImage()">Convert & Save</button>
+
+<button onclick="convertImage()">Convert</button>
+
 <div id="convertResult" class="result"></div>
 </div>
 
-
 <!-- 4 QR -->
-<div class="card tool">
-<div class="icon">📱</div>
-<h2>QR Generator</h2>
-<p>Create QR code</p>
+<div class="card">
+<h2>🔳 QR Generator</h2>
+
 <input id="qrText" placeholder="Enter text or link">
+
 <button onclick="generateQR()">Generate QR</button>
+
 <div id="qrResult" class="result"></div>
 </div>
 
-
 <!-- 5 COMPRESS -->
-<div class="card tool">
-<div class="icon">🗜️</div>
-<h2>Image Compressor</h2>
-<p>Reduce image size</p>
+<div class="card">
+<h2>🗜️ Image Compressor</h2>
+
 <input type="file" id="compressFile" accept="image/*">
-<label>Quality</label>
-<input type="range" id="quality" min="10" max="100" value="70">
-<button onclick="compressImage()">Compress & Save</button>
+
+<input
+type="range"
+id="compressQuality"
+min="10"
+max="100"
+value="70"
+oninput="compressQualityValue.innerText=this.value+'%'"
+>
+
+<div>Quality: <span id="compressQualityValue">70%</span></div>
+
+<button onclick="compressImage()">Compress</button>
+
 <div id="compressResult" class="result"></div>
 </div>
 
-
 <!-- 6 ROTATE -->
-<div class="card tool">
-<div class="icon">🔃</div>
-<h2>Image Rotate</h2>
-<p>Rotate image 90°</p>
+<div class="card">
+<h2>🔄 Image Rotate</h2>
+
 <input type="file" id="rotateFile" accept="image/*">
-<button onclick="rotateImage()">Rotate & Save</button>
+
+<button onclick="rotateImage(90)">Rotate 90°</button>
+<button onclick="rotateImage(180)">Rotate 180°</button>
+<button onclick="rotateImage(270)">Rotate 270°</button>
+
 <div id="rotateResult" class="result"></div>
 </div>
 
-
 <!-- 7 FLIP -->
-<div class="card tool">
-<div class="icon">↔️</div>
-<h2>Image Flip</h2>
-<p>Flip image</p>
+<div class="card">
+<h2>↔️ Image Flip</h2>
+
 <input type="file" id="flipFile" accept="image/*">
-<select id="flipType">
-<option value="horizontal">Horizontal</option>
-<option value="vertical">Vertical</option>
-</select>
-<button onclick="flipImage()">Flip & Save</button>
+
+<button onclick="flipImage('horizontal')">Horizontal</button>
+<button onclick="flipImage('vertical')">Vertical</button>
+
 <div id="flipResult" class="result"></div>
 </div>
 
+<!-- 8 SIZE CHECKER -->
+<div class="card">
+<h2>📏 Image Size Checker</h2>
 
-<!-- 8 SIZE -->
-<div class="card tool">
-<div class="icon">📏</div>
-<h2>Image Size Checker</h2>
-<p>Check image dimensions</p>
-<input type="file" id="sizeFile" accept="image/*"
-onchange="checkImageSize()">
+<input type="file" id="sizeFile" accept="image/*">
+
+<button onclick="checkImageSize()">Check Size</button>
+
 <div id="sizeResult" class="result"></div>
 </div>
 
-
 <!-- 9 CASE -->
-<div class="card tool">
-<div class="icon">🔤</div>
-<h2>Case Converter</h2>
-<textarea id="caseText" placeholder="Enter text"></textarea>
-<select id="caseType">
-<option value="upper">UPPERCASE</option>
-<option value="lower">lowercase</option>
-<option value="title">Title Case</option>
-<option value="sentence">Sentence case</option>
-</select>
-<button onclick="convertCase()">Convert</button>
-<div id="caseResult" class="result"></div>
-</div>
+<div class="card">
+<h2>🔠 Case Converter</h2>
 
+<textarea id="caseText" placeholder="Enter text"></textarea>
+
+<button onclick="caseUpper()">UPPERCASE</button>
+<button onclick="caseLower()">lowercase</button>
+<button onclick="caseTitle()">Title Case</button>
+
+</div>
 
 <!-- 10 WORD -->
-<div class="card tool">
-<div class="icon">🔢</div>
-<h2>Word Counter</h2>
-<textarea id="wordText" oninput="countWords()"
-placeholder="Type or paste text"></textarea>
-<div id="wordResult" class="result big-result">Words: 0</div>
-</div>
+<div class="card">
+<h2>📝 Word Counter</h2>
 
+<textarea id="wordText" placeholder="Enter text"></textarea>
+
+<button onclick="countWords()">Count Words</button>
+
+<div id="wordResult" class="result"></div>
+</div>
 
 <!-- 11 CHARACTER -->
-<div class="card tool">
-<div class="icon">🔠</div>
-<h2>Character Counter</h2>
-<textarea id="charText" oninput="countCharacters()"
-placeholder="Type or paste text"></textarea>
-<div id="charResult" class="result big-result">Characters: 0</div>
-</div>
+<div class="card">
+<h2>🔢 Character Counter</h2>
 
+<textarea id="charText" placeholder="Enter text"></textarea>
+
+<button onclick="countCharacters()">Count Characters</button>
+
+<div id="charResult" class="result"></div>
+</div>
 
 <!-- 12 CLEANER -->
-<div class="card tool">
-<div class="icon">🧹</div>
-<h2>Text Cleaner</h2>
-<textarea id="cleanText" placeholder="Enter text"></textarea>
-<button onclick="cleanText()">Clean Text</button>
-<div id="cleanResult" class="result"></div>
-</div>
+<div class="card">
+<h2>🧹 Text Cleaner</h2>
 
+<textarea id="cleanInput" placeholder="Enter text"></textarea>
+
+<button onclick="runTextCleaner()">Clean Text</button>
+
+<textarea id="cleanResult" placeholder="Cleaned text"></textarea>
+</div>
 
 <!-- 13 REVERSE -->
-<div class="card tool">
-<div class="icon">🔄</div>
-<h2>Text Reverser</h2>
-<textarea id="reverseText" placeholder="Enter text"></textarea>
-<button onclick="reverseText()">Reverse</button>
-<div id="reverseResult" class="result"></div>
-</div>
+<div class="card">
+<h2>🔁 Text Reverser</h2>
 
+<textarea id="reverseInput" placeholder="Enter text"></textarea>
+
+<button onclick="runTextReverse()">Reverse Text</button>
+
+<textarea id="reverseResult" placeholder="Reversed text"></textarea>
+</div>
 
 <!-- 14 PERCENTAGE -->
-<div class="card tool">
-<div class="icon">📊</div>
-<h2>Percentage Calculator</h2>
-<input type="number" id="percentA" placeholder="Percentage">
-<input type="number" id="percentB" placeholder="Number">
-<button onclick="percentageCalc()">Calculate</button>
-<div id="percentResult" class="result big-result"></div>
-</div>
+<div class="card">
+<h2>📊 Percentage Calculator</h2>
 
+<input type="number" id="percentValue" placeholder="Value">
+<input type="number" id="percentTotal" placeholder="Total">
+
+<button onclick="calculatePercentage()">Calculate</button>
+
+<div id="percentResult" class="result"></div>
+</div>
 
 <!-- 15 AGE -->
-<div class="card tool">
-<div class="icon">🎂</div>
-<h2>Age Calculator</h2>
-<input type="date" id="birthDate">
-<button onclick="ageCalc()">Calculate Age</button>
-<div id="ageResult" class="result big-result"></div>
-</div>
+<div class="card">
+<h2>🎂 Age Calculator</h2>
 
+<input
+type="text"
+id="birthDate"
+placeholder="DD-MM-YYYY e.g. 05-12-2001"
+inputmode="numeric"
+>
+
+<button onclick="ageCalc()">Calculate Age</button>
+
+<div id="ageResult" class="result"></div>
+</div>
 
 <!-- 16 DISCOUNT -->
-<div class="card tool">
-<div class="icon">💰</div>
-<h2>Discount Calculator</h2>
-<input type="number" id="price" placeholder="Original Price">
-<input type="number" id="discount" placeholder="Discount %">
-<button onclick="discountCalc()">Calculate</button>
-<div id="discountResult" class="result big-result"></div>
-</div>
+<div class="card">
+<h2>💰 Discount Calculator</h2>
 
+<input type="number" id="originalPrice" placeholder="Original Price">
+<input type="number" id="discountPercent" placeholder="Discount %">
+
+<button onclick="calculateDiscount()">Calculate</button>
+
+<div id="discountResult" class="result"></div>
+</div>
 
 <!-- 17 COLOR -->
-<div class="card tool">
-<div class="icon">🎨</div>
-<h2>Color Picker</h2>
-<input type="color" id="colorPicker" value="#172033"
-oninput="showColor()">
-<div id="colorResult" class="result big-result">#172033</div>
-</div>
+<div class="card">
+<h2>🎨 Color Picker</h2>
 
+<input type="color" id="colorPicker" value="#172033">
+
+<div id="colorResult" class="result">#172033</div>
+</div>
 
 <!-- 18 PASSWORD -->
-<div class="card tool">
-<div class="icon">🔐</div>
-<h2>Password Generator</h2>
-<input type="number" id="passLength" value="12"
-min="4" max="50" placeholder="Length">
-<button onclick="generatePassword()">Generate</button>
-<div id="passResult" class="result"></div>
-</div>
+<div class="card">
+<h2>🔐 Password Generator</h2>
 
+<input
+type="number"
+id="passwordLength"
+value="12"
+min="4"
+max="100"
+>
+
+<button onclick="generatePassword()">Generate</button>
+
+<textarea id="passwordResult" readonly></textarea>
+
+<button onclick="copyPassword()">Copy</button>
+</div>
 
 <!-- 19 RANDOM -->
-<div class="card tool">
-<div class="icon">🎲</div>
-<h2>Random Number</h2>
+<div class="card">
+<h2>🎲 Random Number</h2>
+
 <input type="number" id="randomMin" placeholder="Minimum">
 <input type="number" id="randomMax" placeholder="Maximum">
+
 <button onclick="randomNumber()">Generate</button>
-<div id="randomResult" class="result big-result"></div>
+
+<div id="randomResult" class="result"></div>
 </div>
 
-
 <!-- 20 STOPWATCH -->
-<div class="card tool">
-<div class="icon">⏱️</div>
-<h2>Stopwatch</h2>
-<div id="stopwatch" class="big-result">00:00:00</div>
+<div class="card">
+<h2>⏱️ Stopwatch</h2>
+
+<div id="stopwatchDisplay" class="result">00:00:00</div>
+
 <button onclick="startStopwatch()">Start</button>
 <button onclick="stopStopwatch()">Stop</button>
 <button onclick="resetStopwatch()">Reset</button>
 </div>
 
-
 <!-- 21 TIMER -->
-<div class="card tool">
-<div class="icon">⏰</div>
-<h2>Timer</h2>
-<input type="number" id="timerSeconds" placeholder="Seconds">
-<div id="timerDisplay" class="big-result">00:00</div>
+<div class="card">
+<h2>⏰ Timer</h2>
+
+<input
+type="number"
+id="timerSeconds"
+placeholder="Seconds"
+min="1"
+>
+
+<div id="timerDisplay" class="result">00:00</div>
+
 <button onclick="startTimer()">Start</button>
 <button onclick="stopTimer()">Stop</button>
+<button onclick="resetTimer()">Reset</button>
 </div>
-
 
 <!-- 22 CLOCK -->
-<div class="card tool">
-<div class="icon">🕐</div>
-<h2>Digital Clock</h2>
-<div id="clock" class="big-result"></div>
-</div>
+<div class="card">
+<h2>🕐 Digital Clock</h2>
 
+<div id="digitalClock" class="result">00:00:00</div>
+</div>
 
 <!-- 23 URL -->
-<div class="card tool">
-<div class="icon">🔗</div>
-<h2>URL Encoder/Decoder</h2>
-<input id="urlText" placeholder="Enter text or URL">
+<div class="card">
+<h2>🔗 URL Encoder / Decoder</h2>
+
+<textarea id="urlText" placeholder="Enter URL or text"></textarea>
+
 <button onclick="encodeURL()">Encode</button>
 <button onclick="decodeURL()">Decode</button>
-<div id="urlResult" class="result"></div>
-</div>
 
+<textarea id="urlResult" placeholder="Result"></textarea>
+</div>
 
 <!-- 24 PDF -->
-<div class="card tool">
-<div class="icon">📄</div>
-<h2>Text to PDF</h2>
-<textarea id="pdfText" placeholder="Write your text here"></textarea>
-<button onclick="textToPDF()">Print / Save PDF</button>
+<div class="card">
+<h2>📄 Text to PDF</h2>
+
+<textarea id="pdfText" placeholder="Enter text for PDF"></textarea>
+
+<button onclick="textToPDF()">Create PDF</button>
 </div>
 
+<!-- AI -->
+<div class="card">
+<h2>🤖 AI Text Helper</h2>
+
+<textarea
+id="aiText"
+placeholder="Enter your text..."
+></textarea>
+
+<button onclick="aiImprove()">✨ Improve</button>
+<button onclick="aiSummary()">📝 Summary</button>
+
+<textarea
+id="aiResult"
+placeholder="Result..."
+></textarea>
 </div>
+
 </div>
 
 <footer>
@@ -349,1035 +471,678 @@ min="4" max="50" placeholder="Length">
 
 /* SEARCH */
 function searchTools(){
- let q=document.getElementById("search").value.toLowerCase();
- document.querySelectorAll(".tool").forEach(card=>{
-   card.style.display=card.innerText.toLowerCase().includes(q)
-   ?"block":"none";
- });
+
+  const search =
+    document.getElementById("searchTools")
+    .value
+    .toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card=>{
+
+    const text =
+      card.innerText.toLowerCase();
+
+    card.style.display =
+      text.includes(search) ? "" : "none";
+
+  });
 }
 
 
-/* IMAGE LOAD HELPER */
+/* IMAGE LOADER */
 function loadImage(file,callback){
- if(!file){
-   alert("Please select an image");
-   return;
- }
- let img=new Image();
- img.onload=()=>callback(img);
- img.src=URL.createObjectURL(file);
+
+  if(!file){
+    alert("Pehla image select karo!");
+    return;
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  const img = new Image();
+
+  img.onload=function(){
+    callback(img);
+    URL.revokeObjectURL(url);
+  };
+
+  img.src=url;
 }
 
 
-/* RESIZE */
+/* DOWNLOAD */
+function downloadCanvas(canvas,filename,type="image/png"){
+
+  const link=document.createElement("a");
+
+  link.download=filename;
+  link.href=canvas.toDataURL(type,0.9);
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+
+/* IMAGE RESIZE */
 function resizeImage(){
- let file=resizeFile.files[0];
- let w=parseInt(resizeWidth.value);
- let h=parseInt(resizeHeight.value);
 
- if(!file||!w||!h){
-   alert("Select image and enter width & height");
-   return;
- }
+  const file =
+    document.getElementById("resizeFile").files[0];
 
- loadImage(file,img=>{
-   let c=document.createElement("canvas");
-   c.width=w;c.height=h;
-   c.getContext("2d").drawImage(img,0,0,w,h);
+  const width =
+    parseInt(document.getElementById("resizeWidth").value);
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     resizeResult.innerHTML=
-     `<a href="${url}" download="resized-image.png">
-     <button>⬇️ Download Image</button></a>`;
-   },"image/png");
- });
+  const height =
+    parseInt(document.getElementById("resizeHeight").value);
+
+  if(!width || !height || width<=0 || height<=0){
+    alert("Width te Height sahi bharo!");
+    return;
+  }
+
+  loadImage(file,img=>{
+
+    const canvas=document.createElement("canvas");
+
+    canvas.width=width;
+    canvas.height=height;
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.drawImage(img,0,0,width,height);
+
+    downloadCanvas(
+      canvas,
+      "SRM-resized.png"
+    );
+
+    document.getElementById("resizeResult").innerText =
+      "Image resize ho gayi ✅";
+
+  });
 }
 
 
-/* CROP */
+/* IMAGE CROP */
 function cropImage(){
- let file=cropFile.files[0];
 
- loadImage(file,img=>{
-   let size=Math.min(img.width,img.height);
-   let c=document.createElement("canvas");
-   c.width=size;c.height=size;
+  const file =
+    document.getElementById("cropFile").files[0];
 
-   let x=(img.width-size)/2;
-   let y=(img.height-size)/2;
+  const width =
+    parseInt(document.getElementById("cropWidth").value);
 
-   c.getContext("2d").drawImage(
-     img,x,y,size,size,0,0,size,size
-   );
+  const height =
+    parseInt(document.getElementById("cropHeight").value);
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     cropResult.innerHTML=
-     `<a href="${url}" download="cropped-image.png">
-     <button>⬇️ Download Crop</button></a>`;
-   });
- });
+  if(!width || !height || width<=0 || height<=0){
+    alert("Crop width te height sahi bharo!");
+    return;
+  }
+
+  loadImage(file,img=>{
+
+    if(width>img.width || height>img.height){
+      alert("Crop size image ton vaddi hai!");
+      return;
+    }
+
+    const canvas=document.createElement("canvas");
+
+    canvas.width=width;
+    canvas.height=height;
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      width,
+      height,
+      0,
+      0,
+      width,
+      height
+    );
+
+    downloadCanvas(
+      canvas,
+      "SRM-cropped.png"
+    );
+
+    document.getElementById("cropResult").innerText =
+      "Image crop ho gayi ✅";
+
+  });
 }
 
 
-/* CONVERTER */
+/* IMAGE CONVERTER */
 function convertImage(){
- let file=convertFile.files[0];
- if(!file){
-   alert("Please select an image");
-   return;
- }
 
- loadImage(file,img=>{
-   let c=document.createElement("canvas");
-   c.width=img.width;c.height=img.height;
-   c.getContext("2d").drawImage(img,0,0);
+  const file =
+    document.getElementById("convertFile").files[0];
 
-   let f=format.value;
-   let mime="image/"+f;
+  const format =
+    document.getElementById("convertFormat").value;
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     let ext=f==="jpeg"?"jpg":f;
+  loadImage(file,img=>{
 
-     convertResult.innerHTML=
-     `<a href="${url}" download="converted-image.${ext}">
-     <button>⬇️ Download Image</button></a>`;
-   },mime);
- });
+    const canvas=document.createElement("canvas");
+
+    canvas.width=img.width;
+    canvas.height=img.height;
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.drawImage(img,0,0);
+
+    let extension="png";
+
+    if(format==="image/jpeg") extension="jpg";
+    if(format==="image/webp") extension="webp";
+
+    downloadCanvas(
+      canvas,
+      "SRM-converted."+extension,
+      format
+    );
+
+    document.getElementById("convertResult").innerText =
+      "Image convert ho gayi ✅";
+
+  });
 }
 
 
 /* QR */
 function generateQR(){
- let text=qrText.value.trim();
 
- if(!text){
-   alert("Enter text or link");
-   return;
- }
+  const text =
+    document.getElementById("qrText").value.trim();
 
- let url=
- "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="
- +encodeURIComponent(text);
+  if(!text){
+    alert("Text ya link likho!");
+    return;
+  }
 
- qrResult.innerHTML=
- `<img src="${url}" alt="QR Code"><br>
- <a href="${url}" target="_blank">
- <button>⬇️ Open QR</button></a>`;
+  const url =
+    "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="
+    +encodeURIComponent(text);
+
+  document.getElementById("qrResult").innerHTML =
+    '<img class="preview-img" src="'+url+'" alt="QR Code">'
+    +'<br><button onclick="downloadQR()">Open QR</button>';
+}
+
+function downloadQR(){
+
+  const img =
+    document.querySelector("#qrResult img");
+
+  if(img){
+    window.open(img.src,"_blank");
+  }
 }
 
 
 /* COMPRESS */
 function compressImage(){
- let file=compressFile.files[0];
 
- loadImage(file,img=>{
-   let c=document.createElement("canvas");
-   c.width=img.width;c.height=img.height;
+  const file =
+    document.getElementById("compressFile").files[0];
 
-   c.getContext("2d").drawImage(img,0,0);
+  const quality =
+    parseInt(
+      document.getElementById("compressQuality").value
+    )/100;
 
-   let q=parseInt(quality.value)/100;
+  loadImage(file,img=>{
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     let kb=(blob.size/1024).toFixed(1);
+    const canvas=document.createElement("canvas");
 
-     compressResult.innerHTML=
-     `Compressed size: ${kb} KB<br>
-     <a href="${url}" download="compressed-image.jpg">
-     <button>⬇️ Download</button></a>`;
-   },"image/jpeg",q);
- });
+    canvas.width=img.width;
+    canvas.height=img.height;
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.drawImage(img,0,0);
+
+    downloadCanvas(
+      canvas,
+      "SRM-compressed.jpg",
+      "image/jpeg"
+    );
+
+    document.getElementById("compressResult").innerText =
+      "Image compress ho gayi ✅ Quality: "
+      +(quality*100)+"%";
+
+  });
 }
 
 
 /* ROTATE */
-function rotateImage(){
- let file=rotateFile.files[0];
+function rotateImage(degrees){
 
- loadImage(file,img=>{
-   let c=document.createElement("canvas");
-   c.width=img.height;
-   c.height=img.width;
+  const file =
+    document.getElementById("rotateFile").files[0];
 
-   let ctx=c.getContext("2d");
-   ctx.translate(c.width/2,c.height/2);
-   ctx.rotate(Math.PI/2);
-   ctx.drawImage(img,-img.width/2,-img.height/2);
+  loadImage(file,img=>{
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     rotateResult.innerHTML=
-     `<a href="${url}" download="rotated-image.png">
-     <button>⬇️ Download</button></a>`;
-   });
- });
+    const canvas=document.createElement("canvas");
+
+    const radians=degrees*Math.PI/180;
+
+    if(degrees===90 || degrees===270){
+
+      canvas.width=img.height;
+      canvas.height=img.width;
+
+    }else{
+
+      canvas.width=img.width;
+      canvas.height=img.height;
+
+    }
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.translate(
+      canvas.width/2,
+      canvas.height/2
+    );
+
+    ctx.rotate(radians);
+
+    ctx.drawImage(
+      img,
+      -img.width/2,
+      -img.height/2
+    );
+
+    downloadCanvas(
+      canvas,
+      "SRM-rotated.png"
+    );
+
+    document.getElementById("rotateResult").innerText =
+      "Image rotate ho gayi ✅";
+
+  });
 }
 
 
 /* FLIP */
-function flipImage(){
- let file=flipFile.files[0];
+function flipImage(direction){
 
- loadImage(file,img=>{
-   let c=document.createElement("canvas");
-   c.width=img.width;c.height=img.height;
+  const file =
+    document.getElementById("flipFile").files[0];
 
-   let ctx=c.getContext("2d");
+  loadImage(file,img=>{
 
-   if(flipType.value==="horizontal"){
-     ctx.translate(c.width,0);
-     ctx.scale(-1,1);
-   }else{
-     ctx.translate(0,c.height);
-     ctx.scale(1,-1);
-   }
+    const canvas=document.createElement("canvas");
 
-   ctx.drawImage(img,0,0);
+    canvas.width=img.width;
+    canvas.height=img.height;
 
-   c.toBlob(blob=>{
-     let url=URL.createObjectURL(blob);
-     flipResult.innerHTML=
-     `<a href="${url}" download="flipped-image.png">
-     <button>⬇️ Download</button></a>`;
-   });
- });
+    const ctx=canvas.getContext("2d");
+
+    if(direction==="horizontal"){
+      ctx.translate(canvas.width,0);
+      ctx.scale(-1,1);
+    }else{
+      ctx.translate(0,canvas.height);
+      ctx.scale(1,-1);
+    }
+
+    ctx.drawImage(img,0,0);
+
+    downloadCanvas(
+      canvas,
+      "SRM-flipped.png"
+    );
+
+    document.getElementById("flipResult").innerText =
+      "Image flip ho gayi ✅";
+
+  });
 }
 
 
-/* SIZE CHECKER */
+/* IMAGE SIZE */
 function checkImageSize(){
- let file=sizeFile.files[0];
 
- if(!file)return;
+  const file =
+    document.getElementById("sizeFile").files[0];
 
- loadImage(file,img=>{
-   let kb=(file.size/1024).toFixed(1);
+  loadImage(file,img=>{
 
-   sizeResult.innerHTML=
-   `Width: ${img.width}px<br>
-    Height: ${img.height}px<br>
-    File Size: ${kb} KB`;
- });
+    document.getElementById("sizeResult").innerText =
+      "Width: "+img.width+" px\n"+
+      "Height: "+img.height+" px\n"+
+      "File Size: "+formatBytes(file.size);
+
+  });
 }
 
 
-/* CASE CONVERTER */
-function convertCase(){
- let text=caseText.value;
- let type=caseType.value;
- let result="";
+/* FILE SIZE */
+function formatBytes(bytes){
 
- if(type==="upper") result=text.toUpperCase();
+  if(bytes===0) return "0 Bytes";
 
- if(type==="lower") result=text.toLowerCase();
+  const sizes=[
+    "Bytes",
+    "KB",
+    "MB",
+    "GB"
+  ];
 
- if(type==="title"){
-   result=text.toLowerCase().replace(/\b\w/g,
-   x=>x.toUpperCase());
- }
+  const i =
+    Math.floor(
+      Math.log(bytes)/Math.log(1024)
+    );
 
- if(type==="sentence"){
-   result=text.toLowerCase().replace(
-   /(^\s*\w|[.!?]\s*\w)/g,
-   x=>x.toUpperCase()
-   );
- }
+  return (
+    bytes/Math.pow(1024,i)
+  ).toFixed(2)
+  +" "+sizes[i];
 
- caseResult.innerText=result;
 }
 
 
-/* WORD COUNTER */
+/* CASE */
+function caseUpper(){
+
+  document.getElementById("caseText").value =
+    document.getElementById("caseText").value.toUpperCase();
+
+}
+
+function caseLower(){
+
+  document.getElementById("caseText").value =
+    document.getElementById("caseText").value.toLowerCase();
+
+}
+
+function caseTitle(){
+
+  const text =
+    document.getElementById("caseText").value;
+
+  document.getElementById("caseText").value =
+    text.toLowerCase().replace(
+      /\b\w/g,
+      char=>char.toUpperCase()
+    );
+
+}
+
+
+/* WORD COUNT */
 function countWords(){
- let text=wordText.value.trim();
- let count=text?text.split(/\s+/).length:0;
- wordResult.innerText="Words: "+count;
+
+  const text =
+    document.getElementById("wordText").value.trim();
+
+  const count =
+    text ? text.split(/\s+/).length : 0;
+
+  document.getElementById("wordResult").innerText =
+    "Words: "+count;
+
 }
 
 
-/* CHARACTER COUNTER */
+/* CHARACTER COUNT */
 function countCharacters(){
- let count=charText.value.length;
- charResult.innerText="Characters: "+count;
+
+  const text =
+    document.getElementById("charText").value;
+
+  document.getElementById("charResult").innerText =
+    "Characters: "+text.length;
+
 }
 
 
 /* TEXT CLEANER */
-function cleanText(){
- let text=cleanText.value;
- let result=text.replace(/\s+/g," ").trim();
- cleanResult.innerText=result;
+function runTextCleaner(){
+
+  const text =
+    document.getElementById("cleanInput").value;
+
+  const cleaned =
+    text
+      .replace(/\s+/g," ")
+      .trim();
+
+  document.getElementById("cleanResult").value =
+    cleaned;
+
 }
 
 
 /* TEXT REVERSE */
-function reverseText(){
- let text=reverseText.value;
- reverseResult.innerText=
- [...text].reverse().join("");
+function runTextReverse(){
+
+  const text =
+    document.getElementById("reverseInput").value;
+
+  document.getElementById("reverseResult").value =
+    [...text].reverse().join("");
+
 }
 
 
 /* PERCENTAGE */
-function percentageCalc(){
- let p=parseFloat(percentA.value);
- let n=parseFloat(percentB.value);
+function calculatePercentage(){
 
- if(isNaN(p)||isNaN(n)){
-   percentResult.innerText="Enter both numbers";
-   return;
- }
+  const value =
+    parseFloat(
+      document.getElementById("percentValue").value
+    );
 
- percentResult.innerText=(p/100*n).toFixed(2);
+  const total =
+    parseFloat(
+      document.getElementById("percentTotal").value
+    );
+
+  if(!Number.isFinite(value) ||
+     !Number.isFinite(total) ||
+     total===0){
+
+    alert("Value te Total sahi bharo!");
+    return;
+  }
+
+  const result =
+    (value/total)*100;
+
+  document.getElementById("percentResult").innerText =
+    result.toFixed(2)+"%";
+
 }
 
 
-/* AGE */
+/* AGE CALCULATOR */
+function parseBirthDate(value){
+
+  value=value.trim();
+
+  let d,m,y;
+
+  /* DD-MM-YYYY or DD/MM/YYYY */
+
+  if(
+    /^\d{1,2}[-/]\d{1,2}[-/]\d{4}$/.test(value)
+  ){
+
+    [d,m,y]=value.split(/[-/]/).map(Number);
+
+  }
+
+  /* YYYY-MM-DD */
+
+  else if(
+    /^\d{4}-\d{1,2}-\d{1,2}$/.test(value)
+  ){
+
+    [y,m,d]=value.split("-").map(Number);
+
+  }
+
+  else{
+
+    return null;
+
+  }
+
+  const date =
+    new Date(y,m-1,d);
+
+  if(
+    date.getFullYear()!==y ||
+    date.getMonth()!==m-1 ||
+    date.getDate()!==d
+  ){
+
+    return null;
+
+  }
+
+  return date;
+}
+
+
 function ageCalc(){
- let dob=new Date(birthDate.value);
 
- if(isNaN(dob)){
-   ageResult.innerText="Select birth date";
-   return;
- }
+  const value =
+    document.getElementById("birthDate").value;
 
- let today=new Date();
+  const dob =
+    parseBirthDate(value);
 
- let age=today.getFullYear()-dob.getFullYear();
+  if(!dob){
 
- let m=today.getMonth()-dob.getMonth();
+    document.getElementById("ageResult").innerText =
+      "Date sahi format vich likho: DD-MM-YYYY";
 
- if(m<0||(m===0&&today.getDate()<dob.getDate()))
- age--;
+    return;
+  }
 
- ageResult.innerText="Age: "+age+" years";
+  const today=new Date();
+
+  if(dob>today){
+
+    document.getElementById("ageResult").innerText =
+      "Future date valid nahi hai.";
+
+    return;
+  }
+
+  let years =
+    today.getFullYear()-dob.getFullYear();
+
+  let months =
+    today.getMonth()-dob.getMonth();
+
+  let days =
+    today.getDate()-dob.getDate();
+
+  if(days<0){
+
+    months--;
+
+    const previousMonthDays =
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        0
+      ).getDate();
+
+    days+=previousMonthDays;
+
+  }
+
+  if(months<0){
+
+    years--;
+    months+=12;
+
+  }
+
+  document.getElementById("ageResult").innerText =
+    "Age: "
+    +years+" years, "
+    +months+" months, "
+    +days+" days";
+
 }
 
 
 /* DISCOUNT */
-function discountCalc(){
- let p=parseFloat(price.value);
- let d=parseFloat(discount.value);
+function calculateDiscount(){
 
- if(isNaN(p)||isNaN(d)){
-   discountResult.innerText="Enter price and discount";
-   return;
- }
+  const price =
+    parseFloat(
+      document.getElementById("originalPrice").value
+    );
 
- let save=p*d/100;
- let finalPrice=p-save;
+  const discount =
+    parseFloat(
+      document.getElementById("discountPercent").value
+    );
 
- discountResult.innerText=
- "Save: ₹"+save.toFixed(2)+
- " | Final: ₹"+finalPrice.toFixed(2);
+  if(
+    !Number.isFinite(price) ||
+    !Number.isFinite(discount) ||
+    price<0 ||
+    discount<0 ||
+    discount>100
+  ){
+
+    alert("Price te discount sahi bharo!");
+    return;
+
+  }
+
+  const saved =
+    price*discount/100;
+
+  const finalPrice =
+    price-saved;
+
+  document.getElementById("discountResult").innerText =
+    "Discount: ₹"+saved.toFixed(2)
+    +"\nFinal Price: ₹"+finalPrice.toFixed(2);
+
 }
 
 
 /* COLOR */
-function showColor(){
- colorResult.innerText=colorPicker.value;
-}
+document.getElementById("colorPicker")
+.addEventListener("input",function(){
+
+  document.getElementById("colorResult").innerText =
+    this.value;
+
+});
 
 
 /* PASSWORD */
 function generatePassword(){
- let len=parseInt(passLength.value);
 
- if(!len||len<4){
-   alert("Minimum length is 4");
-   return;
- }
+  const length =
+    parseInt(
+      document.getElementById("passwordLength").value
+    );
 
- let chars=
- "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+  if(!length || length<4 || length>100){
 
- let pass="";
-
- for(let i=0;i<len;i++){
-   pass+=chars[Math.floor(Math.random()*chars.length)];
- }
-
- passResult.innerHTML=
- `<input value="${pass}" readonly>
- <button onclick="copyPassword()">📋 Copy</button>`;
-}
-
-function copyPassword(){
- let input=passResult.querySelector("input");
- navigator.clipboard.writeText(input.value);
- alert("Password copied");
-}
-
-
-/* RANDOM NUMBER */
-function randomNumber(){
- let min=parseInt(randomMin.value);
- let max=parseInt(randomMax.value);
-
- if(isNaN(min)||isNaN(max)||min>max){
-   randomResult.innerText="Enter valid range";
-   return;
- }
-
- let n=Math.floor(Math.random()*(max-min+1))+min;
- randomResult.innerText=n;
-}
-
-
-/* STOPWATCH */
-let swSeconds=0;
-let swInterval=null;
-
-function updateStopwatch(){
- let h=Math.floor(swSeconds/3600);
- let m=Math.floor((swSeconds%3600)/60);
- let s=swSeconds%60;
-
- stopwatch.innerText=
- [h,m,s].map(x=>String(x).padStart(2,"0")).join(":");
-}
-
-function startStopwatch(){
- if(swInterval)return;
-
- swInterval=setInterval(()=>{
-   swSeconds++;
-   updateStopwatch();
- },1000);
-}
-
-function stopStopwatch(){
- clearInterval(swInterval);
- swInterval=null;
-}
-
-function resetStopwatch(){
- stopStopwatch();
- swSeconds=0;
- updateStopwatch();
-}
-
-
-/* TIMER */
-let timerInterval=null;
-let timerLeft=0;
-
-function updateTimer(){
- let m=Math.floor(timerLeft/60);
- let s=timerLeft%60;
-
- timerDisplay.innerText=
- String(m).padStart(2,"0")+":"+
- String(s).padStart(2,"0");
-}
-
-function startTimer(){
- if(timerInterval)return;
-
- if(timerLeft<=0){
-   timerLeft=parseInt(timerSeconds.value);
-
-   if(!timerLeft){
-     alert("Enter seconds");
-     return;
-   }
- }
-
- updateTimer();
-
- timerInterval=setInterval(()=>{
-   timerLeft--;
-
-   updateTimer();
-
-   if(timerLeft<=0){
-     stopTimer();
-     alert("⏰ Timer finished!");
-   }
- },1000);
-}
-
-function stopTimer(){
- clearInterval(timerInterval);
- timerInterval=null;
-}
-
-
-/* DIGITAL CLOCK */
-function updateClock(){
- let now=new Date();
-
- clock.innerText=now.toLocaleTimeString();
-}
-
-setInterval(updateClock,1000);
-updateClock();
-
-
-/* URL ENCODER */
-function encodeURL(){
- let text=urlText.value;
-
- try{
-   urlResult.innerText=encodeURIComponent(text);
- }catch(e){
-   urlResult.innerText="Invalid text";
- }
-}
-
-
-/* URL DECODER */
-function decodeURL(){
- let text=urlText.value;
-
- try{
-   urlResult.innerText=decodeURIComponent(text);
- }catch(e){
-   urlResult.innerText="Invalid encoded URL";
- }
-}
-
-
-/* TEXT TO PDF */
-function textToPDF(){
- let text=pdfText.value.trim();
-
- if(!text){
-   alert("Enter some text first");
-   return;
- }
-
- let win=window.open("","_blank");
-
- win.document.write(`
- <!DOCTYPE html>
- <html>
- <head>
- <title>SRM Tools PDF</title>
- <style>
- body{
-   font-family:Arial,sans-serif;
-   padding:40px;
-   white-space:pre-wrap;
-   line-height:1.6;
- }
- h1{
-   border-bottom:1px solid #ccc;
-   padding-bottom:10px;
- }
- </style>
- </head>
- <body>
- <h1>SRM Tools</h1>
- <div>${escapeHTML(text)}</div>
- <script>
- window.onload=function(){
-   window.print();
- }
- <\/script>
- </body>
- </html>
- `);
-
- win.document.close();
-}
-
-
-/* HTML ESCAPE */
-function escapeHTML(str){
- return str.replace(/[&<>"']/g,function(m){
-   return {
-     "&":"&amp;",
-     "<":"&lt;",
-     ">":"&gt;",
-     '"':"&quot;",
-     "'":"&#039;"
-   }[m];
- });
-}
-
-</script><!-- AI Text Helper -->
-<div class="card">
-  <h2>🤖 AI Text Helper</h2>
-  <textarea id="aiText" placeholder="Apna text ithhe likho..."></textarea>
-
-  <button onclick="aiImprove()">✨ Improve Text</button>
-  <button onclick="aiSummary()">📝 Make Short</button>
-
-  <textarea id="aiResult" placeholder="Result ithhe aavega..." readonly></textarea>
-</div>
-
-<script>
-function aiImprove(){
-  let text = document.getElementById("aiText").value.trim();
-
-  if(!text){
-    alert("Pehla text likho!");
-    return;
-  }
-
-  let result = text
-    .replace(/\s+/g," ")
-    .trim();
-
-  result = result.charAt(0).toUpperCase() + result.slice(1);
-
-  document.getElementById("aiResult").value =
-    "✨ Improved Text:\n\n" + result;
-}
-
-function aiSummary(){
-  let text = document.getElementById("aiText").value.trim();
-
-  if(!text){
-    alert("Pehla text likho!");
-    return;
-  }
-
-  let words = text.split(/\s+/);
-  let shortText = words.slice(0, 25).join(" ");
-
-  if(words.length > 25) shortText += "...";
-
-  document.getElementById("aiResult").value =
-    "📝 Short Version:\n\n" + shortText;
-}
-   </script><!-- AI Caption Generator -->
-<div class="card">
-  <h2>🤖 AI Caption Generator</h2>
-
-  <input
-    id="captionTopic"
-    type="text"
-    placeholder="Topic likho, jivein: Sad Love"
-  >
-
-  <button onclick="generateCaption()">✨ Generate Caption</button>
-
-  <textarea
-    id="captionResult"
-    placeholder="Caption ithhe aavega..."
-    readonly
-  ></textarea>
-</div>
-
-<script>
-function generateCaption() {
-  const topic = document.getElementById("captionTopic").value.trim();
-
-  if (!topic) {
-    alert("Pehla topic likho!");
-    return;
-  }
-
-  const captions = [
-    "Kujh gallan lafzan naal nahi, feelings naal samjhiyaan jandiyan ne. ❤️",
-    "Har smile de pichhe ik kahani hundi aa. ✨",
-    "Jo dil de kareeb hove, ohnu bhulna aukha hunda. 💭",
-    "Kujh yaadan hamesha dil vich reh jandiyan ne. 🥀",
-    "Zindagi ch kujh pal dubara nahi aunde. ❤️"
-  ];
-
-  const randomCaption =
-    captions[Math.floor(Math.random() * captions.length)];
-
-  document.getElementById("captionResult").value =
-    "Topic: " + topic + "\n\n" + randomCaption;
-}
-</script><!-- AI Hashtag Generator -->
-<div class="card">
-  <h2>🤖 AI Hashtag Generator</h2>
-
-  <input id="hashTopic" type="text"
-    placeholder="Topic likho, jivein: Punjabi Sad Song">
-
-  <button onclick="generateHashtags()">🔥 Generate Hashtags</button>
-
-  <textarea id="hashResult"
-    placeholder="Hashtags ithhe aunge..."
-    readonly></textarea>
-</div>
-
-<script>
-function generateHashtags() {
-  const topic = document.getElementById("hashTopic").value.trim();
-
-  if (!topic) {
-    alert("Pehla topic likho!");
-    return;
-  }
-
-  const words = topic.toLowerCase()
-    .replace(/[^a-zA-Z0-9\s]/g, "")
-    .split(/\s+/)
-    .filter(Boolean);
-
-  let main = words.map(word => "#" + word);
-
-  let tags = [
-    ...main,
-    "#punjabi",
-    "#punjabireels",
-    "#punjabishorts",
-    "#reels",
-    "#shorts",
-    "#viral",
-    "#trending",
-    "#SRMEditer"
-  ];
-
-  document.getElementById("hashResult").value =
-    tags.join(" ");
-}
-</script><!-- AI Idea Generator -->
-<div class="card">
-  <h2>🤖 AI Idea Generator</h2>
-
-  <input id="ideaTopic" type="text"
-    placeholder="Topic likho, jivein: Punjabi Reels">
-
-  <button onclick="generateIdeas()">💡 Generate Ideas</button>
-
-  <textarea id="ideaResult"
-    placeholder="Ideas ithhe aunge..."
-    readonly></textarea>
-</div>
-
-<script>
-function generateIdeas() {
-  const topic = document.getElementById("ideaTopic").value.trim();
-
-  if (!topic) {
-    alert("Pehla topic likho!");
-    return;
-  }
-
-  const ideas = [
-    "🔥 " + topic + " te 15-second short video banao",
-    "💡 " + topic + " di 3 interesting facts wali video banao",
-    "🎬 " + topic + " te before/after style video banao",
-    "❤️ " + topic + " te emotional short banao",
-    "🚀 " + topic + " da trending-style hook banao"
-  ];
-
-  document.getElementById("ideaResult").value =
-    ideas.join("\n\n");
-}
-</script><!-- AI Title Generator -->
-<div class="card">
-  <h2>🤖 AI Title Generator</h2>
-
-  <input id="titleTopic" type="text"
-    placeholder="Topic likho, jivein: Punjabi Sad Song">
-
-  <button onclick="generateTitles()">🔥 Generate Titles</button>
-
-  <textarea id="titleResult"
-    placeholder="Titles ithhe aunge..."
-    readonly></textarea>
-</div>
-
-<script>
-function generateTitles() {
-  const topic = document.getElementById("titleTopic").value.trim();
-
-  if (!topic) {
-    alert("Pehla topic likho!");
-    return;
-  }
-
-  const titles = [
-    "🔥 " + topic + " | Dil Nu Chhoo Jaan Wala Moment",
-    "❤️ " + topic + " | Eh Gall Yaad Rakhi",
-    "🥀 " + topic + " | Kujh Yaadan Kade Nahi Bhuldiyan",
-    "💔 " + topic + " | Feeling Samjhan Wale Zaroor Dekhan",
-    "✨ " + topic + " | Must Watch Short"
-  ];
-
-  document.getElementById("titleResult").value =
-    titles.join("\n\n");
-}
-</script><!-- AI Bio Generator -->
-<div class="card">
-  <h2>🤖 AI Bio Generator</h2>
-
-  <input id="bioTopic" type="text"
-    placeholder="Apna topic likho, jivein: Video Editor">
-
-  <button onclick="generateBio()">✨ Generate Bio</button>
-
-  <textarea id="bioResult"
-    placeholder="Bio ithhe aavegi..."
-    readonly></textarea>
-</div>
-
-<script>
-function generateBio() {
-  const topic = document.getElementById("bioTopic").value.trim();
-
-  if (!topic) {
-    alert("Pehla topic likho!");
-    return;
-  }
-
-  const bios = [
-    "🎬 " + topic + " | Creating • Editing • Sharing ✨",
-    "🔥 " + topic + " | New videos every week 🚀",
-    "❤️ " + topic + " | Follow for more amazing content!",
-    "🎥 " + topic + " | Turning ideas into videos ✨",
-    "🚀 " + topic + " | Dream • Create • Repeat"
-  ];
-
-  document.getElementById("bioResult").value =
-    bios.join("\n\n");
-}
-</script><!-- SRM Tools App / PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#172033">
-
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("SRM Tools App Ready"))
-      .catch(() => console.log("App mode ready"));
-  });
-}
-</script>package com.srmtools.app;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebSettings;
-
-public class MainActivity extends Activity {
-
-    WebView webView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        webView = new WebView(this);
-        setContentView(webView);
-
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-
-        webView.loadUrl("https://simarjeetsingh15831-lang.github.io/SRM_Toots/");
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-}<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-    <application
-        android:theme="@style/Theme.App"
-        android:label="SRM Tools"
-        android:usesCleartextTraffic="true">
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-    </application>
-
-                </manifest>
-<resources xmlns:tools="http://schemas.android.com/tools">
-
-    <style name="Theme.App" parent="android:style/Theme.Material.Light.NoActionBar">
-        <item name="android:fontFamily">sans</item>
-        <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:colorAccent">#172033</item>
-    </style>
-
-</resources>
-</body>
-</html>
-<div class="tool-card">
-  <h3>📄 Image to PDF</h3>
-  <p>Images nu PDF vich convert karo</p>
-
-  <input type="file" id="pdfImages" accept="image/*" multiple>
-  <button onclick="imagesToPDF()">Convert to PDF</button>
-</div><script>
-function imagesToPDF() {
-  const files = document.getElementById("pdfImages").files;
-
-  if (!files.length) {
-    alert("Pehla image select karo!");
-    return;
-  }
-
-  const win = window.open("", "_blank");
-
-  win.document.write(`
-    <html>
-    <head>
-      <title>SRM Tools - Image to PDF</title>
-      <style>
-        body {
-          margin: 0;
-          font-family: Arial, sans-serif;
-          text-align: center;
-        }
-
-        .page {
-          width: 210mm;
-          min-height: 297mm;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          page-break-after: always;
-        }
-
-        img {
-          max-width: 190mm;
-          max-height: 277mm;
-          object-fit: contain;
-        }
-
-        @media print {
-          .page {
-            page-break-after: always;
-          }
-        }
-      </style>
-    </head>
-    <body>
-  `);
-
-  let loaded = 0;
-
-  [...files].forEach(file => {
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      win.document.write(`
-        <div class="page">
-          <img src="${e.target.result}">
-        </div>
-      `);
-
-      loaded++;
-
-      if (loaded === files.length) {
-        win.document.write(`
-          </body>
-          </html>
-        `);
-        win.document.close();
-
-        setTimeout(() => {
-          win.print();
-        }, 700);
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-</script>
-<div class="tool-card">
-  <h3>📄 Image to PDF</h3>
-  <p>Images nu PDF vich convert karo</p>
-  <input type="file" id="pdfImages" accept="image/*" multiple>
-  <button onclick="imagesToPDF()">Convert to PDF</button>
-</div><script>
-function imagesToPDF() {
-  const files = document.getElementById("pdfImages").files;
-
-  if (!files.length) {
-    alert("Pehla image select karo!");
-    return;
-  }
-
-  const win = window.open("", "_blank");
-
-  win.document.write(`
-    <html>
-    <head>
-      <title>SRM Tools - Image to PDF</title>
-      <style>
-        body {
-          margin: 0;
-          font-family: Arial, sans-serif;
-          text-align: center;
-        }
-
-        .page {
-          width: 210mm;
-          min-height: 297mm;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          page-break-after: always;
-        }
-
-        img {
-          max-width: 190mm;
-          max-height: 277mm;
-          object-fit: contain;
-        }
-
-        @media print {
-          .page {
-            page-break-after: always;
-          }
-        }
-      </style>
-    </head>
-    <body>
-  `);
-
-  let loaded = 0;
-
-  [...files].forEach(file => {
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      win.document.write(`
-        <div class="page">
-          <img src="${e.target.result}">
-        </div>
-      `);
-
-      loaded++;
-
-      if (loaded === files.length) {
-        win.document.write(`
-          </body>
-          </html>
-        `);
-        win.document.close();
-
-        setTimeout(() => {
-          win.print();
-        }, 700);
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-</script>
+    alert("Password length 4 ton 100 rak
