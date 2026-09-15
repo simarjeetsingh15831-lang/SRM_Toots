@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JARVIS AI - SRM Tools</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#172033;color:white;padding:22px 16px;text-align:center}header h1{margin:0;font-size:28px}header p{margin:7px 0 0;opacity:.85}
+.chat{max-width:850px;margin:20px auto;padding:0 14px 30px}.card{background:white;border-radius:18px;box-shadow:0 5px 22px rgba(0,0,0,.08);overflow:hidden}
+.status{padding:12px 16px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#16a34a}
+.messages{min-height:420px;max-height:60vh;overflow-y:auto;padding:18px}.msg{display:flex;margin:10px 0}.msg.user{justify-content:flex-end}
+.bubble{max-width:82%;padding:12px 15px;border-radius:15px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.msg.jarvis .bubble{background:#eef2ff;border-bottom-left-radius:4px}.msg.user .bubble{background:#172033;color:white;border-bottom-right-radius:4px}
+.input-area{display:flex;gap:9px;padding:13px;border-top:1px solid #e5e7eb}.input-area textarea{flex:1;min-width:0;resize:none;border:1px solid #d1d5db;border-radius:13px;padding:12px;font-size:16px;outline:none}
+button{border:0;border-radius:13px;padding:0 18px;background:#172033;color:white;font-size:16px;font-weight:bold}button:disabled{opacity:.55}
+.back{display:block;width:max-content;margin:15px auto 0;text-decoration:none;color:#172033;font-weight:bold}
+.quick{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}.quick button{padding:9px 12px;background:#e9eef7;color:#172033;font-size:14px}
+@media(max-width:600px){header h1{font-size:24px}.messages{min-height:400px}.bubble{max-width:90%}.input-area button{padding:0 14px}}
+</style>
+</head>
+<body>
+<header><h1>🤖 JARVIS AI</h1><p>SRM Tools da smart AI assistant</p></header>
+<main class="chat"><div class="card">
+<div class="status" id="status">● JARVIS ready</div>
+<div class="messages" id="messages"><div class="msg jarvis"><div class="bubble">Sat Sri Akal! 👋
+Main JARVIS AI haan. Tusi apna sawaal likho te Send dabao. 🤖</div></div></div>
+<div class="quick">
+<button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">Website Ideas</button>
+<button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">YouTube Title</button>
+<button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">Caption</button>
+</div>
+<div class="input-area"><textarea id="message" rows="1" placeholder="JARVIS nu kujh pucho..."></textarea><button id="sendBtn" onclick="sendJarvis()">Send</button></div>
+</div><a class="back" href="index.html">← SRM Tools te wapas</a></main>
+<script>
+const messageBox=document.getElementById("message"),messages=document.getElementById("messages"),sendBtn=document.getElementById("sendBtn"),statusBox=document.getElementById("status");
+messageBox.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendJarvis();}});
+function addMessage(text,who){const row=document.createElement("div");row.className="msg "+who;const bubble=document.createElement("div");bubble.className="bubble";bubble.textContent=text;row.appendChild(bubble);messages.appendChild(row);messages.scrollTop=messages.scrollHeight;}
+function quickAsk(text){messageBox.value=text;sendJarvis();}
+async function sendJarvis(){
+ const text=messageBox.value.trim();if(!text)return;addMessage(text,"user");messageBox.value="";sendBtn.disabled=true;statusBox.textContent="● JARVIS soch reha hai...";
+ try{
+  const response=await fetch("/api/jarvis",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text})});
+  const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||"AI server response nahi de reha.");
+  addMessage(data.reply||"JARVIS nu reply nahi milia.","jarvis");statusBox.textContent="● JARVIS online";
+ }catch(error){
+  addMessage("JARVIS AI backend hun connect nahi hoya. 🤖\n\nPehla Vercel te /api/jarvis backend setup karna pavega.","jarvis");
+  statusBox.textContent="● Backend connection pending";
+ }finally{sendBtn.disabled=false;messageBox.focus();}
+}
+</script>
+</body>
+</html>
