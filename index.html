@@ -900,7 +900,53 @@ function escapeHTML(str){
  });
 }
 
-</script>
+</script><!-- AI Text Helper -->
+<div class="card">
+  <h2>🤖 AI Text Helper</h2>
+  <textarea id="aiText" placeholder="Apna text ithhe likho..."></textarea>
+
+  <button onclick="aiImprove()">✨ Improve Text</button>
+  <button onclick="aiSummary()">📝 Make Short</button>
+
+  <textarea id="aiResult" placeholder="Result ithhe aavega..." readonly></textarea>
+</div>
+
+<script>
+function aiImprove(){
+  let text = document.getElementById("aiText").value.trim();
+
+  if(!text){
+    alert("Pehla text likho!");
+    return;
+  }
+
+  let result = text
+    .replace(/\s+/g," ")
+    .trim();
+
+  result = result.charAt(0).toUpperCase() + result.slice(1);
+
+  document.getElementById("aiResult").value =
+    "✨ Improved Text:\n\n" + result;
+}
+
+function aiSummary(){
+  let text = document.getElementById("aiText").value.trim();
+
+  if(!text){
+    alert("Pehla text likho!");
+    return;
+  }
+
+  let words = text.split(/\s+/);
+  let shortText = words.slice(0, 25).join(" ");
+
+  if(words.length > 25) shortText += "...";
+
+  document.getElementById("aiResult").value =
+    "📝 Short Version:\n\n" + shortText;
+}
+   </script>
 
 </body>
 </html>
