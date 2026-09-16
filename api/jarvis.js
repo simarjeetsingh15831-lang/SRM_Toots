@@ -18,26 +18,21 @@ const apiKey = process.env.OPENAI_API_KEY;
 
 if (!apiKey) {
   return res.status(500).json({
-    error: "OPENAI_API_KEY missing"
+    error: "OPENAI_API_KEY Vercel vich nahi mili."
   });
 }
 
-const response = await fetch(
-  "https://api.openai.com/v1/responses",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: "gpt-5.6-luna",
-      instructions:
-        "You are JARVIS AI for SRM Tools. Be helpful, clear and friendly. If the user writes Punjabi, reply in Punjabi.",
-      input: message.trim()
-    })
-  }
-);
+const response = await fetch("https://api.openai.com/v1/responses", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiKey}`
+  },
+  body: JSON.stringify({
+    model: "gpt-5.6-luna",
+    input: message.trim()
+  })
+});
 
 const data = await response.json();
 
@@ -47,15 +42,22 @@ if (!response.ok) {
   });
 }
 
+const reply = data?.output_text;
+
+if (!reply) {
+  return res.status(500).json({
+    error: "OpenAI ne empty response ditta.",
+    debug: data
+  });
+}
+
 return res.status(200).json({
-  reply:
-    data?.output_text ||
-    "JARVIS nu reply nahi milia 🤖"
+  reply: reply
 });
 
 } catch (error) {
 return res.status(500).json({
-error: "JARVIS backend error"
+error: error?.message || "JARVIS backend error"
 });
 }
 }
