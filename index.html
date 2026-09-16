@@ -2,8 +2,8 @@
 <html lang="pa">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRM Tools</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JARVIS AI - SRM Tools</title>
 
 <style>
 *{box-sizing:border-box}
@@ -16,1148 +16,354 @@ body{
 }
 
 header{
-  padding:28px 18px;
-  text-align:center;
   background:#172033;
   color:white;
+  padding:24px 16px;
+  text-align:center;
 }
 
 header h1{
-  margin:0 0 8px;
-  font-size:30px;
+  margin:0;
+  font-size:28px;
 }
 
 header p{
-  margin:0;
+  margin:7px 0 0;
   opacity:.85;
 }
 
-.search{
-  width:92%;
-  max-width:600px;
+.chat{
+  max-width:850px;
   margin:20px auto;
-  display:block;
-  padding:14px;
-  border:1px solid #ccd3df;
-  border-radius:12px;
-  font-size:16px;
-}
-
-.tools{
-  width:92%;
-  max-width:1100px;
-  margin:20px auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;
+  padding:0 14px 30px;
 }
 
 .card{
   background:white;
+  border-radius:18px;
+  box-shadow:0 5px 22px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+.status{
+  padding:12px 16px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:14px;
+  color:#16a34a;
+}
+
+.messages{
+  min-height:420px;
+  max-height:60vh;
+  overflow-y:auto;
   padding:18px;
-  border-radius:16px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
-.card h2{
-  margin-top:0;
-  font-size:20px;
+.msg{
+  display:flex;
+  margin:10px 0;
 }
 
-input,textarea,select{
-  width:100%;
-  padding:11px;
-  margin:7px 0;
-  border:1px solid #ccd3df;
-  border-radius:9px;
-  font-size:15px;
+.msg.user{
+  justify-content:flex-end;
 }
 
-textarea{
-  min-height:100px;
-  resize:vertical;
+.bubble{
+  max-width:82%;
+  padding:12px 15px;
+  border-radius:15px;
+  line-height:1.5;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
+.msg.jarvis .bubble{
+  background:#eef2ff;
+  border-bottom-left-radius:4px;
+}
+
+.msg.user .bubble{
+  background:#172033;
+  color:white;
+  border-bottom-right-radius:4px;
+}
+
+.input-area{
+  display:flex;
+  gap:9px;
+  padding:13px;
+  border-top:1px solid #e5e7eb;
+}
+
+.input-area textarea{
+  flex:1;
+  min-width:0;
+  resize:none;
+  border:1px solid #d1d5db;
+  border-radius:13px;
+  padding:12px;
+  font-size:16px;
+  outline:none;
 }
 
 button{
   border:0;
-  padding:11px 14px;
-  margin:5px 3px 5px 0;
-  border-radius:9px;
+  border-radius:13px;
+  padding:0 18px;
   background:#172033;
   color:white;
-  cursor:pointer;
+  font-size:16px;
+  font-weight:bold;
 }
 
-button:hover{
-  opacity:.9;
+button:disabled{
+  opacity:.55;
 }
 
-.result{
-  margin-top:10px;
-  padding:10px;
-  background:#f1f4f8;
-  border-radius:9px;
-  min-height:20px;
-  white-space:pre-wrap;
-  word-break:break-word;
+.back{
+  display:block;
+  width:max-content;
+  margin:15px auto 0;
+  text-decoration:none;
+  color:#172033;
+  font-weight:bold;
 }
 
-canvas{
-  max-width:100%;
+.quick{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:0 14px 14px;
 }
 
-.preview-img{
-  max-width:100%;
-  margin-top:10px;
-  border-radius:10px;
+.quick button{
+  padding:9px 12px;
+  background:#e9eef7;
+  color:#172033;
+  font-size:14px;
 }
 
-footer{
-  text-align:center;
-  padding:25px;
-  color:#666;
+@media(max-width:600px){
+  header h1{font-size:24px}
+  .messages{min-height:400px}
+  .bubble{max-width:90%}
+  .input-area button{padding:0 14px}
 }
 </style>
 </head>
-<a href="Jarvis_AI.html" style="
-display:block;
-width:90%;
-max-width:500px;
-margin:20px auto;
-padding:16px;
-text-align:center;
-background:#19a7d8;
-color:white;
-text-decoration:none;
-border-radius:12px;
-font-size:20px;
-font-weight:bold;
-">
-🤖 Open JARVIS AI
-</a>
-<body><a 
-🤖 Open JARVIS AI
-</a>
+
+<body>
 
 <header>
-  <h1>🛠️ SRM Tools</h1>
-  <p>Simple • Fast • Mobile Friendly</p>
+  <h1>🤖 JARVIS AI</h1>
+  <p>SRM Tools da smart AI assistant</p>
 </header>
 
-<input
-  class="search"
-  id="searchTools"
-  type="text"
-  placeholder="🔍 Search tool..."
-  oninput="searchTools()"
->
+<main class="chat">
 
-<div class="tools">
-
-<!-- 1 IMAGE RESIZE -->
 <div class="card">
-<h2>🖼️ Image Resize</h2>
 
-<input type="file" id="resizeFile" accept="image/*">
-<input type="number" id="resizeWidth" placeholder="Width">
-<input type="number" id="resizeHeight" placeholder="Height">
-
-<button onclick="resizeImage()">Resize</button>
-
-<div id="resizeResult" class="result"></div>
+<div class="status" id="status">
+● JARVIS ready
 </div>
 
-<!-- 2 IMAGE CROP -->
-<div class="card">
-<h2>✂️ Image Crop</h2>
+<div class="messages" id="messages">
 
-<input type="file" id="cropFile" accept="image/*">
-<input type="number" id="cropWidth" placeholder="Crop Width">
-<input type="number" id="cropHeight" placeholder="Crop Height">
-
-<button onclick="cropImage()">Crop</button>
-
-<div id="cropResult" class="result"></div>
+<div class="msg jarvis">
+<div class="bubble">Sat Sri Akal! 👋
+Main JARVIS AI haan. Tusi apna sawaal likho te Send dabao. 🤖</div>
 </div>
-
-<!-- 3 IMAGE CONVERTER -->
-<div class="card">
-<h2>🔄 Image Converter</h2>
-
-<input type="file" id="convertFile" accept="image/*">
-
-<select id="convertFormat">
-<option value="image/png">PNG</option>
-<option value="image/jpeg">JPG</option>
-<option value="image/webp">WEBP</option>
-</select>
-
-<button onclick="convertImage()">Convert</button>
-
-<div id="convertResult" class="result"></div>
-</div>
-
-<!-- 4 QR -->
-<div class="card">
-<h2>🔳 QR Generator</h2>
-
-<input id="qrText" placeholder="Enter text or link">
-
-<button onclick="generateQR()">Generate QR</button>
-
-<div id="qrResult" class="result"></div>
-</div>
-
-<!-- 5 COMPRESS -->
-<div class="card">
-<h2>🗜️ Image Compressor</h2>
-
-<input type="file" id="compressFile" accept="image/*">
-
-<input
-type="range"
-id="compressQuality"
-min="10"
-max="100"
-value="70"
-oninput="compressQualityValue.innerText=this.value+'%'"
->
-
-<div>Quality: <span id="compressQualityValue">70%</span></div>
-
-<button onclick="compressImage()">Compress</button>
-
-<div id="compressResult" class="result"></div>
-</div>
-
-<!-- 6 ROTATE -->
-<div class="card">
-<h2>🔄 Image Rotate</h2>
-
-<input type="file" id="rotateFile" accept="image/*">
-
-<button onclick="rotateImage(90)">Rotate 90°</button>
-<button onclick="rotateImage(180)">Rotate 180°</button>
-<button onclick="rotateImage(270)">Rotate 270°</button>
-
-<div id="rotateResult" class="result"></div>
-</div>
-
-<!-- 7 FLIP -->
-<div class="card">
-<h2>↔️ Image Flip</h2>
-
-<input type="file" id="flipFile" accept="image/*">
-
-<button onclick="flipImage('horizontal')">Horizontal</button>
-<button onclick="flipImage('vertical')">Vertical</button>
-
-<div id="flipResult" class="result"></div>
-</div>
-
-<!-- 8 SIZE CHECKER -->
-<div class="card">
-<h2>📏 Image Size Checker</h2>
-
-<input type="file" id="sizeFile" accept="image/*">
-
-<button onclick="checkImageSize()">Check Size</button>
-
-<div id="sizeResult" class="result"></div>
-</div>
-
-<!-- 9 CASE -->
-<div class="card">
-<h2>🔠 Case Converter</h2>
-
-<textarea id="caseText" placeholder="Enter text"></textarea>
-
-<button onclick="caseUpper()">UPPERCASE</button>
-<button onclick="caseLower()">lowercase</button>
-<button onclick="caseTitle()">Title Case</button>
 
 </div>
 
-<!-- 10 WORD -->
-<div class="card">
-<h2>📝 Word Counter</h2>
+<div class="quick">
 
-<textarea id="wordText" placeholder="Enter text"></textarea>
+<button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">
+Website Ideas
+</button>
 
-<button onclick="countWords()">Count Words</button>
+<button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">
+YouTube Title
+</button>
 
-<div id="wordResult" class="result"></div>
+<button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">
+Caption
+</button>
+
 </div>
 
-<!-- 11 CHARACTER -->
-<div class="card">
-<h2>🔢 Character Counter</h2>
-
-<textarea id="charText" placeholder="Enter text"></textarea>
-
-<button onclick="countCharacters()">Count Characters</button>
-
-<div id="charResult" class="result"></div>
-</div>
-
-<!-- 12 CLEANER -->
-<div class="card">
-<h2>🧹 Text Cleaner</h2>
-
-<textarea id="cleanInput" placeholder="Enter text"></textarea>
-
-<button onclick="runTextCleaner()">Clean Text</button>
-
-<textarea id="cleanResult" placeholder="Cleaned text"></textarea>
-</div>
-
-<!-- 13 REVERSE -->
-<div class="card">
-<h2>🔁 Text Reverser</h2>
-
-<textarea id="reverseInput" placeholder="Enter text"></textarea>
-
-<button onclick="runTextReverse()">Reverse Text</button>
-
-<textarea id="reverseResult" placeholder="Reversed text"></textarea>
-</div>
-
-<!-- 14 PERCENTAGE -->
-<div class="card">
-<h2>📊 Percentage Calculator</h2>
-
-<input type="number" id="percentValue" placeholder="Value">
-<input type="number" id="percentTotal" placeholder="Total">
-
-<button onclick="calculatePercentage()">Calculate</button>
-
-<div id="percentResult" class="result"></div>
-</div>
-
-<!-- 15 AGE -->
-<div class="card">
-<h2>🎂 Age Calculator</h2>
-
-<input
-type="text"
-id="birthDate"
-placeholder="DD-MM-YYYY e.g. 05-12-2001"
-inputmode="numeric"
->
-
-<button onclick="ageCalc()">Calculate Age</button>
-
-<div id="ageResult" class="result"></div>
-</div>
-
-<!-- 16 DISCOUNT -->
-<div class="card">
-<h2>💰 Discount Calculator</h2>
-
-<input type="number" id="originalPrice" placeholder="Original Price">
-<input type="number" id="discountPercent" placeholder="Discount %">
-
-<button onclick="calculateDiscount()">Calculate</button>
-
-<div id="discountResult" class="result"></div>
-</div>
-
-<!-- 17 COLOR -->
-<div class="card">
-<h2>🎨 Color Picker</h2>
-
-<input type="color" id="colorPicker" value="#172033">
-
-<div id="colorResult" class="result">#172033</div>
-</div>
-
-<!-- 18 PASSWORD -->
-<div class="card">
-<h2>🔐 Password Generator</h2>
-
-<input
-type="number"
-id="passwordLength"
-value="12"
-min="4"
-max="100"
->
-
-<button onclick="generatePassword()">Generate</button>
-
-<textarea id="passwordResult" readonly></textarea>
-
-<button onclick="copyPassword()">Copy</button>
-</div>
-
-<!-- 19 RANDOM -->
-<div class="card">
-<h2>🎲 Random Number</h2>
-
-<input type="number" id="randomMin" placeholder="Minimum">
-<input type="number" id="randomMax" placeholder="Maximum">
-
-<button onclick="randomNumber()">Generate</button>
-
-<div id="randomResult" class="result"></div>
-</div>
-
-<!-- 20 STOPWATCH -->
-<div class="card">
-<h2>⏱️ Stopwatch</h2>
-
-<div id="stopwatchDisplay" class="result">00:00:00</div>
-
-<button onclick="startStopwatch()">Start</button>
-<button onclick="stopStopwatch()">Stop</button>
-<button onclick="resetStopwatch()">Reset</button>
-</div>
-
-<!-- 21 TIMER -->
-<div class="card">
-<h2>⏰ Timer</h2>
-
-<input
-type="number"
-id="timerSeconds"
-placeholder="Seconds"
-min="1"
->
-
-<div id="timerDisplay" class="result">00:00</div>
-
-<button onclick="startTimer()">Start</button>
-<button onclick="stopTimer()">Stop</button>
-<button onclick="resetTimer()">Reset</button>
-</div>
-
-<!-- 22 CLOCK -->
-<div class="card">
-<h2>🕐 Digital Clock</h2>
-
-<div id="digitalClock" class="result">00:00:00</div>
-</div>
-
-<!-- 23 URL -->
-<div class="card">
-<h2>🔗 URL Encoder / Decoder</h2>
-
-<textarea id="urlText" placeholder="Enter URL or text"></textarea>
-
-<button onclick="encodeURL()">Encode</button>
-<button onclick="decodeURL()">Decode</button>
-
-<textarea id="urlResult" placeholder="Result"></textarea>
-</div>
-
-<!-- 24 PDF -->
-<div class="card">
-<h2>📄 Text to PDF</h2>
-
-<textarea id="pdfText" placeholder="Enter text for PDF"></textarea>
-
-<button onclick="textToPDF()">Create PDF</button>
-</div>
-
-<!-- AI -->
-<div class="card">
-<h2>🤖 AI Text Helper</h2>
+<div class="input-area">
 
 <textarea
-id="aiText"
-placeholder="Enter your text..."
+id="message"
+rows="1"
+placeholder="JARVIS nu kujh pucho..."
 ></textarea>
 
-<button onclick="aiImprove()">✨ Improve</button>
-<button onclick="aiSummary()">📝 Summary</button>
+<button id="sendBtn" onclick="sendJarvis()">
+Send
+</button>
 
-<textarea
-id="aiResult"
-placeholder="Result..."
-></textarea>
 </div>
 
 </div>
 
-<footer>
-© 2026 SRM Tools
-</footer>
+<a class="back" href="index.html">
+← SRM Tools te wapas
+</a>
 
+</main>
 
 <script>
 
-/* SEARCH */
-function searchTools(){
+const messageBox =
+document.getElementById("message");
 
-  const search =
-    document.getElementById("searchTools")
-    .value
-    .toLowerCase();
+const messages =
+document.getElementById("messages");
 
-  document.querySelectorAll(".card").forEach(card=>{
+const sendBtn =
+document.getElementById("sendBtn");
 
-    const text =
-      card.innerText.toLowerCase();
+const statusBox =
+document.getElementById("status");
 
-    card.style.display =
-      text.includes(search) ? "" : "none";
 
-  });
-}
+messageBox.addEventListener("keydown",e=>{
 
+if(e.key==="Enter" && !e.shiftKey){
 
-/* IMAGE LOADER */
-function loadImage(file,callback){
+e.preventDefault();
 
-  if(!file){
-    alert("Pehla image select karo!");
-    return;
-  }
-
-  const url =
-    URL.createObjectURL(file);
-
-  const img = new Image();
-
-  img.onload=function(){
-    callback(img);
-    URL.revokeObjectURL(url);
-  };
-
-  img.src=url;
-}
-
-
-/* DOWNLOAD */
-function downloadCanvas(canvas,filename,type="image/png"){
-
-  const link=document.createElement("a");
-
-  link.download=filename;
-  link.href=canvas.toDataURL(type,0.9);
-
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-
-
-/* IMAGE RESIZE */
-function resizeImage(){
-
-  const file =
-    document.getElementById("resizeFile").files[0];
-
-  const width =
-    parseInt(document.getElementById("resizeWidth").value);
-
-  const height =
-    parseInt(document.getElementById("resizeHeight").value);
-
-  if(!width || !height || width<=0 || height<=0){
-    alert("Width te Height sahi bharo!");
-    return;
-  }
-
-  loadImage(file,img=>{
-
-    const canvas=document.createElement("canvas");
-
-    canvas.width=width;
-    canvas.height=height;
-
-    const ctx=canvas.getContext("2d");
-
-    ctx.drawImage(img,0,0,width,height);
-
-    downloadCanvas(
-      canvas,
-      "SRM-resized.png"
-    );
-
-    document.getElementById("resizeResult").innerText =
-      "Image resize ho gayi ✅";
-
-  });
-}
-
-
-/* IMAGE CROP */
-function cropImage(){
-
-  const file =
-    document.getElementById("cropFile").files[0];
-
-  const width =
-    parseInt(document.getElementById("cropWidth").value);
-
-  const height =
-    parseInt(document.getElementById("cropHeight").value);
-
-  if(!width || !height || width<=0 || height<=0){
-    alert("Crop width te height sahi bharo!");
-    return;
-  }
-
-  loadImage(file,img=>{
-
-    if(width>img.width || height>img.height){
-      alert("Crop size image ton vaddi hai!");
-      return;
-    }
-
-    const canvas=document.createElement("canvas");
-
-    canvas.width=width;
-    canvas.height=height;
-
-    const ctx=canvas.getContext("2d");
-
-    ctx.drawImage(
-      img,
-      0,
-      0,
-      width,
-      height,
-      0,
-      0,
-      width,
-      height
-    );
-
-    downloadCanvas(
-      canvas,
-      "SRM-cropped.png"
-    );
-
-    document.getElementById("cropResult").innerText =
-      "Image crop ho gayi ✅";
-
-  });
-}
-
-
-/* IMAGE CONVERTER */
-function convertImage(){
-
-  const file =
-    document.getElementById("convertFile").files[0];
-
-  const format =
-    document.getElementById("convertFormat").value;
-
-  loadImage(file,img=>{
-
-    const canvas=document.createElement("canvas");
-
-    canvas.width=img.width;
-    canvas.height=img.height;
-
-    const ctx=canvas.getContext("2d");
-
-    ctx.drawImage(img,0,0);
-
-    let extension="png";
-
-    if(format==="image/jpeg") extension="jpg";
-    if(format==="image/webp") extension="webp";
-
-    downloadCanvas(
-      canvas,
-      "SRM-converted."+extension,
-      format
-    );
-
-    document.getElementById("convertResult").innerText =
-      "Image convert ho gayi ✅";
-
-  });
-}
-
-
-/* QR */
-function generateQR(){
-
-  const text =
-    document.getElementById("qrText").value.trim();
-
-  if(!text){
-    alert("Text ya link likho!");
-    return;
-  }
-
-  const url =
-    "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="
-    +encodeURIComponent(text);
-
-  document.getElementById("qrResult").innerHTML =
-    '<img class="preview-img" src="'+url+'" alt="QR Code">'
-    +'<br><button onclick="downloadQR()">Open QR</button>';
-}
-
-function downloadQR(){
-
-  const img =
-    document.querySelector("#qrResult img");
-
-  if(img){
-    window.open(img.src,"_blank");
-  }
-}
-
-
-/* COMPRESS */
-function compressImage(){
-
-  const file =
-    document.getElementById("compressFile").files[0];
-
-  const quality =
-    parseInt(
-      document.getElementById("compressQuality").value
-    )/100;
-
-  loadImage(file,img=>{
-
-    const canvas=document.createElement("canvas");
-
-    canvas.width=img.width;
-    canvas.height=img.height;
-
-    const ctx=canvas.getContext("2d");
-
-    ctx.drawImage(img,0,0);
-
-    downloadCanvas(
-      canvas,
-      "SRM-compressed.jpg",
-      "image/jpeg"
-    );
-
-    document.getElementById("compressResult").innerText =
-      "Image compress ho gayi ✅ Quality: "
-      +(quality*100)+"%";
-
-  });
-}
-
-
-/* ROTATE */
-function rotateImage(degrees){
-
-  const file =
-    document.getElementById("rotateFile").files[0];
-
-  loadImage(file,img=>{
-
-    const canvas=document.createElement("canvas");
-
-    const radians=degrees*Math.PI/180;
-
-    if(degrees===90 || degrees===270){
-
-      canvas.width=img.height;
-      canvas.height=img.width;
-
-    }else{
-
-      canvas.width=img.width;
-      canvas.height=img.height;
-
-    }
-
-    const ctx=canvas.getContext("2d");
-
-    ctx.translate(
-      canvas.width/2,
-      canvas.height/2
-    );
-
-    ctx.rotate(radians);
-
-    ctx.drawImage(
-      img,
-      -img.width/2,
-      -img.height/2
-    );
-
-    downloadCanvas(
-      canvas,
-      "SRM-rotated.png"
-    );
-
-    document.getElementById("rotateResult").innerText =
-      "Image rotate ho gayi ✅";
-
-  });
-}
-
-
-/* FLIP */
-function flipImage(direction){
-
-  const file =
-    document.getElementById("flipFile").files[0];
-
-  loadImage(file,img=>{
-
-    const canvas=document.createElement("canvas");
-
-    canvas.width=img.width;
-    canvas.height=img.height;
-
-    const ctx=canvas.getContext("2d");
-
-    if(direction==="horizontal"){
-      ctx.translate(canvas.width,0);
-      ctx.scale(-1,1);
-    }else{
-      ctx.translate(0,canvas.height);
-      ctx.scale(1,-1);
-    }
-
-    ctx.drawImage(img,0,0);
-
-    downloadCanvas(
-      canvas,
-      "SRM-flipped.png"
-    );
-
-    document.getElementById("flipResult").innerText =
-      "Image flip ho gayi ✅";
-
-  });
-}
-
-
-/* IMAGE SIZE */
-function checkImageSize(){
-
-  const file =
-    document.getElementById("sizeFile").files[0];
-
-  loadImage(file,img=>{
-
-    document.getElementById("sizeResult").innerText =
-      "Width: "+img.width+" px\n"+
-      "Height: "+img.height+" px\n"+
-      "File Size: "+formatBytes(file.size);
-
-  });
-}
-
-
-/* FILE SIZE */
-function formatBytes(bytes){
-
-  if(bytes===0) return "0 Bytes";
-
-  const sizes=[
-    "Bytes",
-    "KB",
-    "MB",
-    "GB"
-  ];
-
-  const i =
-    Math.floor(
-      Math.log(bytes)/Math.log(1024)
-    );
-
-  return (
-    bytes/Math.pow(1024,i)
-  ).toFixed(2)
-  +" "+sizes[i];
+sendJarvis();
 
 }
-
-
-/* CASE */
-function caseUpper(){
-
-  document.getElementById("caseText").value =
-    document.getElementById("caseText").value.toUpperCase();
-
-}
-
-function caseLower(){
-
-  document.getElementById("caseText").value =
-    document.getElementById("caseText").value.toLowerCase();
-
-}
-
-function caseTitle(){
-
-  const text =
-    document.getElementById("caseText").value;
-
-  document.getElementById("caseText").value =
-    text.toLowerCase().replace(
-      /\b\w/g,
-      char=>char.toUpperCase()
-    );
-
-}
-
-
-/* WORD COUNT */
-function countWords(){
-
-  const text =
-    document.getElementById("wordText").value.trim();
-
-  const count =
-    text ? text.split(/\s+/).length : 0;
-
-  document.getElementById("wordResult").innerText =
-    "Words: "+count;
-
-}
-
-
-/* CHARACTER COUNT */
-function countCharacters(){
-
-  const text =
-    document.getElementById("charText").value;
-
-  document.getElementById("charResult").innerText =
-    "Characters: "+text.length;
-
-}
-
-
-/* TEXT CLEANER */
-function runTextCleaner(){
-
-  const text =
-    document.getElementById("cleanInput").value;
-
-  const cleaned =
-    text
-      .replace(/\s+/g," ")
-      .trim();
-
-  document.getElementById("cleanResult").value =
-    cleaned;
-
-}
-
-
-/* TEXT REVERSE */
-function runTextReverse(){
-
-  const text =
-    document.getElementById("reverseInput").value;
-
-  document.getElementById("reverseResult").value =
-    [...text].reverse().join("");
-
-}
-
-
-/* PERCENTAGE */
-function calculatePercentage(){
-
-  const value =
-    parseFloat(
-      document.getElementById("percentValue").value
-    );
-
-  const total =
-    parseFloat(
-      document.getElementById("percentTotal").value
-    );
-
-  if(!Number.isFinite(value) ||
-     !Number.isFinite(total) ||
-     total===0){
-
-    alert("Value te Total sahi bharo!");
-    return;
-  }
-
-  const result =
-    (value/total)*100;
-
-  document.getElementById("percentResult").innerText =
-    result.toFixed(2)+"%";
-
-}
-
-
-/* AGE CALCULATOR */
-function parseBirthDate(value){
-
-  value=value.trim();
-
-  let d,m,y;
-
-  /* DD-MM-YYYY or DD/MM/YYYY */
-
-  if(
-    /^\d{1,2}[-/]\d{1,2}[-/]\d{4}$/.test(value)
-  ){
-
-    [d,m,y]=value.split(/[-/]/).map(Number);
-
-  }
-
-  /* YYYY-MM-DD */
-
-  else if(
-    /^\d{4}-\d{1,2}-\d{1,2}$/.test(value)
-  ){
-
-    [y,m,d]=value.split("-").map(Number);
-
-  }
-
-  else{
-
-    return null;
-
-  }
-
-  const date =
-    new Date(y,m-1,d);
-
-  if(
-    date.getFullYear()!==y ||
-    date.getMonth()!==m-1 ||
-    date.getDate()!==d
-  ){
-
-    return null;
-
-  }
-
-  return date;
-}
-
-
-function ageCalc(){
-
-  const value =
-    document.getElementById("birthDate").value;
-
-  const dob =
-    parseBirthDate(value);
-
-  if(!dob){
-
-    document.getElementById("ageResult").innerText =
-      "Date sahi format vich likho: DD-MM-YYYY";
-
-    return;
-  }
-
-  const today=new Date();
-
-  if(dob>today){
-
-    document.getElementById("ageResult").innerText =
-      "Future date valid nahi hai.";
-
-    return;
-  }
-
-  let years =
-    today.getFullYear()-dob.getFullYear();
-
-  let months =
-    today.getMonth()-dob.getMonth();
-
-  let days =
-    today.getDate()-dob.getDate();
-
-  if(days<0){
-
-    months--;
-
-    const previousMonthDays =
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        0
-      ).getDate();
-
-    days+=previousMonthDays;
-
-  }
-
-  if(months<0){
-
-    years--;
-    months+=12;
-
-  }
-
-  document.getElementById("ageResult").innerText =
-    "Age: "
-    +years+" years, "
-    +months+" months, "
-    +days+" days";
-
-}
-
-
-/* DISCOUNT */
-function calculateDiscount(){
-
-  const price =
-    parseFloat(
-      document.getElementById("originalPrice").value
-    );
-
-  const discount =
-    parseFloat(
-      document.getElementById("discountPercent").value
-    );
-
-  if(
-    !Number.isFinite(price) ||
-    !Number.isFinite(discount) ||
-    price<0 ||
-    discount<0 ||
-    discount>100
-  ){
-
-    alert("Price te discount sahi bharo!");
-    return;
-
-  }
-
-  const saved =
-    price*discount/100;
-
-  const finalPrice =
-    price-saved;
-
-  document.getElementById("discountResult").innerText =
-    "Discount: ₹"+saved.toFixed(2)
-    +"\nFinal Price: ₹"+finalPrice.toFixed(2);
-
-}
-
-
-/* COLOR */
-document.getElementById("colorPicker")
-.addEventListener("input",function(){
-
-  document.getElementById("colorResult").innerText =
-    this.value;
 
 });
 
 
-/* PASSWORD */
-function generatePassword(){
+function addMessage(text,who){
 
-  const length =
-    parseInt(
-      document.getElementById("passwordLength").value
-    );
+const row =
+document.createElement("div");
 
-  if(!length || length<4 || length>100){alert("Password length 4 ton 100 rakho!");
+row.className =
+"msg " + who;
+
+const bubble =
+document.createElement("div");
+
+bubble.className =
+"bubble";
+
+bubble.textContent =
+text;
+
+row.appendChild(bubble);
+
+messages.appendChild(row);
+
+messages.scrollTop =
+messages.scrollHeight;
+
+}
+
+
+function quickAsk(text){
+
+messageBox.value =
+text;
+
+sendJarvis();
+
+}
+
+
+async function sendJarvis(){
+
+const text =
+messageBox.value.trim();
+
+if(!text) return;
+
+addMessage(text,"user");
+
+messageBox.value="";
+
+sendBtn.disabled=true;
+
+statusBox.textContent =
+"● JARVIS soch reha hai...";
+
+
+try{
+
+const response = await fetch(
+"https://srm-toots.vercel.app/api/jarvis",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:text
+})
+
+}
+);
+
+
+const data =
+await response.json().catch(()=>({}));
+
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+"AI server response nahi de reha."
+);
+
+}
+
+
+addMessage(
+data.reply ||
+"JARVIS nu reply nahi milia.",
+"jarvis"
+);
+
+statusBox.textContent =
+"● JARVIS online";
+
+
+}catch(error){
+
+addMessage(
+"JARVIS AI backend response nahi de reha. 🤖\n\n" +
+"Backend check karna pavega.",
+"jarvis"
+);
+
+statusBox.textContent =
+"● Backend connection pending";
+
+}
+
+
+finally{
+
+sendBtn.disabled=false;
+
+messageBox.focus();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
