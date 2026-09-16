@@ -44,8 +44,17 @@ async function sendJarvis(){
   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||"AI server response nahi de reha.");
   addMessage(data.reply||"JARVIS nu reply nahi milia.","jarvis");statusBox.textContent="● JARVIS online";
  }catch(error){
-  addMessage("JARVIS AI backend hun connect nahi hoya. 🤖\n\nPehla Vercel te /api/jarvis backend setup karna pavega.","jarvis");
-  statusBox.textContent="● Backend connection pending";
+
+  addMessage(
+    "JARVIS ERROR 🤖\n\n" +
+    error.message,
+    "jarvis"
+  );
+
+  statusBox.textContent =
+    "● Backend error";
+
+ }
  }finally{sendBtn.disabled=false;messageBox.focus();}
 }
 </script>
