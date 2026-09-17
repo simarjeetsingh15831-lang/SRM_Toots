@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JARVIS AI Advanced - SRM Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#172033;color:#fff;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:28px} header p{margin:7px 0 0;opacity:.85}
+.wrap{max-width:1000px;margin:18px auto;padding:0 12px 35px}
+.card{background:#fff;border-radius:18px;box-shadow:0 5px 22px rgba(0,0,0,.08);overflow:hidden;margin-bottom:18px}
+.tabs{display:flex;gap:8px;padding:12px;border-bottom:1px solid #e5e7eb;flex-wrap:wrap}
+.tab{padding:10px 14px;border:0;border-radius:12px;background:#e9eef7;color:#172033;font-weight:bold;cursor:pointer}
+.tab.active{background:#172033;color:#fff}
+.panel{display:none}.panel.active{display:block}
+.status{padding:12px 16px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#16a34a}
+.messages{min-height:390px;max-height:58vh;overflow-y:auto;padding:18px}
+.msg{display:flex;margin:10px 0}.msg.user{justify-content:flex-end}
+.bubble{max-width:82%;padding:12px 15px;border-radius:15px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.msg.jarvis .bubble{background:#eef2ff;border-bottom-left-radius:4px}
+.msg.user .bubble{background:#172033;color:#fff;border-bottom-right-radius:4px}
+.input-area{display:flex;gap:9px;padding:13px;border-top:1px solid #e5e7eb}
+textarea,input{font:inherit}
+.input-area textarea{flex:1;min-width:0;resize:none;border:1px solid #d1d5db;border-radius:13px;padding:12px;font-size:16px;outline:none}
+.btn{border:0;border-radius:13px;padding:11px 16px;background:#172033;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}
+.btn:disabled{opacity:.55}
+.quick{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}
+.quick button{padding:9px 12px;background:#e9eef7;color:#172033;border:0;border-radius:12px;font-weight:bold}
+.back{display:block;width:max-content;margin:12px auto;text-decoration:none;color:#172033;font-weight:bold}
+.photo-tools{padding:16px}
+.drop{border:2px dashed #b8c1d1;border-radius:16px;padding:24px;text-align:center;background:#f8fafc}
+.drop input{display:none}
+.drop label{display:inline-block;padding:12px 16px;background:#172033;color:#fff;border-radius:12px;font-weight:bold;cursor:pointer}
+.preview{margin-top:15px;text-align:center;background:#f1f5f9;border-radius:15px;padding:12px;min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#canvas{max-width:100%;max-height:480px;border-radius:10px}
+.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:15px}
+.control{background:#f8fafc;border-radius:13px;padding:12px}
+.control label{display:flex;justify-content:space-between;font-weight:bold;font-size:14px}
+.control input[type=range]{width:100%}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ai-box{margin-top:15px;padding:14px;border-radius:14px;background:#eef2ff}
+.ai-box textarea{width:100%;min-height:85px;border:1px solid #cbd5e1;border-radius:12px;padding:11px}
+.note{font-size:13px;color:#64748b;margin-top:10px;line-height:1.45}
+@media(max-width:600px){
+ header h1{font-size:24px}.bubble{max-width:90%}.controls{grid-template-columns:1fr}
+ .messages{min-height:360px}.input-area button{padding:0 14px}
+}
+</style>
+</head>
+<body>
 
+<header>
+<h1>🤖 JARVIS AI</h1>
+<p>SRM Tools • Advanced AI Assistant + Photo Studio</p>
+</header>
+
+<div class="wrap">
+<div class="card">
+<div class="tabs">
+<button class="tab active" onclick="showPanel('chat',this)">🤖 JARVIS AI</button>
+<button class="tab" onclick="showPanel('photo',this)">🖼️ AI Photo Studio</button>
+</div>
+
+<section id="chat" class="panel active">
+<div class="status" id="status">● JARVIS ready</div>
+<div class="messages" id="messages">
+<div class="msg jarvis"><div class="bubble">Sat Sri Akal! 👋
+Main JARVIS AI haan. Tusi sawaal pucho, ideas lao, writing karao, coding help lao ya kise topic nu simple Punjabi vich samjho. 🤖</div></div>
+</div>
+<div class="quick">
+<button onclick="quickAsk('Mere SRM Tools website nu improve karan layi advanced ideas deo.')">Website Ideas</button>
+<button onclick="quickAsk('Mere layi ik YouTube Shorts title te short caption bnao.')">YouTube</button>
+<button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">Caption</button>
+<button onclick="quickAsk('Main beginner haan. AI nu simple Punjabi vich samjhao.')">Learn AI</button>
+</div>
+<div class="input-area">
+<textarea id="message" rows="1" placeholder="JARVIS nu kujh pucho..."></textarea>
+<button class="btn" id="sendBtn" onclick="sendJarvis()">Send</button>
+</div>
+</section>
+
+<section id="photo" class="panel">
+<div class="photo-tools">
+<div class="drop">
+<input id="photoInput" type="file" accept="image/*">
+<label for="photoInput">📷 Gallery ton Photo Chuno</label>
+<div class="note">Photo browser de andar locally edit hovegi. Original file automatically upload nahi hundi.</div>
+</div>
+
+<div class="preview">
+<canvas id="canvas" width="1" height="1"></canvas>
+<div id="emptyPreview">🖼️ Photo select karan ton baad preview ethe aavega.</div>
+</div>
+
+<div class="controls">
+<div class="control"><label>☀️ Brightness <span id="brightVal">100%</span></label><input id="brightness" type="range" min="0" max="200" value="100"></div>
+<div class="control"><label>◐ Contrast <span id="contrastVal">100%</span></label><input id="contrast" type="range" min="0" max="200" value="100"></div>
+<div class="control"><label>🌈 Saturation <span id="satVal">100%</span></label><input id="saturation" type="range" min="0" max="200" value="100"></div>
+<div class="control"><label>🌫️ Blur <span id="blurVal">0px</span></label><input id="blur" type="range" min="0" max="10" value="0"></div>
+</div>
+
+<div class="actions">
+<button class="btn" onclick="rotateImage()">🔄 Rotate</button>
+<button class="btn" onclick="flipImage()">↔️ Flip</button>
+<button class="btn" onclick="resetPhoto()">♻️ Reset</button>
+<button class="btn" onclick="downloadPhoto()">💾 Save Photo</button>
+</div>
+
+<div class="ai-box">
+<b>🤖 JARVIS Photo Assistant</b>
+<textarea id="photoPrompt" placeholder="Example: photo editing layi koi idea pucho..."></textarea>
+<div class="actions">
+<button class="btn" onclick="askPhotoJarvis()">Ask JARVIS</button>
+</div>
+<div class="note">Eh button tuhade existing /api/jarvis backend nu text request bhejda hai. True AI image generation/background removal layi backend vich image-capable AI service add karni pavegi.</div>
+</div>
+</div>
+</section>
+</div>
+<a class="back" href="index.html">← SRM Tools te wapas</a>
+</div>
+
+<script>
+const messageBox=document.getElementById("message");
+const messages=document.getElementById("messages");
+const sendBtn=document.getElementById("sendBtn");
+const statusBox=document.getElementById("status");
+
+function showPanel(id,btn){
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+}
+
+function addMessage(text,who){
+ const row=document.createElement("div");
+ row.className="msg "+who;
+ const bubble=document.createElement("div");
+ bubble.className="bubble";
+ bubble.textContent=text;
+ row.appendChild(bubble);
+ messages.appendChild(row);
+ messages.scrollTop=messages.scrollHeight;
+}
+
+function quickAsk(text){messageBox.value=text;sendJarvis();}
+
+messageBox.addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendJarvis();}
+});
+
+async function sendJarvis(){
+ const text=messageBox.value.trim();
+ if(!text)return;
+ addMessage(text,"user");
+ messageBox.value="";
+ sendBtn.disabled=true;
+ statusBox.textContent="● JARVIS soch reha hai...";
+ try{
+  const response=await fetch("/api/jarvis",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({message:text})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"AI server response nahi de reha.");
+  addMessage(data.reply||"JARVIS nu reply nahi milia.","jarvis");
+  statusBox.textContent="● JARVIS online";
+ }catch(error){
+  addMessage("JARVIS ERROR 🤖\n\n"+error.message,"jarvis");
+  statusBox.textContent="● Backend error";
+ }finally{
+  sendBtn.disabled=false;
+  messageBox.focus();
+ }
+}
+
+/* PHOTO STUDIO */
+const input=document.getElementById("photoInput");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+const empty=document.getElementById("emptyPreview");
+let img=new Image(),loaded=false,rotation=0,flip=false;
+
+const sliders=[
+ ["brightness","brightVal","%"],
+ ["contrast","contrastVal","%"],
+ ["saturation","satVal","%"],
+ ["blur","blurVal","px"]
+];
+
+sliders.forEach(([id,val,suffix])=>{
+ document.getElementById(id).addEventListener("input",()=>{
+  document.getElementById(val).textContent=document.getElementById(id).value+suffix;
+  drawPhoto();
+ });
+});
+
+input.addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ const url=URL.createObjectURL(file);
+ img.onload=()=>{
+  loaded=true; rotation=0; flip=false;
+  empty.style.display="none";
+  drawPhoto();
+  URL.revokeObjectURL(url);
+ };
+ img.src=url;
+});
+
+function drawPhoto(){
+ if(!loaded)return;
+ const angle=((rotation%360)+360)%360;
+ const swap=angle===90||angle===270;
+ canvas.width=swap?img.naturalHeight:img.naturalWidth;
+ canvas.height=swap?img.naturalWidth:img.naturalHeight;
+
+ ctx.save();
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ ctx.translate(canvas.width/2,canvas.height/2);
+ ctx.rotate(angle*Math.PI/180);
+ ctx.scale(flip?-1:1,1);
+ ctx.filter=
+  "brightness("+document.getElementById("brightness").value+"%) "+
+  "contrast("+document.getElementById("contrast").value+"%) "+
+  "saturate("+document.getElementById("saturation").value+"%) "+
+  "blur("+document.getElementById("blur").value+"px)";
+ ctx.drawImage(img,-img.naturalWidth/2,-img.naturalHeight/2);
+ ctx.restore();
+}
+
+function rotateImage(){if(!loaded)return;rotation=(rotation+90)%360;drawPhoto();}
+function flipImage(){if(!loaded)return;flip=!flip;drawPhoto();}
+
+function resetPhoto(){
+ if(!loaded)return;
+ rotation=0;flip=false;
+ document.getElementById("brightness").value=100;
+ document.getElementById("contrast").value=100;
+ document.getElementById("saturation").value=100;
+ document.getElementById("blur").value=0;
+ document.getElementById("brightVal").textContent="100%";
+ document.getElementById("contrastVal").textContent="100%";
+ document.getElementById("satVal").textContent="100%";
+ document.getElementById("blurVal").textContent="0px";
+ drawPhoto();
+}
+
+function downloadPhoto(){
+ if(!loaded){alert("Pehla photo select karo!");return;}
+ const a=document.createElement("a");
+ a.download="JARVIS-Edited-Photo.png";
+ a.href=canvas.toDataURL("image/png");
+ a.click();
+}
+
+async function askPhotoJarvis(){
+ const prompt=document.getElementById("photoPrompt").value.trim();
+ if(!prompt){alert("Pehla apna sawaal likho.");return;}
+ addMessage("🖼️ Photo Assistant: "+prompt,"user");
+ document.getElementById("photoPrompt").value="";
+ try{
+  const response=await fetch("/api/jarvis",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({message:"User is using JARVIS AI Photo Studio. Photo editing question: "+prompt})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"AI server response nahi de reha.");
+  addMessage(data.reply||"JARVIS nu reply nahi milia.","jarvis");
+ }catch(error){
+  addMessage("Photo Assistant ERROR 🤖\n\n"+error.message,"jarvis");
+ }
+}
+</script>
+</body>
+</html>
