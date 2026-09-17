@@ -13,12 +13,18 @@ body{
   font-family:Arial,sans-serif;
   background:#f4f7fb;
   color:#172033;
+  transition:.25s;
+}
+
+body.dark{
+  background:#101522;
+  color:#f5f7ff;
 }
 
 header{
   background:#172033;
   color:white;
-  padding:24px 16px;
+  padding:22px 16px;
   text-align:center;
 }
 
@@ -45,11 +51,19 @@ header p{
   overflow:hidden;
 }
 
+.dark .card{
+  background:#182033;
+}
+
 .status{
   padding:12px 16px;
   border-bottom:1px solid #e5e7eb;
   font-size:14px;
   color:#16a34a;
+}
+
+.dark .status{
+  border-color:#30394d;
 }
 
 .messages{
@@ -82,6 +96,11 @@ header p{
   border-bottom-left-radius:4px;
 }
 
+.dark .msg.jarvis .bubble{
+  background:#252f47;
+  color:#f5f7ff;
+}
+
 .msg.user .bubble{
   background:#172033;
   color:white;
@@ -90,9 +109,14 @@ header p{
 
 .input-area{
   display:flex;
-  gap:9px;
+  gap:8px;
   padding:13px;
   border-top:1px solid #e5e7eb;
+  align-items:stretch;
+}
+
+.dark .input-area{
+  border-color:#30394d;
 }
 
 .input-area textarea{
@@ -104,29 +128,46 @@ header p{
   padding:12px;
   font-size:16px;
   outline:none;
+  background:white;
+  color:#172033;
+}
+
+.dark .input-area textarea{
+  background:#101522;
+  color:white;
+  border-color:#3b465d;
 }
 
 button{
   border:0;
   border-radius:13px;
-  padding:0 18px;
+  padding:10px 15px;
   background:#172033;
   color:white;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 button:disabled{
   opacity:.55;
 }
 
-.back{
-  display:block;
-  width:max-content;
-  margin:15px auto 0;
-  text-decoration:none;
+.tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:0 14px 14px;
+}
+
+.tools button{
+  background:#e9eef7;
   color:#172033;
-  font-weight:bold;
+}
+
+.dark .tools button{
+  background:#29344b;
+  color:white;
 }
 
 .quick{
@@ -143,11 +184,61 @@ button:disabled{
   font-size:14px;
 }
 
+.dark .quick button{
+  background:#29344b;
+  color:white;
+}
+
+.voice-on{
+  background:#dc2626 !important;
+  color:white !important;
+}
+
+.typing{
+  opacity:.7;
+  font-style:italic;
+}
+
+.back{
+  display:block;
+  width:max-content;
+  margin:15px auto 0;
+  text-decoration:none;
+  color:#172033;
+  font-weight:bold;
+}
+
+.dark .back{
+  color:white;
+}
+
 @media(max-width:600px){
-  header h1{font-size:24px}
-  .messages{min-height:400px}
-  .bubble{max-width:90%}
-  .input-area button{padding:0 14px}
+
+header h1{
+  font-size:24px;
+}
+
+.messages{
+  min-height:400px;
+}
+
+.bubble{
+  max-width:90%;
+}
+
+.input-area{
+  flex-wrap:wrap;
+}
+
+.input-area textarea{
+  width:100%;
+  flex-basis:100%;
+}
+
+.input-area button{
+  flex:1;
+}
+
 }
 </style>
 </head>
@@ -155,8 +246,8 @@ button:disabled{
 <body>
 
 <header>
-  <h1>🤖 JARVIS AI</h1>
-  <p>SRM Tools da smart AI assistant</p>
+<h1>🤖 JARVIS AI</h1>
+<p>SRM Tools da smart AI assistant</p>
 </header>
 
 <main class="chat">
@@ -170,8 +261,12 @@ button:disabled{
 <div class="messages" id="messages">
 
 <div class="msg jarvis">
-<div class="bubble">Sat Sri Akal! 👋
-Main JARVIS AI haan. Tusi apna sawaal likho te Send dabao. 🤖</div>
+<div class="bubble">
+Sat Sri Akal! 👋
+Main JARVIS AI haan.
+
+Tusi likh ke jaan 🎤 microphone naal gall kar sakde ho. 🤖
+</div>
 </div>
 
 </div>
@@ -179,15 +274,35 @@ Main JARVIS AI haan. Tusi apna sawaal likho te Send dabao. 🤖</div>
 <div class="quick">
 
 <button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">
-Website Ideas
+🌐 Website Ideas
 </button>
 
 <button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">
-YouTube Title
+▶️ YouTube Title
 </button>
 
 <button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">
-Caption
+✍️ Caption
+</button>
+
+</div>
+
+<div class="tools">
+
+<button id="voiceBtn" onclick="startVoice()">
+🎤 Voice
+</button>
+
+<button onclick="stopSpeaking()">
+🔇 Stop Voice
+</button>
+
+<button onclick="toggleTheme()">
+🌙 Theme
+</button>
+
+<button onclick="clearChat()">
+🗑️ Clear
 </button>
 
 </div>
@@ -228,6 +343,13 @@ document.getElementById("sendBtn");
 const statusBox =
 document.getElementById("status");
 
+const voiceBtn =
+document.getElementById("voiceBtn");
+
+
+/* =========================
+   ENTER TO SEND
+========================= */
 
 messageBox.addEventListener("keydown",e=>{
 
@@ -241,6 +363,10 @@ sendJarvis();
 
 });
 
+
+/* =========================
+   ADD MESSAGE
+========================= */
 
 function addMessage(text,who){
 
@@ -266,8 +392,14 @@ messages.appendChild(row);
 messages.scrollTop =
 messages.scrollHeight;
 
+return bubble;
+
 }
 
+
+/* =========================
+   QUICK ASK
+========================= */
 
 function quickAsk(text){
 
@@ -279,6 +411,170 @@ sendJarvis();
 }
 
 
+/* =========================
+   VOICE INPUT
+========================= */
+
+let recognition = null;
+let listening = false;
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(SpeechRecognition){
+
+recognition =
+new SpeechRecognition();
+
+recognition.lang =
+"pa-IN";
+
+recognition.continuous =
+false;
+
+recognition.interimResults =
+false;
+
+recognition.onstart = ()=>{
+
+listening = true;
+
+voiceBtn.textContent =
+"🔴 Listening...";
+
+voiceBtn.classList.add("voice-on");
+
+statusBox.textContent =
+"● JARVIS tuhadi gall sun reha hai...";
+
+};
+
+recognition.onresult = event=>{
+
+const text =
+event.results[0][0].transcript;
+
+messageBox.value =
+text;
+
+sendJarvis();
+
+};
+
+recognition.onerror = ()=>{
+
+listening = false;
+
+voiceBtn.textContent =
+"🎤 Voice";
+
+voiceBtn.classList.remove("voice-on");
+
+statusBox.textContent =
+"● JARVIS online";
+
+};
+
+recognition.onend = ()=>{
+
+listening = false;
+
+voiceBtn.textContent =
+"🎤 Voice";
+
+voiceBtn.classList.remove("voice-on");
+
+};
+
+}
+
+
+/* =========================
+   START VOICE
+========================= */
+
+function startVoice(){
+
+if(!SpeechRecognition){
+
+alert(
+"Voice input tuhade browser/device te support nahi karda."
+);
+
+return;
+
+}
+
+if(listening){
+
+recognition.stop();
+
+return;
+
+}
+
+try{
+
+recognition.start();
+
+}catch(e){}
+
+}
+
+
+/* =========================
+   TEXT TO SPEECH
+========================= */
+
+function speak(text){
+
+if(!("speechSynthesis" in window))
+return;
+
+speechSynthesis.cancel();
+
+const cleanText =
+text.replace(/[*#_`]/g,"");
+
+const utterance =
+new SpeechSynthesisUtterance(cleanText);
+
+utterance.lang =
+"pa-IN";
+
+utterance.rate =
+0.95;
+
+utterance.pitch =
+1;
+
+speechSynthesis.speak(
+utterance
+);
+
+}
+
+
+/* =========================
+   STOP VOICE
+========================= */
+
+function stopSpeaking(){
+
+if("speechSynthesis" in window){
+
+speechSynthesis.cancel();
+
+}
+
+}
+
+
+/* =========================
+   SEND TO BACKEND
+========================= */
+
 async function sendJarvis(){
 
 const text =
@@ -286,7 +582,10 @@ messageBox.value.trim();
 
 if(!text) return;
 
-addMessage(text,"user");
+addMessage(
+text,
+"user"
+);
 
 messageBox.value="";
 
@@ -296,15 +595,28 @@ statusBox.textContent =
 "● JARVIS soch reha hai...";
 
 
+/* typing message */
+
+const typing =
+addMessage(
+"JARVIS typing... 🤖",
+"jarvis"
+);
+
+typing.classList.add("typing");
+
+
 try{
 
-const response = await fetch(
+const response =
+await fetch(
 "/api/jarvis",
 {
 method:"POST",
 
 headers:{
-"Content-Type":"application/json"
+"Content-Type":
+"application/json"
 },
 
 body:JSON.stringify({
@@ -316,7 +628,9 @@ message:text
 
 
 const data =
-await response.json().catch(()=>({}));
+await response.json().catch(
+()=>({})
+);
 
 
 if(!response.ok){
@@ -329,11 +643,31 @@ data.error ||
 }
 
 
-addMessage(
+/* remove typing */
+
+typing.parentElement.remove();
+
+
+const reply =
 data.reply ||
-"JARVIS nu reply nahi milia.",
+"JARVIS nu reply nahi milia.";
+
+
+addMessage(
+reply,
 "jarvis"
 );
+
+
+/* save chat */
+
+saveChat();
+
+
+/* speak reply */
+
+speak(reply);
+
 
 statusBox.textContent =
 "● JARVIS online";
@@ -341,9 +675,10 @@ statusBox.textContent =
 
 }catch(error){
 
+typing.parentElement.remove();
+
 addMessage(
-"JARVIS AI backend response nahi de reha. 🤖\n\n" +
-"Backend check karna pavega.",
+"JARVIS AI backend response nahi de reha. 🤖\n\nBackend check karna pavega.",
 "jarvis"
 );
 
@@ -362,6 +697,137 @@ messageBox.focus();
 }
 
 }
+
+
+/* =========================
+   SAVE CHAT
+========================= */
+
+function saveChat(){
+
+try{
+
+localStorage.setItem(
+"jarvisChat",
+messages.innerHTML
+);
+
+}catch(e){}
+
+}
+
+
+/* =========================
+   LOAD CHAT
+========================= */
+
+function loadChat(){
+
+try{
+
+const saved =
+localStorage.getItem(
+"jarvisChat"
+);
+
+if(saved){
+
+messages.innerHTML =
+saved;
+
+messages.scrollTop =
+messages.scrollHeight;
+
+}
+
+}catch(e){}
+
+}
+
+
+/* =========================
+   CLEAR CHAT
+========================= */
+
+function clearChat(){
+
+if(confirm(
+"Ki tusi chat clear karni hai?"
+)){
+
+localStorage.removeItem(
+"jarvisChat"
+);
+
+messages.innerHTML = `
+<div class="msg jarvis">
+<div class="bubble">
+Sat Sri Akal! 👋
+Chat clear ho gayi.
+
+Main JARVIS AI haan. 🤖
+</div>
+</div>
+`;
+
+stopSpeaking();
+
+}
+
+}
+
+
+/* =========================
+   DARK / LIGHT MODE
+========================= */
+
+function toggleTheme(){
+
+document.body.classList.toggle(
+"dark"
+);
+
+localStorage.setItem(
+"jarvisTheme",
+document.body.classList.contains("dark")
+? "dark"
+: "light"
+);
+
+}
+
+
+/* =========================
+   LOAD THEME
+========================= */
+
+function loadTheme(){
+
+const theme =
+localStorage.getItem(
+"jarvisTheme"
+);
+
+if(theme==="dark"){
+
+document.body.classList.add(
+"dark"
+);
+
+}
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadChat();
+
+loadTheme();
+
+messageBox.focus();
 
 </script>
 
