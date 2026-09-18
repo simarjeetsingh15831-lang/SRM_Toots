@@ -9,225 +9,221 @@
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f7fb;
-color:#172033;
-transition:.3s
-}
-
-body.dark{
-background:#101522;
-color:#fff
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
 }
 
 header{
-background:#172033;
-color:#fff;
-padding:18px 12px;
-text-align:center
+  background:#172033;
+  color:white;
+  text-align:center;
+  padding:25px 12px;
 }
 
-header h1{margin:0;font-size:25px}
-header p{margin:6px 0 0;font-size:14px;opacity:.8}
+header h1{
+  margin:0;
+  font-size:34px;
+}
 
-.chat{
-max-width:900px;
-margin:auto;
-padding:14px
+header p{
+  margin:8px 0 0;
+  font-size:18px;
+  opacity:.85;
 }
 
 .status{
-background:#e7f7ed;
-color:#176b35;
-padding:10px;
-border-radius:12px;
-text-align:center;
-margin-bottom:12px
+  max-width:900px;
+  margin:18px auto;
+  background:#e6f8ed;
+  color:#247545;
+  padding:15px;
+  border-radius:20px;
+  text-align:center;
+  font-size:20px;
 }
 
-.dark .status{
-background:#193524;
-color:#9df0b5
+.chat{
+  max-width:900px;
+  margin:auto;
+  padding:0 15px 30px;
 }
 
 .messages{
-min-height:280px;
-max-height:55vh;
-overflow:auto
+  min-height:300px;
+  max-height:55vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:25px;
+  padding:20px;
+  box-shadow:0 5px 20px #0001;
 }
 
 .msg{
-display:flex;
-margin:10px 0
+  display:flex;
+  margin:12px 0;
 }
 
-.msg.user{justify-content:flex-end}
+.msg.user{
+  justify-content:flex-end;
+}
 
 .bubble{
-max-width:85%;
-padding:12px 15px;
-border-radius:16px;
-white-space:pre-wrap;
-line-height:1.45
+  max-width:85%;
+  padding:14px 17px;
+  border-radius:18px;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  font-size:17px;
+  line-height:1.5;
 }
 
-.assistant .bubble{
-background:#fff;
-box-shadow:0 2px 8px #0002
+.msg.assistant .bubble{
+  background:#f0f3f8;
 }
 
-.user .bubble{
-background:#172033;
-color:#fff
+.msg.user .bubble{
+  background:#172033;
+  color:white;
 }
 
-.dark .assistant .bubble{
-background:#202a3d;
-color:#fff
-}
-
-.quick,.tools{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-margin:12px 0
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
 }
 
 button{
-border:0;
-border-radius:12px;
-padding:11px 14px;
-background:#172033;
-color:#fff;
-font-size:14px;
-cursor:pointer
+  border:0;
+  border-radius:15px;
+  padding:14px 18px;
+  font-size:16px;
+  cursor:pointer;
+  background:#172033;
+  color:white;
 }
 
-button:hover{opacity:.9}
+button:active{
+  transform:scale(.97);
+}
 
-.voice-on{background:#159447}
-.voice-off{background:#b3261e}
+button:disabled{
+  opacity:.5;
+}
+
+.voice-on{
+  background:#159447;
+}
+
+.voice-off{
+  background:#777;
+}
+
+.input-row{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+textarea{
+  flex:1;
+  min-height:70px;
+  resize:none;
+  border:1px solid #ccd3df;
+  border-radius:20px;
+  padding:17px;
+  font-size:18px;
+  outline:none;
+  background:white;
+}
+
+.send{
+  min-width:130px;
+  font-size:18px;
+}
 
 .menu{
-display:none;
-background:#fff;
-padding:15px;
-border-radius:16px;
-box-shadow:0 4px 18px #0002;
-margin:10px 0
+  display:none;
+  background:white;
+  margin-top:12px;
+  padding:15px;
+  border-radius:22px;
+  box-shadow:0 5px 20px #0002;
 }
 
-.menu.show{display:block}
+.menu.show{
+  display:block;
+}
 
-.dark .menu{
-background:#202a3d
+.menu-title{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:12px;
 }
 
 .tool-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:8px
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
 .tool-grid button{
-background:#27344d
+  text-align:left;
 }
 
-.panel{
-display:none;
-background:#fff;
-padding:15px;
-margin:10px 0;
-border-radius:16px;
-box-shadow:0 3px 15px #0002
+.tool-box{
+  display:none;
+  background:#f7f9fc;
+  margin-top:12px;
+  padding:15px;
+  border-radius:18px;
 }
 
-.panel.show{display:block}
-
-.dark .panel{
-background:#202a3d
+.tool-box.show{
+  display:block;
 }
 
-.panel input,
-.panel textarea,
-.panel select{
-width:100%;
-padding:11px;
-margin:6px 0;
-border:1px solid #ccd3df;
-border-radius:10px;
-font-size:15px
+.tool-box h3{
+  margin-top:0;
 }
 
-.dark .panel input,
-.dark .panel textarea,
-.dark .panel select{
-background:#101522;
-color:#fff;
-border-color:#46536a
+.tool-box input,
+.tool-box textarea,
+.tool-box select{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border:1px solid #ccd3df;
+  border-radius:12px;
+  font-size:16px;
+}
+
+.tool-box button{
+  margin:5px 3px 5px 0;
 }
 
 .result{
-padding:12px;
-background:#eef2f7;
-border-radius:10px;
-margin-top:8px;
-white-space:pre-wrap
+  margin-top:10px;
+  padding:12px;
+  background:white;
+  border-radius:12px;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-.dark .result{
-background:#101522
-}
-
-.input-area{
-display:flex;
-gap:8px;
-margin-top:12px
-}
-
-#message{
-flex:1;
-min-height:55px;
-resize:none;
-padding:13px;
-border-radius:14px;
-border:1px solid #ccd3df;
-font-size:16px
-}
-
-.dark #message{
-background:#202a3d;
-color:#fff;
-border-color:#46536a
-}
-
-.send{min-width:75px}
-
-.clock{
-font-size:30px;
-text-align:center;
-font-weight:bold;
-padding:15px
-}
-
-.big{
-font-size:28px;
-text-align:center;
-padding:10px
-}
-
-.footer{
-text-align:center;
-opacity:.6;
-font-size:12px;
-padding:20px
+footer{
+  text-align:center;
+  color:#687080;
+  padding:20px;
 }
 
 @media(max-width:600px){
-.chat{padding:10px}
-.tool-grid{grid-template-columns:1fr 1fr}
-.bubble{max-width:92%}
+  header h1{font-size:29px}
+  .tool-grid{grid-template-columns:1fr}
+  .input-row{align-items:stretch}
+  .send{min-width:95px}
 }
 </style>
 </head>
@@ -235,777 +231,1142 @@ padding:20px
 <body>
 
 <header>
-<h1>🤖 JARVIS AI</h1>
-<p>SRM Tools da Smart AI Assistant</p>
+  <h1>🤖 JARVIS AI</h1>
+  <p>SRM Tools da Smart AI Assistant</p>
 </header>
-
-<div class="chat">
 
 <div id="status" class="status">● JARVIS Ready</div>
 
-<div id="messages" class="messages">
-<div class="msg assistant">
-<div class="bubble">
+<div class="chat">
+
+  <div id="messages" class="messages">
+    <div class="msg assistant">
+      <div class="bubble">
 Sat Sri Akal! 👋
 
 Main JARVIS AI haan. 🤖
 
-Tusi message likho jaan 🎤 Mic use karo.
+Tusi message likho te Send dabao.
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="startMic()">🎤 Mic</button>
+
+    <button id="voiceBtn"
+            class="voice-on"
+            onclick="toggleVoice()">
+      🔊 Voice ON
+    </button>
+
+    <button onclick="toggleMenu()">⚙️ More Tools</button>
+  </div>
+
+  <div id="menu" class="menu">
+
+    <div class="menu-title">🛠️ SRM Tools</div>
+
+    <div class="tool-grid">
+
+      <button onclick="showTool('aiTools')">🤖 AI Tools</button>
+
+      <button onclick="showTool('imageTools')">🖼️ Image Tools</button>
+
+      <button onclick="showTool('textTools')">📝 Text Tools</button>
+
+      <button onclick="showTool('calcTools')">🧮 Calculators</button>
+
+      <button onclick="showTool('timeTools')">⏱️ Time Tools</button>
+
+      <button onclick="showTool('securityTools')">🔐 Password & Random</button>
+
+      <button onclick="showTool('urlTools')">🔗 URL Tools</button>
+
+      <button onclick="showTool('extraTools')">🧰 Extra Tools</button>
+
+    </div>
+
+    <!-- AI TOOLS -->
+    <div id="aiTools" class="tool-box">
+
+      <h3>🤖 AI Tools</h3>
+
+      <button onclick="aiPrompt('website')">
+        🌐 Website Ideas
+      </button>
+
+      <button onclick="aiPrompt('youtube')">
+        ▶️ YouTube Title
+      </button>
+
+      <button onclick="aiPrompt('caption')">
+        ✍️ Caption
+      </button>
+
+      <button onclick="aiPrompt('script')">
+        🎬 Video Script
+      </button>
+
+      <button onclick="aiPrompt('hashtags')">
+        #️⃣ Hashtags
+      </button>
+
+      <button onclick="aiPrompt('bio')">
+        👤 Bio Generator
+      </button>
+
+    </div>
+
+    <!-- IMAGE TOOLS -->
+    <div id="imageTools" class="tool-box">
+
+      <h3>🖼️ Image Tools</h3>
+
+      <input
+        type="file"
+        id="imageFile"
+        accept="image/*"
+      >
+
+      <button onclick="imageSize()">📏 Image Size</button>
+
+      <button onclick="compressImage()">
+        🗜️ Compress Image
+      </button>
+
+      <button onclick="rotateImage()">
+        🔄 Rotate Image
+      </button>
+
+      <button onclick="flipImage()">
+        ↔️ Flip Image
+      </button>
+
+      <button onclick="imageToPDF()">
+        📄 Image to PDF
+      </button>
+
+      <div id="imageResult" class="result"></div>
+
+    </div>
+
+    <!-- TEXT TOOLS -->
+    <div id="textTools" class="tool-box">
+
+      <h3>📝 Text Tools</h3>
+
+      <textarea
+        id="toolText"
+        rows="5"
+        placeholder="Text ithhe likho..."
+      ></textarea>
+
+      <button onclick="upperText()">ABC Upper</button>
+
+      <button onclick="lowerText()">abc Lower</button>
+
+      <button onclick="titleText()">Aa Title Case</button>
+
+      <button onclick="countText()">🔢 Count</button>
+
+      <button onclick="cleanText()">🧹 Clean</button>
+
+      <button onclick="reverseText()">↩️ Reverse</button>
+
+      <button onclick="removeSpaces()">␠ Remove Spaces</button>
+
+      <button onclick="textToPDF()">📄 Text to PDF</button>
+
+      <div id="textResult" class="result"></div>
+
+    </div>
+
+    <!-- CALCULATORS -->
+    <div id="calcTools" class="tool-box">
+
+      <h3>🧮 Calculators</h3>
+
+      <h4>Percentage</h4>
+
+      <input id="percent1" type="number" placeholder="Number">
+
+      <input id="percent2" type="number" placeholder="Percent %">
+
+      <button onclick="percentage()">Calculate</button>
+
+      <div id="percentResult" class="result"></div>
+
+      <h4>Discount</h4>
+
+      <input id="price" type="number" placeholder="Original Price">
+
+      <input id="discount" type="number" placeholder="Discount %">
+
+      <button onclick="discountCalc()">Calculate</button>
+
+      <div id="discountResult" class="result"></div>
+
+      <h4>Age</h4>
+
+      <input id="dob" type="date">
+
+      <button onclick="ageCalc()">Calculate Age</button>
+
+      <div id="ageResult" class="result"></div>
+
+    </div>
+
+    <!-- TIME TOOLS -->
+    <div id="timeTools" class="tool-box">
+
+      <h3>⏱️ Time Tools</h3>
+
+      <div id="clock"
+           class="result"
+           style="font-size:25px;text-align:center">
+      </div>
+
+      <button onclick="startStopwatch()">▶️ Start</button>
+
+      <button onclick="stopStopwatch()">⏸️ Stop</button>
+
+      <button onclick="resetStopwatch()">🔄 Reset</button>
+
+      <div id="stopwatch"
+           class="result"
+           style="font-size:25px;text-align:center">
+        00:00:00
+      </div>
+
+      <input
+        id="timerSeconds"
+        type="number"
+        placeholder="Timer seconds"
+      >
+
+      <button onclick="startTimer()">⏳ Start Timer</button>
+
+      <button onclick="stopTimer()">⛔ Stop Timer</button>
+
+      <div id="timerResult" class="result">
+        Timer Ready
+      </div>
+
+    </div>
+
+    <!-- SECURITY -->
+    <div id="securityTools" class="tool-box">
+
+      <h3>🔐 Password & Random</h3>
+
+      <input
+        id="passLength"
+        type="number"
+        value="12"
+        min="4"
+        max="50"
+        placeholder="Password length"
+      >
+
+      <button onclick="generatePassword()">
+        🔐 Generate Password
+      </button>
+
+      <div id="passwordResult" class="result"></div>
+
+      <input
+        id="randomMin"
+        type="number"
+        placeholder="Min"
+      >
+
+      <input
+        id="randomMax"
+        type="number"
+        placeholder="Max"
+      >
+
+      <button onclick="randomNumber()">
+        🎲 Random Number
+      </button>
+
+      <div id="randomResult" class="result"></div>
+
+    </div>
+
+    <!-- URL -->
+    <div id="urlTools" class="tool-box">
+
+      <h3>🔗 URL & Base64 Tools</h3>
+
+      <textarea
+        id="urlText"
+        rows="4"
+        placeholder="Text or URL..."
+      ></textarea>
+
+      <button onclick="encodeURL()">Encode</button>
+
+      <button onclick="decodeURL()">Decode</button>
+
+      <button onclick="base64Encode()">Base64 Encode</button>
+
+      <button onclick="base64Decode()">Base64 Decode</button>
+
+      <div id="urlResult" class="result"></div>
+
+    </div>
+
+    <!-- EXTRA -->
+    <div id="extraTools" class="tool-box">
+
+      <h3>🧰 Extra Tools</h3>
+
+      <textarea
+        id="jsonText"
+        rows="6"
+        placeholder='JSON paste karo...'
+      ></textarea>
+
+      <button onclick="formatJSON()">
+        🧾 Format JSON
+      </button>
+
+      <button onclick="minifyJSON()">
+        📦 Minify JSON
+      </button>
+
+      <div id="jsonResult" class="result"></div>
+
+      <br>
+
+      <input
+        id="colorPicker"
+        type="color"
+        value="#172033"
+        onchange="showColor()"
+      >
+
+      <div id="colorResult" class="result">
+        #172033
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="input-row">
+
+    <textarea
+      id="message"
+      placeholder="JARVIS nu message likho..."
+    ></textarea>
+
+    <button
+      id="sendBtn"
+      class="send"
+      onclick="sendJarvis()">
+      Send
+    </button>
+
+  </div>
+
 </div>
-</div>
-</div>
 
-<div class="quick">
-<button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">🌐 Website Ideas</button>
-<button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">▶️ YouTube Title</button>
-<button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">✍️ Caption</button>
-</div>
-
-<div class="tools">
-<button onclick="startMic()">🎤 Mic</button>
-<button id="voiceBtn" class="voice-on" onclick="toggleVoice()">🔊 Voice ON</button>
-<button onclick="toggleMenu()">⚙️ More Tools</button>
-</div>
-
-<!-- TOOLS MENU -->
-<div id="toolMenu" class="menu">
-
-<h3>🛠️ SRM Tools</h3>
-
-<div class="tool-grid">
-
-<button onclick="openTool('compressor')">🖼️ Image Compressor</button>
-<button onclick="openTool('rotate')">🔄 Image Rotate</button>
-<button onclick="openTool('flip')">↔️ Image Flip</button>
-<button onclick="openTool('size')">📐 Image Size</button>
-
-<button onclick="openTool('case')">🔠 Case Converter</button>
-<button onclick="openTool('counter')">🔢 Word Counter</button>
-<button onclick="openTool('clean')">🧹 Text Cleaner</button>
-<button onclick="openTool('reverse')">🔁 Text Reverser</button>
-
-<button onclick="openTool('percentage')">📊 Percentage</button>
-<button onclick="openTool('age')">🎂 Age Calculator</button>
-<button onclick="openTool('discount')">💰 Discount</button>
-<button onclick="openTool('color')">🎨 Color Picker</button>
-
-<button onclick="openTool('password')">🔐 Password Generator</button>
-<button onclick="openTool('random')">🎲 Random Number</button>
-<button onclick="openTool('stopwatch')">⏱️ Stopwatch</button>
-<button onclick="openTool('timer')">⏰ Timer</button>
-
-<button onclick="openTool('clock')">🕐 Digital Clock</button>
-<button onclick="openTool('url')">🔗 URL Encode/Decode</button>
-<button onclick="openTool('pdf')">📄 Text to PDF</button>
-
-</div>
-
-<h3>🤖 AI Features</h3>
-
-<div class="tool-grid">
-<button onclick="aiPicture()">🖼️ AI Picture</button>
-<button onclick="aiVideo()">🎬 AI Video Editor</button>
-</div>
-
-<h3>⚙️ Settings</h3>
-
-<div class="tool-grid">
-<button onclick="toggleTheme()">🌙 Theme</button>
-<button onclick="clearChat()">🗑️ Clear Chat</button>
-<button onclick="stopSpeaking()">🔇 Stop Voice</button>
-</div>
-
-</div>
-
-
-<!-- IMAGE COMPRESSOR -->
-<div id="compressor" class="panel">
-<h3>🖼️ Image Compressor</h3>
-<input type="file" id="compressFile" accept="image/*">
-<label>Quality</label>
-<input type="range" id="quality" min="10" max="100" value="70">
-<button onclick="compressImage()">Compress Image</button>
-<div id="compressResult" class="result"></div>
-</div>
-
-
-<!-- ROTATE -->
-<div id="rotate" class="panel">
-<h3>🔄 Image Rotate</h3>
-<input type="file" id="rotateFile" accept="image/*">
-<select id="rotateDeg">
-<option value="90">90°</option>
-<option value="180">180°</option>
-<option value="270">270°</option>
-</select>
-<button onclick="rotateImage()">Rotate</button>
-<div id="rotateResult" class="result"></div>
-</div>
-
-
-<!-- FLIP -->
-<div id="flip" class="panel">
-<h3>↔️ Image Flip</h3>
-<input type="file" id="flipFile" accept="image/*">
-<button onclick="flipImage()">Flip Image</button>
-<div id="flipResult" class="result"></div>
-</div>
-
-
-<!-- SIZE -->
-<div id="size" class="panel">
-<h3>📐 Image Size Checker</h3>
-<input type="file" id="sizeFile" accept="image/*">
-<div id="sizeResult" class="result"></div>
-</div>
-
-
-<!-- CASE -->
-<div id="case" class="panel">
-<h3>🔠 Case Converter</h3>
-<textarea id="caseText" rows="5" placeholder="Text likho..."></textarea>
-<button onclick="changeCase('upper')">UPPERCASE</button>
-<button onclick="changeCase('lower')">lowercase</button>
-<button onclick="changeCase('title')">Title Case</button>
-<div id="caseResult" class="result"></div>
-</div>
-
-
-<!-- COUNTER -->
-<div id="counter" class="panel">
-<h3>🔢 Word & Character Counter</h3>
-<textarea id="counterText" rows="6" oninput="countText()" placeholder="Text likho..."></textarea>
-<div id="counterResult" class="result">Words: 0
-Characters: 0</div>
-</div>
-
-
-<!-- CLEAN -->
-<div id="clean" class="panel">
-<h3>🧹 Text Cleaner</h3>
-<textarea id="cleanText" rows="6"></textarea>
-<button onclick="cleanText()">Clean Text</button>
-<div id="cleanResult" class="result"></div>
-</div>
-
-
-<!-- REVERSE -->
-<div id="reverse" class="panel">
-<h3>🔁 Text Reverser</h3>
-<textarea id="reverseText" rows="5"></textarea>
-<button onclick="reverseText()">Reverse</button>
-<div id="reverseResult" class="result"></div>
-</div>
-
-
-<!-- PERCENTAGE -->
-<div id="percentage" class="panel">
-<h3>📊 Percentage Calculator</h3>
-<input id="percentA" type="number" placeholder="Percentage">
-<input id="percentB" type="number" placeholder="Number">
-<button onclick="calcPercent()">Calculate</button>
-<div id="percentResult" class="result"></div>
-</div>
-
-
-<!-- AGE -->
-<div id="age" class="panel">
-<h3>🎂 Age Calculator</h3>
-<input id="birthDate" type="date">
-<button onclick="calcAge()">Calculate Age</button>
-<div id="ageResult" class="result"></div>
-</div>
-
-
-<!-- DISCOUNT -->
-<div id="discount" class="panel">
-<h3>💰 Discount Calculator</h3>
-<input id="price" type="number" placeholder="Original Price">
-<input id="discountRate" type="number" placeholder="Discount %">
-<button onclick="calcDiscount()">Calculate</button>
-<div id="discountResult" class="result"></div>
-</div>
-
-
-<!-- COLOR -->
-<div id="color" class="panel">
-<h3>🎨 Color Picker</h3>
-<input type="color" id="colorPick" value="#172033" onchange="showColor()">
-<div id="colorResult" class="result">#172033</div>
-</div>
-
-
-<!-- PASSWORD -->
-<div id="password" class="panel">
-<h3>🔐 Password Generator</h3>
-<input id="passLength" type="number" value="12" min="4" max="50">
-<button onclick="generatePassword()">Generate Password</button>
-<div id="passResult" class="result"></div>
-</div>
-
-
-<!-- RANDOM -->
-<div id="random" class="panel">
-<h3>🎲 Random Number Generator</h3>
-<input id="randomMin" type="number" placeholder="Minimum">
-<input id="randomMax" type="number" placeholder="Maximum">
-<button onclick="randomNumber()">Generate</button>
-<div id="randomResult" class="result"></div>
-</div>
-
-
-<!-- STOPWATCH -->
-<div id="stopwatch" class="panel">
-<h3>⏱️ Stopwatch</h3>
-<div id="stopwatchDisplay" class="big">00:00:00</div>
-<button onclick="startStopwatch()">Start</button>
-<button onclick="stopStopwatch()">Stop</button>
-<button onclick="resetStopwatch()">Reset</button>
-</div>
-
-
-<!-- TIMER -->
-<div id="timer" class="panel">
-<h3>⏰ Timer</h3>
-<input id="timerSeconds" type="number" placeholder="Seconds">
-<div id="timerDisplay" class="big">00:00</div>
-<button onclick="startTimer()">Start</button>
-<button onclick="stopTimer()">Stop</button>
-</div>
-
-
-<!-- CLOCK -->
-<div id="clock" class="panel">
-<h3>🕐 Digital Clock</h3>
-<div id="digitalClock" class="clock">00:00:00</div>
-</div>
-
-
-<!-- URL -->
-<div id="url" class="panel">
-<h3>🔗 URL Encoder / Decoder</h3>
-<textarea id="urlText" rows="4" placeholder="URL ya text"></textarea>
-<button onclick="encodeURL()">Encode</button>
-<button onclick="decodeURL()">Decode</button>
-<div id="urlResult" class="result"></div>
-</div>
-
-
-<!-- PDF -->
-<div id="pdf" class="panel">
-<h3>📄 Text to PDF</h3>
-<textarea id="pdfText" rows="8" placeholder="PDF layi text likho..."></textarea>
-<button onclick="textToPDF()">Print / Save as PDF</button>
-</div>
-
-
-<!-- INPUT -->
-<div class="input-area">
-<textarea id="message" placeholder="JARVIS nu message likho..."></textarea>
-<button id="sendBtn" class="send" onclick="sendJarvis()">Send</button>
-</div>
-
-<div class="footer">
+<footer>
 © 2026 SRM Tools • JARVIS AI 🤖
-</div>
-
-</div>
+</footer>
 
 
 <script>
 
-/* ================= CHAT ================= */
+/* =========================
+   JARVIS CHAT
+========================= */
 
-const messageBox=document.getElementById("message");
-const messages=document.getElementById("messages");
-const statusBox=document.getElementById("status");
-const sendBtn=document.getElementById("sendBtn");
-const voiceBtn=document.getElementById("voiceBtn");
+const messageBox =
+  document.getElementById("message");
 
-function addMessage(text,who){
-const msg=document.createElement("div");
-msg.className="msg "+who;
+const messages =
+  document.getElementById("messages");
 
-const bubble=document.createElement("div");
-bubble.className="bubble";
-bubble.textContent=text;
+const statusBox =
+  document.getElementById("status");
 
-msg.appendChild(bubble);
-messages.appendChild(msg);
-messages.scrollTop=messages.scrollHeight;
+const sendBtn =
+  document.getElementById("sendBtn");
+
+const voiceBtn =
+  document.getElementById("voiceBtn");
+
+
+/*
+ IMPORTANT:
+ JARVIS BACKEND
+*/
+const JARVIS_API =
+  "https://srm-toots.vercel.app/api/jarvis";
+
+
+let voiceEnabled = true;
+
+
+function addMessage(text,type){
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    "msg " + type;
+
+  const bubble =
+    document.createElement("div");
+
+  bubble.className =
+    "bubble";
+
+  bubble.textContent = text;
+
+  row.appendChild(bubble);
+
+  messages.appendChild(row);
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+  return bubble;
 }
 
-function quickAsk(text){
-messageBox.value=text;
-sendJarvis();
-}
-
-
-/* ================= VOICE ================= */
-
-let voiceEnabled=localStorage.getItem("jarvisVoice")!=="off";
-
-function updateVoice(){
-if(voiceEnabled){
-voiceBtn.textContent="🔊 Voice ON";
-voiceBtn.className="voice-on";
-}else{
-voiceBtn.textContent="🔇 Voice OFF";
-voiceBtn.className="voice-off";
-}
-}
-
-function toggleVoice(){
-voiceEnabled=!voiceEnabled;
-localStorage.setItem("jarvisVoice",voiceEnabled?"on":"off");
-
-if(!voiceEnabled) stopSpeaking();
-
-updateVoice();
-}
-
-function speak(text){
-if(!voiceEnabled)return;
-if(!("speechSynthesis" in window))return;
-
-speechSynthesis.cancel();
-
-const s=new SpeechSynthesisUtterance(text);
-s.lang="pa-IN";
-s.rate=.95;
-s.pitch=1;
-
-speechSynthesis.speak(s);
-}
-
-function stopSpeaking(){
-if("speechSynthesis" in window){
-speechSynthesis.cancel();
-}
-}
-
-
-/* ================= MIC ================= */
-
-function startMic(){
-
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-
-if(!SR){
-alert("Voice input tuhade browser vich support nahi.");
-return;
-}
-
-const r=new SR();
-
-r.lang="pa-IN";
-r.continuous=false;
-r.interimResults=false;
-
-r.onstart=()=>{
-statusBox.textContent="🎤 Listening...";
-};
-
-r.onresult=e=>{
-messageBox.value=e.results[0][0].transcript;
-sendJarvis();
-};
-
-r.onend=()=>{
-statusBox.textContent="● JARVIS Ready";
-};
-
-r.onerror=()=>{
-statusBox.textContent="● JARVIS Ready";
-};
-
-r.start();
-}
-
-
-/* ================= JARVIS ================= */
 
 async function sendJarvis(){
 
-const text=messageBox.value.trim();
-if(!text)return;
+  const text =
+    messageBox.value.trim();
 
-addMessage(text,"user");
-messageBox.value="";
+  if(!text){
+    return;
+  }
 
-statusBox.textContent="🤖 JARVIS Thinking...";
-sendBtn.disabled=true;
+  addMessage(text,"user");
 
-addMessage("JARVIS soch reha hai... 🤖","assistant");
+  messageBox.value = "";
 
-const typing=messages.lastElementChild.querySelector(".bubble");
+  sendBtn.disabled = true;
 
-try{
+  statusBox.textContent =
+    "🤖 JARVIS Thinking...";
 
-const response=await fetch("/api/jarvis",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({message:text})
-});
+  const thinking =
+    addMessage(
+      "JARVIS soch reha hai... 🤖",
+      "assistant"
+    );
 
-const data=await response.json();
+  try{
 
-typing.remove();
+    const response =
+      await fetch(JARVIS_API,{
+        method:"POST",
 
-if(!response.ok){
-throw new Error(data.error||"Backend Error");
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          message:text
+        })
+      });
+
+
+    let data = {};
+
+    try{
+      data = await response.json();
+    }
+    catch(e){
+      data = {};
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Backend Error " +
+        response.status
+      );
+
+    }
+
+
+    thinking.remove();
+
+
+    const reply =
+      data.reply ||
+      data.message ||
+      data.output ||
+      "JARVIS reply nahi milya.";
+
+
+    addMessage(
+      reply,
+      "assistant"
+    );
+
+
+    if(voiceEnabled){
+      speak(reply);
+    }
+
+
+    statusBox.textContent =
+      "● JARVIS Ready";
+
+  }
+
+  catch(error){
+
+    thinking.textContent =
+      "⚠️ JARVIS connect nahi ho reha.\n\n" +
+      "Error: " +
+      error.message;
+
+    statusBox.textContent =
+      "⚠️ Backend Error";
+
+    console.error(error);
+
+  }
+
+  finally{
+
+    sendBtn.disabled = false;
+
+  }
+
 }
 
-const reply=data.reply||"Reply nahi milya.";
 
-addMessage(reply,"assistant");
-speak(reply);
+/* Enter = Send */
+messageBox.addEventListener(
+  "keydown",
+  function(e){
 
-statusBox.textContent="● JARVIS Ready";
+    if(
+      e.key === "Enter" &&
+      !e.shiftKey
+    ){
 
-}catch(error){
+      e.preventDefault();
 
-typing.textContent="JARVIS backend response nahi de reha. 🤖";
-statusBox.textContent="⚠️ Backend Error";
-console.error(error);
+      sendJarvis();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   VOICE
+========================= */
+
+function toggleVoice(){
+
+  voiceEnabled =
+    !voiceEnabled;
+
+  if(voiceEnabled){
+
+    voiceBtn.textContent =
+      "🔊 Voice ON";
+
+    voiceBtn.className =
+      "voice-on";
+
+  }
+  else{
+
+    voiceBtn.textContent =
+      "🔇 Voice OFF";
+
+    voiceBtn.className =
+      "voice-off";
+
+    speechSynthesis.cancel();
+
+  }
 
 }
 
-sendBtn.disabled=false;
+
+function speak(text){
+
+  if(!("speechSynthesis" in window)){
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const speech =
+    new SpeechSynthesisUtterance(text);
+
+  speech.lang = "en-IN";
+
+  speech.rate = 1;
+
+  speech.pitch = 1;
+
+  speechSynthesis.speak(speech);
+
 }
 
 
-/* ================= MENU ================= */
+/* =========================
+   MIC
+========================= */
+
+function startMic(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    alert(
+      "Tuhade browser vich Mic Speech support nahi hai."
+    );
+
+    return;
+
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang =
+    "pa-IN";
+
+  recognition.interimResults =
+    false;
+
+  recognition.onresult =
+    function(event){
+
+      messageBox.value =
+        event.results[0][0].transcript;
+
+    };
+
+  recognition.onerror =
+    function(){
+
+      alert("Mic error.");
+
+    };
+
+  recognition.start();
+
+}
+
+
+/* =========================
+   MENU
+========================= */
 
 function toggleMenu(){
-document.getElementById("toolMenu").classList.toggle("show");
-}
 
-function openTool(id){
+  document
+    .getElementById("menu")
+    .classList.toggle("show");
 
-document.querySelectorAll(".panel").forEach(p=>{
-p.classList.remove("show");
-});
-
-document.getElementById(id).classList.add("show");
-
-document.getElementById("toolMenu").classList.remove("show");
-
-window.scrollTo({
-top:document.getElementById(id).offsetTop-10,
-behavior:"smooth"
-});
 }
 
 
-/* ================= IMAGE HELPERS ================= */
+function showTool(id){
 
-function loadImage(file,callback){
+  const boxes =
+    document.querySelectorAll(".tool-box");
 
-if(!file){
-alert("Pehla image select karo.");
-return;
+  boxes.forEach(
+    box => box.classList.remove("show")
+  );
+
+  document
+    .getElementById(id)
+    .classList.add("show");
+
 }
 
-const img=new Image();
 
-img.onload=()=>callback(img);
+/* =========================
+   AI QUICK TOOLS
+========================= */
 
-img.src=URL.createObjectURL(file);
+function aiPrompt(type){
+
+  let prompt = "";
+
+  if(type==="website"){
+    prompt =
+      "Give me 5 useful website ideas for beginners.";
+  }
+
+  if(type==="youtube"){
+    prompt =
+      "Give me 10 catchy YouTube Shorts titles.";
+  }
+
+  if(type==="caption"){
+    prompt =
+      "Write 10 short Punjabi social media captions.";
+  }
+
+  if(type==="script"){
+    prompt =
+      "Write a short YouTube Shorts video script.";
+  }
+
+  if(type==="hashtags"){
+    prompt =
+      "Give me 10 short useful hashtags for YouTube Shorts.";
+  }
+
+  if(type==="bio"){
+    prompt =
+      "Create a short attractive social media bio.";
+  }
+
+  messageBox.value = prompt;
+
+  sendJarvis();
+
 }
 
 
-/* COMPRESS */
+/* =========================
+   IMAGE TOOLS
+========================= */
+
+function getImageFile(){
+
+  return document
+    .getElementById("imageFile")
+    .files[0];
+
+}
+
+
+function imageSize(){
+
+  const file =
+    getImageFile();
+
+  const result =
+    document.getElementById("imageResult");
+
+  if(!file){
+
+    result.textContent =
+      "Pehla image select karo.";
+
+    return;
+
+  }
+
+  const img =
+    new Image();
+
+  img.onload = function(){
+
+    result.textContent =
+      "Width: " + img.width +
+      " px\n" +
+      "Height: " + img.height +
+      " px\n" +
+      "File: " +
+      (file.size/1024).toFixed(2) +
+      " KB";
+
+  };
+
+  img.src =
+    URL.createObjectURL(file);
+
+}
+
 
 function compressImage(){
 
-const file=document.getElementById("compressFile").files[0];
+  const file =
+    getImageFile();
 
-loadImage(file,img=>{
+  if(!file){
 
-const canvas=document.createElement("canvas");
-canvas.width=img.width;
-canvas.height=img.height;
+    alert("Image select karo.");
 
-const ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0);
+    return;
 
-const quality=
-Number(document.getElementById("quality").value)/100;
+  }
 
-canvas.toBlob(blob=>{
+  const img =
+    new Image();
 
-const url=URL.createObjectURL(blob);
+  img.onload = function(){
 
-document.getElementById("compressResult").innerHTML=
-"Original: "+Math.round(file.size/1024)+" KB<br>"+
-"Compressed: "+Math.round(blob.size/1024)+" KB<br><br>"+
-'<a href="'+url+'" download="compressed-image.jpg">⬇️ Download Image</a>';
+    const canvas =
+      document.createElement("canvas");
 
-},"image/jpeg",quality);
+    const max =
+      1200;
 
-});
+    let w = img.width;
+
+    let h = img.height;
+
+    if(w > max){
+
+      h =
+        h * max / w;
+
+      w = max;
+
+    }
+
+    canvas.width = w;
+
+    canvas.height = h;
+
+    const ctx =
+      canvas.getContext("2d");
+
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      w,
+      h
+    );
+
+    canvas.toBlob(
+      function(blob){
+
+        downloadBlob(
+          blob,
+          "compressed-image.jpg"
+        );
+
+      },
+      "image/jpeg",
+      .7
+    );
+
+  };
+
+  img.src =
+    URL.createObjectURL(file);
 
 }
 
-
-/* ROTATE */
 
 function rotateImage(){
 
-const file=document.getElementById("rotateFile").files[0];
-const deg=Number(document.getElementById("rotateDeg").value);
-
-loadImage(file,img=>{
-
-const canvas=document.createElement("canvas");
-
-if(deg===90||deg===270){
-canvas.width=img.height;
-canvas.height=img.width;
-}else{
-canvas.width=img.width;
-canvas.height=img.height;
-}
-
-const ctx=canvas.getContext("2d");
-
-ctx.translate(canvas.width/2,canvas.height/2);
-ctx.rotate(deg*Math.PI/180);
-
-ctx.drawImage(img,-img.width/2,-img.height/2);
-
-const url=canvas.toDataURL("image/png");
-
-document.getElementById("rotateResult").innerHTML=
-'<img src="'+url+'" style="max-width:100%"><br><br>'+
-'<a href="'+url+'" download="rotated-image.png">⬇️ Download</a>';
-
-});
+  processImage(
+    "rotate"
+  );
 
 }
 
-
-/* FLIP */
 
 function flipImage(){
 
-const file=document.getElementById("flipFile").files[0];
-
-loadImage(file,img=>{
-
-const canvas=document.createElement("canvas");
-
-canvas.width=img.width;
-canvas.height=img.height;
-
-const ctx=canvas.getContext("2d");
-
-ctx.translate(canvas.width,0);
-ctx.scale(-1,1);
-
-ctx.drawImage(img,0,0);
-
-const url=canvas.toDataURL("image/png");
-
-document.getElementById("flipResult").innerHTML=
-'<img src="'+url+'" style="max-width:100%"><br><br>'+
-'<a href="'+url+'" download="flipped-image.png">⬇️ Download</a>';
-
-});
+  processImage(
+    "flip"
+  );
 
 }
 
 
-/* SIZE */
+function processImage(type){
 
-document.getElementById("sizeFile").addEventListener("change",function(){
+  const file =
+    getImageFile();
 
-const file=this.files[0];
+  if(!file){
 
-if(!file)return;
+    alert("Image select karo.");
 
-loadImage(file,img=>{
+    return;
 
-document.getElementById("sizeResult").textContent=
-"Width: "+img.width+" px\n"+
-"Height: "+img.height+" px\n"+
-"File Size: "+Math.round(file.size/1024)+" KB";
+  }
 
-});
+  const img =
+    new Image();
 
-});
+  img.onload = function(){
 
+    const canvas =
+      document.createElement("canvas");
 
-/* ================= TEXT TOOLS ================= */
+    canvas.width =
+      img.height;
 
-function changeCase(type){
+    canvas.height =
+      img.width;
 
-const text=document.getElementById("caseText").value;
-let result="";
+    const ctx =
+      canvas.getContext("2d");
 
-if(type==="upper")result=text.toUpperCase();
+    if(type==="rotate"){
 
-if(type==="lower")result=text.toLowerCase();
+      ctx.translate(
+        canvas.width/2,
+        canvas.height/2
+      );
 
-if(type==="title"){
-result=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+      ctx.rotate(
+        Math.PI/2
+      );
+
+      ctx.drawImage(
+        img,
+        -img.width/2,
+        -img.height/2
+      );
+
+    }
+    else{
+
+      canvas.width =
+        img.width;
+
+      canvas.height =
+        img.height;
+
+      ctx.translate(
+        img.width,
+        0
+      );
+
+      ctx.scale(-1,1);
+
+      ctx.drawImage(
+        img,
+        0,
+        0
+      );
+
+    }
+
+    canvas.toBlob(
+      function(blob){
+
+        downloadBlob(
+          blob,
+          type==="rotate"
+            ? "rotated-image.jpg"
+            : "flipped-image.jpg"
+        );
+
+      },
+      "image/jpeg",
+      .9
+    );
+
+  };
+
+  img.src =
+    URL.createObjectURL(file);
+
 }
 
-document.getElementById("caseResult").textContent=result;
+
+function downloadBlob(
+  blob,
+  filename
+){
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download = filename;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* IMAGE PDF */
+
+function imageToPDF(){
+
+  const file =
+    getImageFile();
+
+  if(!file){
+
+    alert("Image select karo.");
+
+    return;
+
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  const win =
+    window.open("");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>SRM Tools - Image PDF</title>
+      <style>
+        @page{
+          size:A4;
+          margin:0;
+        }
+        body{
+          margin:0;
+          text-align:center;
+        }
+        img{
+          max-width:190mm;
+          max-height:280mm;
+          margin-top:8mm;
+        }
+      </style>
+    </head>
+    <body>
+      <img src="${url}">
+      <script>
+        window.onload=function(){
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+
+}
+
+
+/* =========================
+   TEXT TOOLS
+========================= */
+
+function getText(){
+
+  return document
+    .getElementById("toolText")
+    .value;
+
+}
+
+
+function setText(text){
+
+  document
+    .getElementById("toolText")
+    .value = text;
+
+}
+
+
+function upperText(){
+
+  setText(
+    getText().toUpperCase()
+  );
+
+}
+
+
+function lowerText(){
+
+  setText(
+    getText().toLowerCase()
+  );
+
+}
+
+
+function titleText(){
+
+  setText(
+    getText()
+      .toLowerCase()
+      .replace(
+        /\b\w/g,
+        x => x.toUpperCase()
+      )
+  );
+
 }
 
 
 function countText(){
 
-const text=document.getElementById("counterText").value;
+  const text =
+    getText();
 
-const words=text.trim()?text.trim().split(/\s+/).length:0;
+  const words =
+    text.trim()
+      ? text.trim().split(/\s+/).length
+      : 0;
 
-document.getElementById("counterResult").textContent=
-"Words: "+words+
-"\nCharacters: "+text.length;
+  const chars =
+    text.length;
+
+  document
+    .getElementById("textResult")
+    .textContent =
+      "Words: " + words +
+      "\nCharacters: " + chars;
+
 }
 
 
 function cleanText(){
 
-const text=document.getElementById("cleanText").value;
+  setText(
+    getText()
+      .replace(/\s+/g," ")
+      .trim()
+  );
 
-const result=text
-.replace(/\s+/g," ")
-.trim();
-
-document.getElementById("cleanResult").textContent=result;
 }
 
 
 function reverseText(){
 
-const text=document.getElementById("reverseText").value;
+  setText(
+    [...getText()]
+      .reverse()
+      .join("")
+  );
 
-document.getElementById("reverseResult").textContent=
-[...text].reverse().join("");
 }
 
 
-/* ================= CALCULATORS ================= */
+function removeSpaces(){
 
-function calcPercent(){
+  setText(
+    getText()
+      .replace(/\s/g,"")
+  );
 
-const a=Number(document.getElementById("percentA").value);
-const b=Number(document.getElementById("percentB").value);
-
-document.getElementById("percentResult").textContent=
-a+"% of "+b+" = "+((a*b)/100);
 }
 
 
-function calcAge(){
-
-const birth=document.getElementById("birthDate").value;
-
-if(!birth){
-alert("Birth date select karo.");
-return;
-}
-
-const b=new Date(birth);
-const today=new Date();
-
-let age=today.getFullYear()-b.getFullYear();
-
-const m=today.getMonth()-b.getMonth();
-
-if(m<0||(m===0&&today.getDate()<b.getDate())){
-age--;
-}
-
-document.getElementById("ageResult").textContent=
-"Your age: "+age+" years";
-}
-
-
-function calcDiscount(){
-
-const price=Number(document.getElementById("price").value);
-const rate=Number(document.getElementById("discountRate").value);
-
-const save=price*rate/100;
-const final=price-save;
-
-document.getElementById("discountResult").textContent=
-"Discount: ₹"+save.toFixed(2)+
-"\nFinal Price: ₹"+final.toFixed(2);
-}
-
-
-/* COLOR */
-
-function showColor(){
-
-const c=document.getElementById("colorPick").value;
-
-document.getElementById("colorResult").textContent=
-"Selected Color: "+c;
-}
-
-
-/* PASSWORD */
-
-function generatePassword(){
-
-const length=Math.max(
-4,
-Math.min(
-50,
-Number(document.getElementById("passLength").value)||12
-)
-);
-
-const chars=
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-
-let pass="";
-
-for(let i=0;i<length;i++){
-pass+=chars[Math.floor(Math.random()*chars.length)];
-}
-
-document.getElementById("passResult").textContent=pass;
-}
-
-
-/* RANDOM */
-
-function randomNumber(){
-
-const min=Number(document.getElementById("randomMin").value);
-const max=Number(document.getElementById("randomMax").value);
-
-if(max<min){
-alert("Maximum number vadda hona chahida.");
-return;
-}
-
-const n=Math.floor(
-Math.random()*(max-min+1)
-)+min;
-
-document.getElementById("randomResult").textContent=
-"Random Number: "+n;
-}
-
-
-/* ================= STOPWATCH ================= */
-
-let stopwatchInterval=null;
-let stopwatchSeconds=0;
-
-function updateStopwatch(){
-
-let h=Math.floor(stopwatchSeconds/3600);
-let m=Math.floor((stopwatchSeconds%3600)/60);
-let s=stopwatchSeconds%60;
-
-document.getElementById("sto
+func
