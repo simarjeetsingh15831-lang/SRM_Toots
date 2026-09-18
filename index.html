@@ -1367,6 +1367,557 @@ function removeSpaces(){
   );
 
 }
+function textToPDF(){
 
+  const text = getText();
+
+  if(!text.trim()){
+    alert("Pehla text likho.");
+    return;
+  }
+
+  const win = window.open("");
+
+  if(!win){
+    alert("Popup allow karo.");
+    return;
+  }
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>SRM Tools - Text PDF</title>
+      <style>
+        body{
+          font-family:Arial,sans-serif;
+          padding:30px;
+          white-space:pre-wrap;
+          font-size:16px;
+          line-height:1.6;
+        }
+      </style>
+    </head>
+    <body>
+      ${escapeHTML(text)}
+      <script>
+        window.onload=function(){
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+}
+
+
+function escapeHTML(text){
+
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* CALCULATORS */
+
+function percentage(){
+
+  const n = Number(
+    document.getElementById("percent1").value
+  );
+
+  const p = Number(
+    document.getElementById("percent2").value
+  );
+
+  if(isNaN(n) || isNaN(p)){
+    alert("Dono numbers likho.");
+    return;
+  }
+
+  document.getElementById("percentResult").textContent =
+    "Result: " + (n*p/100).toFixed(2);
+}
+
+
+function discountCalc(){
+
+  const price = Number(
+    document.getElementById("price").value
+  );
+
+  const discount = Number(
+    document.getElementById("discount").value
+  );
+
+  if(isNaN(price) || isNaN(discount)){
+    alert("Price te discount likho.");
+    return;
+  }
+
+  const saving = price * discount / 100;
+  const finalPrice = price - saving;
+
+  document.getElementById("discountResult").textContent =
+    "Saving: ₹" + saving.toFixed(2) +
+    "\nFinal Price: ₹" + finalPrice.toFixed(2);
+}
+
+
+function ageCalc(){
+
+  const value =
+    document.getElementById("dob").value;
+
+  if(!value){
+    alert("Date of birth select karo.");
+    return;
+  }
+
+  const dob = new Date(value);
+  const today = new Date();
+
+  let age =
+    today.getFullYear() - dob.getFullYear();
+
+  const month =
+    today.getMonth() - dob.getMonth();
+
+  if(
+    month < 0 ||
+    (
+      month === 0 &&
+      today.getDate() < dob.getDate()
+    )
+  ){
+    age--;
+  }
+
+  document.getElementById("ageResult").textContent =
+    "Age: " + age + " years";
+}
+
+
+/* CLOCK */
+
+function updateClock(){
+
+  const clock =
+    document.getElementById("clock");
+
+  if(clock){
+
+    clock.textContent =
+      new Date().toLocaleString();
+  }
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+/* STOPWATCH */
+
+let stopwatchTime = 0;
+let stopwatchInterval = null;
+
+
+function updateStopwatch(){
+
+  const total =
+    Math.floor(stopwatchTime / 1000);
+
+  const h =
+    Math.floor(total / 3600);
+
+  const m =
+    Math.floor((total % 3600) / 60);
+
+  const s =
+    total % 60;
+
+  const box =
+    document.getElementById("stopwatch");
+
+  if(box){
+
+    box.textContent =
+      String(h).padStart(2,"0") + ":" +
+      String(m).padStart(2,"0") + ":" +
+      String(s).padStart(2,"0");
+
+  }
+
+}
+
+
+function startStopwatch(){
+
+  if(stopwatchInterval) return;
+
+  stopwatchInterval =
+    setInterval(function(){
+
+      stopwatchTime += 1000;
+
+      updateStopwatch();
+
+    },1000);
+
+}
+
+
+function stopStopwatch(){
+
+  clearInterval(stopwatchInterval);
+
+  stopwatchInterval = null;
+
+}
+
+
+function resetStopwatch(){
+
+  stopStopwatch();
+
+  stopwatchTime = 0;
+
+  updateStopwatch();
+
+}
+
+
+/* TIMER */
+
+let timerInterval = null;
+
+
+function startTimer(){
+
+  stopTimer();
+
+  let seconds =
+    Number(
+      document.getElementById("timerSeconds").value
+    );
+
+  if(!seconds || seconds < 1){
+
+    alert("Timer seconds likho.");
+
+    return;
+  }
+
+  const box =
+    document.getElementById("timerResult");
+
+  box.textContent =
+    "⏳ " + seconds + " seconds";
+
+  timerInterval =
+    setInterval(function(){
+
+      seconds--;
+
+      box.textContent =
+        "⏳ " + seconds + " seconds";
+
+      if(seconds <= 0){
+
+        stopTimer();
+
+        box.textContent =
+          "⏰ Time Up!";
+
+        try{
+          navigator.vibrate(300);
+        }catch(e){}
+
+      }
+
+    },1000);
+
+}
+
+
+function stopTimer(){
+
+  if(timerInterval){
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+  }
+
+}
+
+
+/* PASSWORD */
+
+function generatePassword(){
+
+  let length =
+    Number(
+      document.getElementById("passLength").value
+    );
+
+  if(!length || length < 4){
+    length = 12;
+  }
+
+  if(length > 50){
+    length = 50;
+  }
+
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+    "abcdefghijklmnopqrstuvwxyz" +
+    "0123456789" +
+    "!@#$%^&*";
+
+  let password = "";
+
+  for(let i=0;i<length;i++){
+
+    password +=
+      chars[
+        Math.floor(
+          Math.random() * chars.length
+        )
+      ];
+
+  }
+
+  document.getElementById(
+    "passwordResult"
+  ).textContent = password;
+
+}
+
+
+/* RANDOM NUMBER */
+
+function randomNumber(){
+
+  const min =
+    Number(
+      document.getElementById("randomMin").value
+    );
+
+  const max =
+    Number(
+      document.getElementById("randomMax").value
+    );
+
+  if(
+    isNaN(min) ||
+    isNaN(max) ||
+    max < min
+  ){
+
+    alert("Min te Max sahi likho.");
+
+    return;
+
+  }
+
+  const result =
+    Math.floor(
+      Math.random() * (max-min+1)
+    ) + min;
+
+  document.getElementById(
+    "randomResult"
+  ).textContent = result;
+
+}
+
+
+/* URL TOOLS */
+
+function encodeURL(){
+
+  const text =
+    document.getElementById("urlText").value;
+
+  document.getElementById(
+    "urlResult"
+  ).textContent =
+    encodeURIComponent(text);
+
+}
+
+
+function decodeURL(){
+
+  try{
+
+    const text =
+      document.getElementById("urlText").value;
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      decodeURIComponent(text);
+
+  }
+  catch(e){
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      "❌ Invalid encoded URL";
+
+  }
+
+}
+
+
+/* BASE64 */
+
+function base64Encode(){
+
+  const text =
+    document.getElementById("urlText").value;
+
+  try{
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      btoa(
+        unescape(
+          encodeURIComponent(text)
+        )
+      );
+
+  }
+  catch(e){
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      "❌ Encoding error";
+
+  }
+
+}
+
+
+function base64Decode(){
+
+  const text =
+    document.getElementById("urlText").value;
+
+  try{
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      decodeURIComponent(
+        escape(atob(text))
+      );
+
+  }
+  catch(e){
+
+    document.getElementById(
+      "urlResult"
+    ).textContent =
+      "❌ Invalid Base64";
+
+  }
+
+}
+
+
+/* JSON TOOLS */
+
+function formatJSON(){
+
+  try{
+
+    const obj =
+      JSON.parse(
+        document.getElementById("jsonText").value
+      );
+
+    document.getElementById(
+      "jsonResult"
+    ).textContent =
+      JSON.stringify(obj,null,2);
+
+  }
+  catch(e){
+
+    document.getElementById(
+      "jsonResult"
+    ).textContent =
+      "❌ Invalid JSON";
+
+  }
+
+}
+
+
+function minifyJSON(){
+
+  try{
+
+    const obj =
+      JSON.parse(
+        document.getElementById("jsonText").value
+      );
+
+    document.getElementById(
+      "jsonResult"
+    ).textContent =
+      JSON.stringify(obj);
+
+  }
+  catch(e){
+
+    document.getElementById(
+      "jsonResult"
+    ).textContent =
+      "❌ Invalid JSON";
+
+  }
+
+}
+
+
+/* COLOR */
+
+function showColor(){
+
+  const color =
+    document.getElementById("colorPicker").value;
+
+  document.getElementById(
+    "colorResult"
+  ).textContent =
+    "Selected Color: " + color;
+
+}
+
+
+/* START */
+
+updateStopwatch();
+
+</script>
+
+</body>
+</html>
 
 
