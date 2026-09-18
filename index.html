@@ -496,7 +496,23 @@ Tusi message likho te Send dabao.
     </div>
 
     <!-- URL -->
-    <div id="urlTools" class="tool-box">
+    <div id="urlTools" class="tool-box"><button onclick="showImageGenerator()">
+  🎨 AI Picture
+</button>
+
+<div id="aiImageBox" style="display:none;margin-top:10px;">
+  <textarea
+    id="imagePrompt"
+    rows="4"
+    placeholder="Describe your picture..."
+  ></textarea>
+
+  <button onclick="generateAIImage()">
+    🖼️ Generate Picture
+  </button>
+
+  <div id="aiImageResult" class="result"></div>
+</div>
 
       <h3>🔗 URL & Base64 Tools</h3>
 
@@ -577,7 +593,100 @@ Tusi message likho te Send dabao.
 <footer>
 © 2026 SRM Tools • JARVIS AI 🤖
 </footer>
+/* =========================
+   AI PICTURE
+========================= */
 
+function showImageGenerator(){
+
+  const box =
+    document.getElementById("aiImageBox");
+
+  box.style.display =
+    box.style.display === "none"
+      ? "block"
+      : "none";
+
+}
+
+
+async function generateAIImage(){
+
+  const prompt =
+    document.getElementById("imagePrompt")
+      .value.trim();
+
+  const result =
+    document.getElementById("aiImageResult");
+
+  if(!prompt){
+
+    result.textContent =
+      "Pehla picture da prompt likho.";
+
+    return;
+
+  }
+
+  result.textContent =
+    "🤖 JARVIS picture bana reha hai...";
+
+  try{
+
+    const response =
+      await fetch(
+        "https://srm-toots.vercel.app/api/image",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":"application/json"
+          },
+
+          body:JSON.stringify({
+            prompt:prompt
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Image generation failed"
+      );
+
+    }
+
+    result.innerHTML = "";
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      data.image;
+
+    img.style.width =
+      "100%";
+
+    img.style.borderRadius =
+      "15px";
+
+    result.appendChild(img);
+
+  }
+  catch(error){
+
+    result.textContent =
+      "⚠️ Error: " +
+      error.message;
+
+  }
+
+}
 
 <script>
 
