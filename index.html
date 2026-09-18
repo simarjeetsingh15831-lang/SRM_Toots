@@ -3,219 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>JARVIS AI - SRM Tools</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
-  transition:.3s;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+color:#172033;
+transition:.3s
 }
 
 body.dark{
-  background:#101522;
-  color:#fff;
+background:#101522;
+color:#fff
 }
 
 header{
-  background:#172033;
-  color:white;
-  padding:18px 15px;
-  text-align:center;
+background:#172033;
+color:#fff;
+padding:18px 12px;
+text-align:center
 }
 
-header h1{
-  margin:0;
-  font-size:25px;
-}
-
-header p{
-  margin:6px 0 0;
-  font-size:14px;
-  opacity:.8;
-}
+header h1{margin:0;font-size:25px}
+header p{margin:6px 0 0;font-size:14px;opacity:.8}
 
 .chat{
-  max-width:900px;
-  margin:20px auto;
-  padding:15px;
+max-width:900px;
+margin:auto;
+padding:14px
 }
 
 .status{
-  background:#e8f7ed;
-  color:#176b35;
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:15px;
-  text-align:center;
+background:#e7f7ed;
+color:#176b35;
+padding:10px;
+border-radius:12px;
+text-align:center;
+margin-bottom:12px
 }
 
 .dark .status{
-  background:#193524;
-  color:#9df0b5;
+background:#193524;
+color:#9df0b5
 }
 
 .messages{
-  min-height:300px;
-  max-height:55vh;
-  overflow-y:auto;
-  padding:5px;
+min-height:280px;
+max-height:55vh;
+overflow:auto
 }
 
 .msg{
-  display:flex;
-  margin:10px 0;
+display:flex;
+margin:10px 0
 }
 
-.msg.user{
-  justify-content:flex-end;
-}
+.msg.user{justify-content:flex-end}
 
 .bubble{
-  max-width:82%;
-  padding:12px 15px;
-  border-radius:16px;
-  white-space:pre-wrap;
-  line-height:1.45;
+max-width:85%;
+padding:12px 15px;
+border-radius:16px;
+white-space:pre-wrap;
+line-height:1.45
 }
 
 .assistant .bubble{
-  background:white;
-  box-shadow:0 2px 8px #0001;
+background:#fff;
+box-shadow:0 2px 8px #0002
 }
 
 .user .bubble{
-  background:#172033;
-  color:white;
+background:#172033;
+color:#fff
 }
 
 .dark .assistant .bubble{
-  background:#202a3d;
-  color:white;
+background:#202a3d;
+color:#fff
 }
 
-.quick,
-.tools{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:12px 0;
+.quick,.tools{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin:12px 0
 }
 
 button{
-  border:0;
-  border-radius:12px;
-  padding:11px 14px;
-  cursor:pointer;
-  font-size:14px;
-  background:#172033;
-  color:white;
+border:0;
+border-radius:12px;
+padding:11px 14px;
+background:#172033;
+color:#fff;
+font-size:14px;
+cursor:pointer
 }
 
-button:hover{
-  opacity:.9;
-}
+button:hover{opacity:.9}
 
-.voice-on{
-  background:#159447;
-}
-
-.voice-off{
-  background:#b3261e;
-}
+.voice-on{background:#159447}
+.voice-off{background:#b3261e}
 
 .menu{
-  display:none;
-  background:white;
-  border-radius:16px;
-  padding:15px;
-  margin:12px 0;
-  box-shadow:0 4px 18px #0002;
+display:none;
+background:#fff;
+padding:15px;
+border-radius:16px;
+box-shadow:0 4px 18px #0002;
+margin:10px 0
 }
 
-.menu.show{
-  display:block;
-}
+.menu.show{display:block}
 
 .dark .menu{
-  background:#202a3d;
-}
-
-.menu h3{
-  margin:8px 0;
+background:#202a3d
 }
 
 .tool-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px
 }
 
 .tool-grid button{
-  background:#27344d;
+background:#27344d
+}
+
+.panel{
+display:none;
+background:#fff;
+padding:15px;
+margin:10px 0;
+border-radius:16px;
+box-shadow:0 3px 15px #0002
+}
+
+.panel.show{display:block}
+
+.dark .panel{
+background:#202a3d
+}
+
+.panel input,
+.panel textarea,
+.panel select{
+width:100%;
+padding:11px;
+margin:6px 0;
+border:1px solid #ccd3df;
+border-radius:10px;
+font-size:15px
+}
+
+.dark .panel input,
+.dark .panel textarea,
+.dark .panel select{
+background:#101522;
+color:#fff;
+border-color:#46536a
+}
+
+.result{
+padding:12px;
+background:#eef2f7;
+border-radius:10px;
+margin-top:8px;
+white-space:pre-wrap
+}
+
+.dark .result{
+background:#101522
 }
 
 .input-area{
-  display:flex;
-  gap:8px;
-  margin-top:15px;
+display:flex;
+gap:8px;
+margin-top:12px
 }
 
-textarea{
-  flex:1;
-  min-height:55px;
-  resize:none;
-  border:1px solid #ccd3df;
-  border-radius:14px;
-  padding:13px;
-  font-size:16px;
-  outline:none;
+#message{
+flex:1;
+min-height:55px;
+resize:none;
+padding:13px;
+border-radius:14px;
+border:1px solid #ccd3df;
+font-size:16px
 }
 
-.dark textarea{
-  background:#202a3d;
-  color:white;
-  border-color:#46536a;
+.dark #message{
+background:#202a3d;
+color:#fff;
+border-color:#46536a
 }
 
-.send{
-  min-width:75px;
+.send{min-width:75px}
+
+.clock{
+font-size:30px;
+text-align:center;
+font-weight:bold;
+padding:15px
+}
+
+.big{
+font-size:28px;
+text-align:center;
+padding:10px
 }
 
 .footer{
-  text-align:center;
-  font-size:12px;
-  opacity:.6;
-  padding:20px;
+text-align:center;
+opacity:.6;
+font-size:12px;
+padding:20px
 }
 
 @media(max-width:600px){
-  .chat{
-    margin:8px auto;
-  }
-
-  .bubble{
-    max-width:90%;
-  }
-
-  .tool-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .input-area{
-    align-items:stretch;
-  }
-
-  .send{
-    min-width:65px;
-  }
+.chat{padding:10px}
+.tool-grid{grid-template-columns:1fr 1fr}
+.bubble{max-width:92%}
 }
 </style>
 </head>
@@ -223,620 +235,777 @@ textarea{
 <body>
 
 <header>
-  <h1>🤖 JARVIS AI</h1>
-  <p>SRM Tools da Smart AI Assistant</p>
+<h1>🤖 JARVIS AI</h1>
+<p>SRM Tools da Smart AI Assistant</p>
 </header>
 
 <div class="chat">
 
-  <div id="status" class="status">
-    ● JARVIS Ready
-  </div>
+<div id="status" class="status">● JARVIS Ready</div>
 
-  <div id="messages" class="messages">
-
-    <div class="msg assistant">
-      <div class="bubble">
+<div id="messages" class="messages">
+<div class="msg assistant">
+<div class="bubble">
 Sat Sri Akal! 👋
 
 Main JARVIS AI haan. 🤖
 
-Tusi message likh ke jaan 🎤 Mic naal gall kar sakde ho.
-      </div>
-    </div>
+Tusi message likho jaan 🎤 Mic use karo.
+</div>
+</div>
+</div>
 
-  </div>
+<div class="quick">
+<button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">🌐 Website Ideas</button>
+<button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">▶️ YouTube Title</button>
+<button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">✍️ Caption</button>
+</div>
 
-  <!-- QUICK ACTIONS -->
-  <div class="quick">
+<div class="tools">
+<button onclick="startMic()">🎤 Mic</button>
+<button id="voiceBtn" class="voice-on" onclick="toggleVoice()">🔊 Voice ON</button>
+<button onclick="toggleMenu()">⚙️ More Tools</button>
+</div>
 
-    <button onclick="quickAsk('Mere SRM Tools website nu improve karan layi ideas deo.')">
-      🌐 Website Ideas
-    </button>
+<!-- TOOLS MENU -->
+<div id="toolMenu" class="menu">
 
-    <button onclick="quickAsk('Mere layi ik YouTube Shorts title bnao.')">
-      ▶️ YouTube Title
-    </button>
+<h3>🛠️ SRM Tools</h3>
 
-    <button onclick="quickAsk('Punjabi vich ik motivational caption likho.')">
-      ✍️ Caption
-    </button>
+<div class="tool-grid">
 
-  </div>
+<button onclick="openTool('compressor')">🖼️ Image Compressor</button>
+<button onclick="openTool('rotate')">🔄 Image Rotate</button>
+<button onclick="openTool('flip')">↔️ Image Flip</button>
+<button onclick="openTool('size')">📐 Image Size</button>
 
-  <!-- MAIN CONTROLS -->
-  <div class="tools">
+<button onclick="openTool('case')">🔠 Case Converter</button>
+<button onclick="openTool('counter')">🔢 Word Counter</button>
+<button onclick="openTool('clean')">🧹 Text Cleaner</button>
+<button onclick="openTool('reverse')">🔁 Text Reverser</button>
 
-    <button onclick="startMic()">
-      🎤 Mic
-    </button>
+<button onclick="openTool('percentage')">📊 Percentage</button>
+<button onclick="openTool('age')">🎂 Age Calculator</button>
+<button onclick="openTool('discount')">💰 Discount</button>
+<button onclick="openTool('color')">🎨 Color Picker</button>
 
-    <button id="voiceBtn" class="voice-on" onclick="toggleVoice()">
-      🔊 Voice ON
-    </button>
+<button onclick="openTool('password')">🔐 Password Generator</button>
+<button onclick="openTool('random')">🎲 Random Number</button>
+<button onclick="openTool('stopwatch')">⏱️ Stopwatch</button>
+<button onclick="openTool('timer')">⏰ Timer</button>
 
-    <button onclick="toggleMenu()">
-      ⚙️ More Tools
-    </button>
+<button onclick="openTool('clock')">🕐 Digital Clock</button>
+<button onclick="openTool('url')">🔗 URL Encode/Decode</button>
+<button onclick="openTool('pdf')">📄 Text to PDF</button>
 
-  </div>
+</div>
 
-  <!-- MORE TOOLS MENU -->
-  <div id="toolMenu" class="menu">
+<h3>🤖 AI Features</h3>
 
-    <h3>🛠️ SRM Tools</h3>
+<div class="tool-grid">
+<button onclick="aiPicture()">🖼️ AI Picture</button>
+<button onclick="aiVideo()">🎬 AI Video Editor</button>
+</div>
 
-    <div class="tool-grid">
+<h3>⚙️ Settings</h3>
 
-      <button onclick="toolMessage('Image Compressor')">
-        🖼️ Image Compressor
-      </button>
+<div class="tool-grid">
+<button onclick="toggleTheme()">🌙 Theme</button>
+<button onclick="clearChat()">🗑️ Clear Chat</button>
+<button onclick="stopSpeaking()">🔇 Stop Voice</button>
+</div>
 
-      <button onclick="toolMessage('Image Rotate')">
-        🔄 Image Rotate
-      </button>
+</div>
 
-      <button onclick="toolMessage('Image Flip')">
-        ↔️ Image Flip
-      </button>
 
-      <button onclick="toolMessage('Image Size Checker')">
-        📐 Image Size
-      </button>
+<!-- IMAGE COMPRESSOR -->
+<div id="compressor" class="panel">
+<h3>🖼️ Image Compressor</h3>
+<input type="file" id="compressFile" accept="image/*">
+<label>Quality</label>
+<input type="range" id="quality" min="10" max="100" value="70">
+<button onclick="compressImage()">Compress Image</button>
+<div id="compressResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Case Converter')">
-        🔠 Case Converter
-      </button>
 
-      <button onclick="toolMessage('Word Counter')">
-        🔢 Word Counter
-      </button>
+<!-- ROTATE -->
+<div id="rotate" class="panel">
+<h3>🔄 Image Rotate</h3>
+<input type="file" id="rotateFile" accept="image/*">
+<select id="rotateDeg">
+<option value="90">90°</option>
+<option value="180">180°</option>
+<option value="270">270°</option>
+</select>
+<button onclick="rotateImage()">Rotate</button>
+<div id="rotateResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Character Counter')">
-        🔤 Character Counter
-      </button>
 
-      <button onclick="toolMessage('Text Cleaner')">
-        🧹 Text Cleaner
-      </button>
+<!-- FLIP -->
+<div id="flip" class="panel">
+<h3>↔️ Image Flip</h3>
+<input type="file" id="flipFile" accept="image/*">
+<button onclick="flipImage()">Flip Image</button>
+<div id="flipResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Text Reverser')">
-        🔁 Text Reverser
-      </button>
 
-      <button onclick="toolMessage('Percentage Calculator')">
-        📊 Percentage
-      </button>
+<!-- SIZE -->
+<div id="size" class="panel">
+<h3>📐 Image Size Checker</h3>
+<input type="file" id="sizeFile" accept="image/*">
+<div id="sizeResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Age Calculator')">
-        🎂 Age Calculator
-      </button>
 
-      <button onclick="toolMessage('Discount Calculator')">
-        💰 Discount
-      </button>
+<!-- CASE -->
+<div id="case" class="panel">
+<h3>🔠 Case Converter</h3>
+<textarea id="caseText" rows="5" placeholder="Text likho..."></textarea>
+<button onclick="changeCase('upper')">UPPERCASE</button>
+<button onclick="changeCase('lower')">lowercase</button>
+<button onclick="changeCase('title')">Title Case</button>
+<div id="caseResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Color Picker')">
-        🎨 Color Picker
-      </button>
 
-      <button onclick="toolMessage('Password Generator')">
-        🔐 Password
-      </button>
+<!-- COUNTER -->
+<div id="counter" class="panel">
+<h3>🔢 Word & Character Counter</h3>
+<textarea id="counterText" rows="6" oninput="countText()" placeholder="Text likho..."></textarea>
+<div id="counterResult" class="result">Words: 0
+Characters: 0</div>
+</div>
 
-      <button onclick="toolMessage('Random Number Generator')">
-        🎲 Random Number
-      </button>
 
-      <button onclick="toolMessage('Stopwatch')">
-        ⏱️ Stopwatch
-      </button>
+<!-- CLEAN -->
+<div id="clean" class="panel">
+<h3>🧹 Text Cleaner</h3>
+<textarea id="cleanText" rows="6"></textarea>
+<button onclick="cleanText()">Clean Text</button>
+<div id="cleanResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('Timer')">
-        ⏰ Timer
-      </button>
 
-      <button onclick="toolMessage('Digital Clock')">
-        🕐 Digital Clock
-      </button>
+<!-- REVERSE -->
+<div id="reverse" class="panel">
+<h3>🔁 Text Reverser</h3>
+<textarea id="reverseText" rows="5"></textarea>
+<button onclick="reverseText()">Reverse</button>
+<div id="reverseResult" class="result"></div>
+</div>
 
-      <button onclick="toolMessage('URL Encoder Decoder')">
-        🔗 URL Encode
-      </button>
 
-      <button onclick="toolMessage('Text to PDF')">
-        📄 Text to PDF
-      </button>
+<!-- PERCENTAGE -->
+<div id="percentage" class="panel">
+<h3>📊 Percentage Calculator</h3>
+<input id="percentA" type="number" placeholder="Percentage">
+<input id="percentB" type="number" placeholder="Number">
+<button onclick="calcPercent()">Calculate</button>
+<div id="percentResult" class="result"></div>
+</div>
 
-    </div>
 
-    <h3>🤖 AI Features</h3>
+<!-- AGE -->
+<div id="age" class="panel">
+<h3>🎂 Age Calculator</h3>
+<input id="birthDate" type="date">
+<button onclick="calcAge()">Calculate Age</button>
+<div id="ageResult" class="result"></div>
+</div>
 
-    <div class="tool-grid">
 
-      <button onclick="aiPicture()">
-        🖼️ AI Picture
-      </button>
+<!-- DISCOUNT -->
+<div id="discount" class="panel">
+<h3>💰 Discount Calculator</h3>
+<input id="price" type="number" placeholder="Original Price">
+<input id="discountRate" type="number" placeholder="Discount %">
+<button onclick="calcDiscount()">Calculate</button>
+<div id="discountResult" class="result"></div>
+</div>
 
-      <button onclick="aiVideo()">
-        🎬 AI Video Editor
-      </button>
 
-    </div>
+<!-- COLOR -->
+<div id="color" class="panel">
+<h3>🎨 Color Picker</h3>
+<input type="color" id="colorPick" value="#172033" onchange="showColor()">
+<div id="colorResult" class="result">#172033</div>
+</div>
 
-    <h3>⚙️ Settings</h3>
 
-    <div class="tool-grid">
+<!-- PASSWORD -->
+<div id="password" class="panel">
+<h3>🔐 Password Generator</h3>
+<input id="passLength" type="number" value="12" min="4" max="50">
+<button onclick="generatePassword()">Generate Password</button>
+<div id="passResult" class="result"></div>
+</div>
 
-      <button onclick="toggleTheme()">
-        🌙 Theme
-      </button>
 
-      <button onclick="clearChat()">
-        🗑️ Clear Chat
-      </button>
+<!-- RANDOM -->
+<div id="random" class="panel">
+<h3>🎲 Random Number Generator</h3>
+<input id="randomMin" type="number" placeholder="Minimum">
+<input id="randomMax" type="number" placeholder="Maximum">
+<button onclick="randomNumber()">Generate</button>
+<div id="randomResult" class="result"></div>
+</div>
 
-      <button onclick="stopSpeaking()">
-        🔇 Stop Voice
-      </button>
 
-    </div>
+<!-- STOPWATCH -->
+<div id="stopwatch" class="panel">
+<h3>⏱️ Stopwatch</h3>
+<div id="stopwatchDisplay" class="big">00:00:00</div>
+<button onclick="startStopwatch()">Start</button>
+<button onclick="stopStopwatch()">Stop</button>
+<button onclick="resetStopwatch()">Reset</button>
+</div>
 
-  </div>
 
-  <!-- INPUT -->
-  <div class="input-area">
+<!-- TIMER -->
+<div id="timer" class="panel">
+<h3>⏰ Timer</h3>
+<input id="timerSeconds" type="number" placeholder="Seconds">
+<div id="timerDisplay" class="big">00:00</div>
+<button onclick="startTimer()">Start</button>
+<button onclick="stopTimer()">Stop</button>
+</div>
 
-    <textarea
-      id="message"
-      placeholder="JARVIS nu message likho..."
-    ></textarea>
 
-    <button
-      id="sendBtn"
-      class="send"
-      onclick="sendJarvis()"
-    >
-      Send
-    </button>
+<!-- CLOCK -->
+<div id="clock" class="panel">
+<h3>🕐 Digital Clock</h3>
+<div id="digitalClock" class="clock">00:00:00</div>
+</div>
 
-  </div>
 
-  <div class="footer">
-    © 2026 SRM Tools • JARVIS AI 🤖
-  </div>
+<!-- URL -->
+<div id="url" class="panel">
+<h3>🔗 URL Encoder / Decoder</h3>
+<textarea id="urlText" rows="4" placeholder="URL ya text"></textarea>
+<button onclick="encodeURL()">Encode</button>
+<button onclick="decodeURL()">Decode</button>
+<div id="urlResult" class="result"></div>
+</div>
+
+
+<!-- PDF -->
+<div id="pdf" class="panel">
+<h3>📄 Text to PDF</h3>
+<textarea id="pdfText" rows="8" placeholder="PDF layi text likho..."></textarea>
+<button onclick="textToPDF()">Print / Save as PDF</button>
+</div>
+
+
+<!-- INPUT -->
+<div class="input-area">
+<textarea id="message" placeholder="JARVIS nu message likho..."></textarea>
+<button id="sendBtn" class="send" onclick="sendJarvis()">Send</button>
+</div>
+
+<div class="footer">
+© 2026 SRM Tools • JARVIS AI 🤖
+</div>
 
 </div>
 
 
 <script>
 
-const messageBox = document.getElementById("message");
-const messages = document.getElementById("messages");
-const sendBtn = document.getElementById("sendBtn");
-const statusBox = document.getElementById("status");
-const voiceBtn = document.getElementById("voiceBtn");
-const toolMenu = document.getElementById("toolMenu");
-
-let recognition = null;
-let listening = false;
-
-/* =========================
-   VOICE OUTPUT
-========================= */
-
-let voiceEnabled =
-  localStorage.getItem("jarvisVoice") !== "off";
-
-function updateVoiceButton(){
-
-  if(voiceEnabled){
-
-    voiceBtn.textContent = "🔊 Voice ON";
-    voiceBtn.className = "voice-on";
-
-  }else{
-
-    voiceBtn.textContent = "🔇 Voice OFF";
-    voiceBtn.className = "voice-off";
-
-  }
-
-}
-
-function toggleVoice(){
-
-  voiceEnabled = !voiceEnabled;
-
-  localStorage.setItem(
-    "jarvisVoice",
-    voiceEnabled ? "on" : "off"
-  );
-
-  if(!voiceEnabled){
-    stopSpeaking();
-  }
-
-  updateVoiceButton();
-}
-
-function speak(text){
-
-  if(!voiceEnabled) return;
-
-  if(!("speechSynthesis" in window)) return;
-
-  speechSynthesis.cancel();
-
-  const speech = new SpeechSynthesisUtterance(text);
-
-  speech.lang = "pa-IN";
-  speech.rate = 0.95;
-  speech.pitch = 1;
-
-  speechSynthesis.speak(speech);
-}
-
-function stopSpeaking(){
-
-  if("speechSynthesis" in window){
-    speechSynthesis.cancel();
-  }
-
-}
-
-
-/* =========================
-   MICROPHONE
-========================= */
-
-function startMic(){
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if(!SpeechRecognition){
-
-    alert(
-      "Tuhade browser vich voice input support nahi hai."
-    );
-
-    return;
-  }
-
-  if(listening){
-
-    recognition.stop();
-    return;
-  }
-
-  recognition = new SpeechRecognition();
-
-  recognition.lang = "pa-IN";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  recognition.onstart = function(){
-
-    listening = true;
-    statusBox.textContent = "🎤 Listening...";
-  };
-
-  recognition.onresult = function(event){
-
-    const text =
-      event.results[0][0].transcript;
-
-    messageBox.value = text;
-
-    sendJarvis();
-  };
-
-  recognition.onerror = function(){
-
-    listening = false;
-    statusBox.textContent = "● JARVIS Ready";
-  };
-
-  recognition.onend = function(){
-
-    listening = false;
-    statusBox.textContent = "● JARVIS Ready";
-  };
-
-  recognition.start();
-}
-
-
-/* =========================
-   MENU
-========================= */
-
-function toggleMenu(){
-
-  toolMenu.classList.toggle("show");
-
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-function addMessage(text, who){
-
-  const msg = document.createElement("div");
-
-  msg.className =
-    "msg " + who;
-
-  const bubble =
-    document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.textContent = text;
-
-  msg.appendChild(bubble);
-
-  messages.appendChild(msg);
-
-  messages.scrollTop =
-    messages.scrollHeight;
-
+/* ================= CHAT ================= */
+
+const messageBox=document.getElementById("message");
+const messages=document.getElementById("messages");
+const statusBox=document.getElementById("status");
+const sendBtn=document.getElementById("sendBtn");
+const voiceBtn=document.getElementById("voiceBtn");
+
+function addMessage(text,who){
+const msg=document.createElement("div");
+msg.className="msg "+who;
+
+const bubble=document.createElement("div");
+bubble.className="bubble";
+bubble.textContent=text;
+
+msg.appendChild(bubble);
+messages.appendChild(msg);
+messages.scrollTop=messages.scrollHeight;
 }
 
 function quickAsk(text){
-
-  messageBox.value = text;
-
-  sendJarvis();
-
+messageBox.value=text;
+sendJarvis();
 }
 
 
-/* =========================
-   JARVIS BACKEND
-========================= */
+/* ================= VOICE ================= */
+
+let voiceEnabled=localStorage.getItem("jarvisVoice")!=="off";
+
+function updateVoice(){
+if(voiceEnabled){
+voiceBtn.textContent="🔊 Voice ON";
+voiceBtn.className="voice-on";
+}else{
+voiceBtn.textContent="🔇 Voice OFF";
+voiceBtn.className="voice-off";
+}
+}
+
+function toggleVoice(){
+voiceEnabled=!voiceEnabled;
+localStorage.setItem("jarvisVoice",voiceEnabled?"on":"off");
+
+if(!voiceEnabled) stopSpeaking();
+
+updateVoice();
+}
+
+function speak(text){
+if(!voiceEnabled)return;
+if(!("speechSynthesis" in window))return;
+
+speechSynthesis.cancel();
+
+const s=new SpeechSynthesisUtterance(text);
+s.lang="pa-IN";
+s.rate=.95;
+s.pitch=1;
+
+speechSynthesis.speak(s);
+}
+
+function stopSpeaking(){
+if("speechSynthesis" in window){
+speechSynthesis.cancel();
+}
+}
+
+
+/* ================= MIC ================= */
+
+function startMic(){
+
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+if(!SR){
+alert("Voice input tuhade browser vich support nahi.");
+return;
+}
+
+const r=new SR();
+
+r.lang="pa-IN";
+r.continuous=false;
+r.interimResults=false;
+
+r.onstart=()=>{
+statusBox.textContent="🎤 Listening...";
+};
+
+r.onresult=e=>{
+messageBox.value=e.results[0][0].transcript;
+sendJarvis();
+};
+
+r.onend=()=>{
+statusBox.textContent="● JARVIS Ready";
+};
+
+r.onerror=()=>{
+statusBox.textContent="● JARVIS Ready";
+};
+
+r.start();
+}
+
+
+/* ================= JARVIS ================= */
 
 async function sendJarvis(){
 
-  const text =
-    messageBox.value.trim();
+const text=messageBox.value.trim();
+if(!text)return;
 
-  if(!text) return;
+addMessage(text,"user");
+messageBox.value="";
 
-  addMessage(text, "user");
+statusBox.textContent="🤖 JARVIS Thinking...";
+sendBtn.disabled=true;
 
-  messageBox.value = "";
+addMessage("JARVIS soch reha hai... 🤖","assistant");
 
-  statusBox.textContent =
-    "🤖 JARVIS Thinking...";
+const typing=messages.lastElementChild.querySelector(".bubble");
 
-  sendBtn.disabled = true;
+try{
 
-  addMessage(
-    "JARVIS soch reha hai... 🤖",
-    "assistant"
-  );
+const response=await fetch("/api/jarvis",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({message:text})
+});
 
-  const typingBubble =
-    messages.lastElementChild
-      .querySelector(".bubble");
+const data=await response.json();
 
-  try{
+typing.remove();
 
-    const response =
-      await fetch("/api/jarvis",{
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-          "application/json"
-        },
-
-        body:JSON.stringify({
-          message:text
-        })
-
-      });
-
-    const data =
-      await response.json();
-
-    typingBubble.remove();
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Backend error"
-      );
-
-    }
-
-    const reply =
-      data.reply ||
-      "JARVIS nu reply nahi milya.";
-
-    addMessage(
-      reply,
-      "assistant"
-    );
-
-    speak(reply);
-
-    statusBox.textContent =
-      "● JARVIS Ready";
-
-  }catch(error){
-
-    typingBubble.textContent =
-      "JARVIS AI backend response nahi de reha. 🤖";
-
-    statusBox.textContent =
-      "⚠️ Backend Error";
-
-    console.error(error);
-
-  }
-
-  sendBtn.disabled = false;
+if(!response.ok){
+throw new Error(data.error||"Backend Error");
 }
 
+const reply=data.reply||"Reply nahi milya.";
 
-/* =========================
-   TOOL MESSAGE
-========================= */
+addMessage(reply,"assistant");
+speak(reply);
 
-function toolMessage(name){
+statusBox.textContent="● JARVIS Ready";
 
-  addMessage(
-    "🛠️ " + name +
-    " select kita gaya.",
-    "assistant"
-  );
+}catch(error){
 
-  statusBox.textContent =
-    "🛠️ " + name;
+typing.textContent="JARVIS backend response nahi de reha. 🤖";
+statusBox.textContent="⚠️ Backend Error";
+console.error(error);
 
 }
 
-
-/* =========================
-   AI PICTURE
-========================= */
-
-function aiPicture(){
-
-  addMessage(
-    "🖼️ AI Picture\n\n" +
-    "AI Picture feature da interface ready hai. " +
-    "Actual image generation layi backend image API connect karni pavegi.",
-    "assistant"
-  );
-
-  toolMenu.classList.remove("show");
+sendBtn.disabled=false;
 }
 
 
-/* =========================
-   AI VIDEO
-========================= */
+/* ================= MENU ================= */
 
-function aiVideo(){
+function toggleMenu(){
+document.getElementById("toolMenu").classList.toggle("show");
+}
 
-  addMessage(
-    "🎬 AI Video Editor\n\n" +
-    "AI Video Editor da option ready hai. " +
-    "Actual AI video editing/generation layi backend/service connect karni pavegi.",
-    "assistant"
-  );
+function openTool(id){
 
-  toolMenu.classList.remove("show");
+document.querySelectorAll(".panel").forEach(p=>{
+p.classList.remove("show");
+});
+
+document.getElementById(id).classList.add("show");
+
+document.getElementById("toolMenu").classList.remove("show");
+
+window.scrollTo({
+top:document.getElementById(id).offsetTop-10,
+behavior:"smooth"
+});
 }
 
 
-/* =========================
-   THEME
-========================= */
+/* ================= IMAGE HELPERS ================= */
 
-function toggleTheme(){
+function loadImage(file,callback){
 
-  document.body.classList.toggle("dark");
+if(!file){
+alert("Pehla image select karo.");
+return;
+}
 
-  localStorage.setItem(
-    "jarvisTheme",
-    document.body.classList.contains("dark")
-      ? "dark"
-      : "light"
-  );
+const img=new Image();
+
+img.onload=()=>callback(img);
+
+img.src=URL.createObjectURL(file);
+}
+
+
+/* COMPRESS */
+
+function compressImage(){
+
+const file=document.getElementById("compressFile").files[0];
+
+loadImage(file,img=>{
+
+const canvas=document.createElement("canvas");
+canvas.width=img.width;
+canvas.height=img.height;
+
+const ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0);
+
+const quality=
+Number(document.getElementById("quality").value)/100;
+
+canvas.toBlob(blob=>{
+
+const url=URL.createObjectURL(blob);
+
+document.getElementById("compressResult").innerHTML=
+"Original: "+Math.round(file.size/1024)+" KB<br>"+
+"Compressed: "+Math.round(blob.size/1024)+" KB<br><br>"+
+'<a href="'+url+'" download="compressed-image.jpg">⬇️ Download Image</a>';
+
+},"image/jpeg",quality);
+
+});
 
 }
 
 
-/* =========================
-   CLEAR CHAT
-========================= */
+/* ROTATE */
 
-function clearChat(){
+function rotateImage(){
 
-  stopSpeaking();
+const file=document.getElementById("rotateFile").files[0];
+const deg=Number(document.getElementById("rotateDeg").value);
 
-  messages.innerHTML = "";
+loadImage(file,img=>{
 
-  addMessage(
-    "Sat Sri Akal! 👋\n\nMain JARVIS AI haan. 🤖",
-    "assistant"
-  );
+const canvas=document.createElement("canvas");
 
-  statusBox.textContent =
-    "● JARVIS Ready";
+if(deg===90||deg===270){
+canvas.width=img.height;
+canvas.height=img.width;
+}else{
+canvas.width=img.width;
+canvas.height=img.height;
+}
+
+const ctx=canvas.getContext("2d");
+
+ctx.translate(canvas.width/2,canvas.height/2);
+ctx.rotate(deg*Math.PI/180);
+
+ctx.drawImage(img,-img.width/2,-img.height/2);
+
+const url=canvas.toDataURL("image/png");
+
+document.getElementById("rotateResult").innerHTML=
+'<img src="'+url+'" style="max-width:100%"><br><br>'+
+'<a href="'+url+'" download="rotated-image.png">⬇️ Download</a>';
+
+});
 
 }
 
 
-/* =========================
-   ENTER KEY
-========================= */
+/* FLIP */
 
-messageBox.addEventListener(
-  "keydown",
-  function(event){
+function flipImage(){
 
-    if(
-      event.key === "Enter" &&
-      !event.shiftKey
-    ){
+const file=document.getElementById("flipFile").files[0];
 
-      event.preventDefault();
+loadImage(file,img=>{
 
-      sendJarvis();
+const canvas=document.createElement("canvas");
 
-    }
+canvas.width=img.width;
+canvas.height=img.height;
 
-  }
+const ctx=canvas.getContext("2d");
+
+ctx.translate(canvas.width,0);
+ctx.scale(-1,1);
+
+ctx.drawImage(img,0,0);
+
+const url=canvas.toDataURL("image/png");
+
+document.getElementById("flipResult").innerHTML=
+'<img src="'+url+'" style="max-width:100%"><br><br>'+
+'<a href="'+url+'" download="flipped-image.png">⬇️ Download</a>';
+
+});
+
+}
+
+
+/* SIZE */
+
+document.getElementById("sizeFile").addEventListener("change",function(){
+
+const file=this.files[0];
+
+if(!file)return;
+
+loadImage(file,img=>{
+
+document.getElementById("sizeResult").textContent=
+"Width: "+img.width+" px\n"+
+"Height: "+img.height+" px\n"+
+"File Size: "+Math.round(file.size/1024)+" KB";
+
+});
+
+});
+
+
+/* ================= TEXT TOOLS ================= */
+
+function changeCase(type){
+
+const text=document.getElementById("caseText").value;
+let result="";
+
+if(type==="upper")result=text.toUpperCase();
+
+if(type==="lower")result=text.toLowerCase();
+
+if(type==="title"){
+result=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+}
+
+document.getElementById("caseResult").textContent=result;
+}
+
+
+function countText(){
+
+const text=document.getElementById("counterText").value;
+
+const words=text.trim()?text.trim().split(/\s+/).length:0;
+
+document.getElementById("counterResult").textContent=
+"Words: "+words+
+"\nCharacters: "+text.length;
+}
+
+
+function cleanText(){
+
+const text=document.getElementById("cleanText").value;
+
+const result=text
+.replace(/\s+/g," ")
+.trim();
+
+document.getElementById("cleanResult").textContent=result;
+}
+
+
+function reverseText(){
+
+const text=document.getElementById("reverseText").value;
+
+document.getElementById("reverseResult").textContent=
+[...text].reverse().join("");
+}
+
+
+/* ================= CALCULATORS ================= */
+
+function calcPercent(){
+
+const a=Number(document.getElementById("percentA").value);
+const b=Number(document.getElementById("percentB").value);
+
+document.getElementById("percentResult").textContent=
+a+"% of "+b+" = "+((a*b)/100);
+}
+
+
+function calcAge(){
+
+const birth=document.getElementById("birthDate").value;
+
+if(!birth){
+alert("Birth date select karo.");
+return;
+}
+
+const b=new Date(birth);
+const today=new Date();
+
+let age=today.getFullYear()-b.getFullYear();
+
+const m=today.getMonth()-b.getMonth();
+
+if(m<0||(m===0&&today.getDate()<b.getDate())){
+age--;
+}
+
+document.getElementById("ageResult").textContent=
+"Your age: "+age+" years";
+}
+
+
+function calcDiscount(){
+
+const price=Number(document.getElementById("price").value);
+const rate=Number(document.getElementById("discountRate").value);
+
+const save=price*rate/100;
+const final=price-save;
+
+document.getElementById("discountResult").textContent=
+"Discount: ₹"+save.toFixed(2)+
+"\nFinal Price: ₹"+final.toFixed(2);
+}
+
+
+/* COLOR */
+
+function showColor(){
+
+const c=document.getElementById("colorPick").value;
+
+document.getElementById("colorResult").textContent=
+"Selected Color: "+c;
+}
+
+
+/* PASSWORD */
+
+function generatePassword(){
+
+const length=Math.max(
+4,
+Math.min(
+50,
+Number(document.getElementById("passLength").value)||12
+)
 );
 
+const chars=
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
-/* =========================
-   LOAD SETTINGS
-========================= */
+let pass="";
 
-if(
-  localStorage.getItem("jarvisTheme")
-  === "dark"
-){
-
-  document.body.classList.add("dark");
-
+for(let i=0;i<length;i++){
+pass+=chars[Math.floor(Math.random()*chars.length)];
 }
 
-updateVoiceButton();
+document.getElementById("passResult").textContent=pass;
+}
 
-</script>
 
-</body>
-</html>
+/* RANDOM */
+
+function randomNumber(){
+
+const min=Number(document.getElementById("randomMin").value);
+const max=Number(document.getElementById("randomMax").value);
+
+if(max<min){
+alert("Maximum number vadda hona chahida.");
+return;
+}
+
+const n=Math.floor(
+Math.random()*(max-min+1)
+)+min;
+
+document.getElementById("randomResult").textContent=
+"Random Number: "+n;
+}
+
+
+/* ================= STOPWATCH ================= */
+
+let stopwatchInterval=null;
+let stopwatchSeconds=0;
+
+function updateStopwatch(){
+
+let h=Math.floor(stopwatchSeconds/3600);
+let m=Math.floor((stopwatchSeconds%3600)/60);
+let s=stopwatchSeconds%60;
+
+document.getElementById("sto
