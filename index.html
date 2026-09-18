@@ -594,14 +594,92 @@ Tusi message likho te Send dabao.
 © 2026 SRM Tools • JARVIS AI 🤖
 </footer>
 <script>
+ /* =========================
+   AI PICTURE
+========================= */
+
 function showImageGenerator(){
-...
+
+  const box =
+    document.getElementById("aiImageBox");
+
+  if(!box) return;
+
+  box.style.display =
+    box.style.display === "none"
+      ? "block"
+      : "none";
 }
 
+
 async function generateAIImage(){
-...
-}  const box =
-    document.getElementById("aiImageBox");
+
+  const prompt =
+    document.getElementById("imagePrompt").value.trim();
+
+  const result =
+    document.getElementById("aiImageResult");
+
+  if(!prompt){
+
+    result.textContent =
+      "Pehla picture da prompt likho.";
+
+    return;
+  }
+
+  result.textContent =
+    "🤖 JARVIS picture bana reha hai...";
+
+  try{
+
+    const response =
+      await fetch(
+        "https://srm-toots.vercel.app/api/image",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":"application/json"
+          },
+
+          body:JSON.stringify({
+            prompt:prompt
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Image generation failed"
+      );
+    }
+
+    result.innerHTML = "";
+
+    const img =
+      document.createElement("img");
+
+    img.src = data.image;
+
+    img.style.width = "100%";
+    img.style.borderRadius = "15px";
+
+    result.appendChild(img);
+
+  }
+  catch(error){
+
+    result.textContent =
+      "⚠️ Error: " + error.message;
+
+  }
+} 
 
   box.style.display =
     box.style.display === "none"
