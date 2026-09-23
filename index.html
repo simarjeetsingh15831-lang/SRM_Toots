@@ -1,1 +1,1084 @@
+<!DOCTYPE html>
+<html lang="pa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JARVIS AI - SRM Tools</title>
 
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#172033;color:#fff;text-align:center;padding:25px 12px}
+header h1{margin:0;font-size:34px}
+header p{margin:8px 0 0;font-size:18px;opacity:.85}
+.status{max-width:900px;margin:18px auto;background:#e6f8ed;color:#247545;padding:15px;border-radius:20px;text-align:center;font-size:20px}
+.chat{max-width:900px;margin:auto;padding:0 15px 30px}
+.messages{min-height:300px;max-height:55vh;overflow-y:auto;background:#fff;border-radius:25px;padding:20px;box-shadow:0 5px 20px #0001}
+.msg{display:flex;margin:12px 0}
+.msg.user{justify-content:flex-end}
+.bubble{max-width:85%;padding:14px 17px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word;font-size:17px;line-height:1.5}
+.msg.assistant .bubble{background:#f0f3f8}
+.msg.user .bubble{background:#172033;color:#fff}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+button{border:0;border-radius:15px;padding:14px 18px;font-size:16px;cursor:pointer;background:#172033;color:#fff}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.5}
+.voice-on{background:#159447}
+.voice-off{background:#777}
+.input-row{display:flex;gap:10px;margin-top:15px}
+textarea{flex:1;min-height:70px;resize:none;border:1px solid #ccd3df;border-radius:20px;padding:17px;font-size:18px;outline:none;background:#fff}
+.send{min-width:130px;font-size:18px}
+.menu{display:none;background:#fff;margin-top:12px;padding:15px;border-radius:22px;box-shadow:0 5px 20px #0002}
+.menu.show{display:block}
+.menu-title{font-size:20px;font-weight:bold;margin-bottom:12px}
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tool-grid button{text-align:left}
+.tool-box{display:none;background:#f7f9fc;margin-top:12px;padding:15px;border-radius:18px}
+.tool-box.show{display:block}
+.tool-box h3{margin-top:0}
+.tool-box input,.tool-box textarea,.tool-box select{width:100%;padding:12px;margin:6px 0;border:1px solid #ccd3df;border-radius:12px;font-size:16px}
+.tool-box button{margin:5px 3px 5px 0}
+.result{margin-top:10px;padding:12px;background:#fff;border-radius:12px;white-space:pre-wrap;word-break:break-word}
+.result img{max-width:100%;border-radius:15px}
+footer{text-align:center;color:#687080;padding:20px}
+
+@media(max-width:600px){
+header h1{font-size:29px}
+.tool-grid{grid-template-columns:1fr}
+.input-row{align-items:stretch}
+.send{min-width:95px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🤖 JARVIS AI</h1>
+<p>SRM Tools da Smart AI Assistant</p>
+</header>
+
+<div id="status" class="status">● JARVIS Ready</div>
+
+<div class="chat">
+
+<div id="messages" class="messages">
+<div class="msg assistant">
+<div class="bubble">Sat Sri Akal! 👋
+
+Main JARVIS AI haan. 🤖
+
+Tusi message likho te Send dabao.</div>
+</div>
+</div>
+
+<div class="toolbar">
+<button onclick="startMic()">🎤 Mic</button>
+<button id="voiceBtn" class="voice-on" onclick="toggleVoice()">🔊 Voice ON</button>
+<button onclick="toggleMenu()">⚙️ More Tools</button>
+</div>
+
+<div id="menu" class="menu">
+
+<div class="menu-title">🛠️ SRM Tools</div>
+
+<div class="tool-grid">
+<button onclick="showTool('aiTools')">🤖 AI Tools</button>
+<button onclick="showTool('imageTools')">🖼️ Image Tools</button>
+<button onclick="showTool('textTools')">📝 Text Tools</button>
+<button onclick="showTool('calcTools')">🧮 Calculators</button>
+<button onclick="showTool('timeTools')">⏱️ Time Tools</button>
+<button onclick="showTool('securityTools')">🔐 Password & Random</button>
+<button onclick="showTool('urlTools')">🔗 URL Tools</button>
+<button onclick="showTool('extraTools')">🧰 Extra Tools</button>
+</div>
+
+<div id="aiTools" class="tool-box">
+<h3>🤖 AI Tools</h3>
+<button onclick="aiPrompt('website')">🌐 Website Ideas</button>
+<button onclick="aiPrompt('youtube')">▶️ YouTube Title</button>
+<button onclick="aiPrompt('caption')">✍️ Caption</button>
+<button onclick="aiPrompt('script')">🎬 Video Script</button>
+<button onclick="aiPrompt('hashtags')">#️⃣ Hashtags</button>
+<button onclick="aiPrompt('bio')">👤 Bio Generator</button>
+</div>
+
+<div id="imageTools" class="tool-box">
+<h3>🖼️ Image Tools</h3>
+<input type="file" id="imageFile" accept="image/*">
+<button onclick="imageSize()">📏 Image Size</button>
+<button onclick="compressImage()">🗜️ Compress</button>
+<button onclick="rotateImage()">🔄 Rotate</button>
+<button onclick="flipImage()">↔️ Flip</button>
+<button onclick="imageToPDF()">📄 Image to PDF</button>
+<div id="imageResult" class="result"></div>
+</div>
+
+<div id="textTools" class="tool-box">
+<h3>📝 Text Tools</h3>
+<textarea id="toolText" rows="5" placeholder="Text ithhe likho..."></textarea>
+<button onclick="upperText()">ABC Upper</button>
+<button onclick="lowerText()">abc Lower</button>
+<button onclick="titleText()">Aa Title Case</button>
+<button onclick="countText()">🔢 Count</button>
+<button onclick="cleanText()">🧹 Clean</button>
+<button onclick="reverseText()">↩️ Reverse</button>
+<button onclick="removeSpaces()">␠ Remove Spaces</button>
+<button onclick="textToPDF()">📄 Text to PDF</button>
+<div id="textResult" class="result"></div>
+</div>
+  <div id="calcTools" class="tool-box">
+<h3>🧮 Calculators</h3>
+
+<input id="num1" type="number" placeholder="Number">
+<input id="num2" type="number" placeholder="Percentage / second number">
+
+<button onclick="percentage()">Percentage</button>
+<button onclick="discount()">Discount</button>
+
+<input id="birthYear" type="number" placeholder="Birth year">
+<button onclick="ageCalc()">Age</button>
+
+<div id="calcResult" class="result"></div>
+</div>
+
+
+<div id="timeTools" class="tool-box">
+<h3>⏱️ Time Tools</h3>
+
+<div id="clock" class="result">00:00:00</div>
+
+<button onclick="startStopwatch()">▶️ Start</button>
+<button onclick="stopStopwatch()">⏸️ Stop</button>
+<button onclick="resetStopwatch()">🔄 Reset</button>
+
+<div id="stopwatch" class="result">00:00</div>
+
+<input id="timerSeconds" type="number" placeholder="Timer seconds">
+<button onclick="startTimer()">⏳ Start Timer</button>
+
+<div id="timerResult" class="result"></div>
+</div>
+
+
+<div id="securityTools" class="tool-box">
+<h3>🔐 Password & Random</h3>
+
+<input id="passwordLength" type="number" value="12" placeholder="Password length">
+
+<button onclick="generatePassword()">🔑 Generate Password</button>
+<button onclick="randomNumber()">🎲 Random Number</button>
+
+<div id="securityResult" class="result"></div>
+</div>
+
+
+<div id="urlTools" class="tool-box">
+<h3>🔗 URL & Base64</h3>
+
+<textarea id="urlText" rows="4" placeholder="Text / URL ithhe likho..."></textarea>
+
+<button onclick="urlEncode()">Encode URL</button>
+<button onclick="urlDecode()">Decode URL</button>
+<button onclick="base64Encode()">Base64 Encode</button>
+<button onclick="base64Decode()">Base64 Decode</button>
+
+<div id="urlResult" class="result"></div>
+</div>
+
+
+<div id="extraTools" class="tool-box">
+<h3>🧰 Extra Tools</h3>
+
+<textarea id="jsonText" rows="5" placeholder="JSON ithhe paste karo..."></textarea>
+
+<button onclick="formatJSON()">✨ Format JSON</button>
+<button onclick="minifyJSON()">📦 Minify JSON</button>
+
+<input id="colorPicker" type="color" value="#172033"
+       onchange="showColor()">
+
+<div id="colorResult" class="result">#172033</div>
+</div>
+
+</div>
+
+
+<div class="input-row">
+<textarea
+id="message"
+placeholder="JARVIS nu message likho..."
+onkeydown="handleEnter(event)"
+></textarea>
+
+<button class="send" id="sendBtn" onclick="sendJarvis()">
+Send 🚀
+</button>
+</div>
+
+<footer>
+© 2026 SRM Tools • JARVIS AI
+</footer>
+
+</div>
+
+
+<script>
+
+const JARVIS_API =
+"https://srm-toots.vercel.app/api/jarvis";
+
+const IMAGE_API =
+"https://srm-toots.vercel.app/api/image";
+
+let voiceEnabled = true;
+let stopwatchInterval = null;
+let stopwatchSeconds = 0;
+let timerInterval = null;
+
+
+/* MENU */
+
+function toggleMenu(){
+
+const menu =
+document.getElementById("menu");
+
+menu.classList.toggle("show");
+
+}
+
+
+function showTool(id){
+
+document.querySelectorAll(".tool-box")
+.forEach(box=>{
+box.classList.remove("show");
+});
+
+document.getElementById(id)
+.classList.add("show");
+
+}
+
+
+/* CHAT */
+
+function addMessage(text,type){
+
+const messages =
+document.getElementById("messages");
+
+const row =
+document.createElement("div");
+
+row.className =
+"msg " + type;
+
+const bubble =
+document.createElement("div");
+
+bubble.className="bubble";
+
+bubble.textContent=text;
+
+row.appendChild(bubble);
+
+messages.appendChild(row);
+
+messages.scrollTop =
+messages.scrollHeight;
+
+return bubble;
+
+}
+
+
+async function sendJarvis(){
+
+const input =
+document.getElementById("message");
+
+const sendBtn =
+document.getElementById("sendBtn");
+
+const status =
+document.getElementById("status");
+
+const text =
+input.value.trim();
+
+if(!text) return;
+
+addMessage(text,"user");
+
+input.value="";
+
+sendBtn.disabled=true;
+
+status.textContent =
+"● JARVIS soch reha hai…";
+
+const thinking =
+addMessage(
+"JARVIS soch reha hai… 🤖",
+"assistant"
+);
+
+try{
+
+const response =
+await fetch(JARVIS_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:text
+})
+
+});
+
+
+const data =
+await response.json();
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+"Backend error"
+);
+
+}
+
+thinking.textContent =
+data.reply ||
+"JARVIS nu reply nahi milia.";
+
+status.textContent =
+"● JARVIS Ready";
+
+if(
+voiceEnabled &&
+data.reply
+){
+
+speak(data.reply);
+
+}
+
+}
+catch(error){
+
+thinking.textContent =
+"❌ JARVIS backend response nahi de reha.\n\n"+
+error.message;
+
+status.textContent =
+"● Backend Error";
+
+}
+finally{
+
+sendBtn.disabled=false;
+
+input.focus();
+
+}
+
+}
+
+
+function handleEnter(event){
+
+if(
+event.key==="Enter" &&
+!event.shiftKey
+){
+
+event.preventDefault();
+
+sendJarvis();
+
+}
+
+}
+
+
+/* VOICE */
+
+function toggleVoice(){
+
+voiceEnabled =
+!voiceEnabled;
+
+const btn =
+document.getElementById("voiceBtn");
+
+if(voiceEnabled){
+
+btn.textContent =
+"🔊 Voice ON";
+
+btn.className =
+"voice-on";
+
+}
+else{
+
+btn.textContent =
+"🔇 Voice OFF";
+
+btn.className =
+"voice-off";
+
+speechSynthesis.cancel();
+
+}
+
+}
+
+
+function speak(text){
+
+if(!("speechSynthesis" in window))
+return;
+
+speechSynthesis.cancel();
+
+const utterance =
+new SpeechSynthesisUtterance(text);
+
+utterance.lang="en-IN";
+
+utterance.rate=1;
+
+speechSynthesis.speak(
+utterance
+);
+
+}
+
+
+function startMic(){
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+alert(
+"🎤 Voice typing is not supported in this browser."
+);
+
+return;
+
+}
+
+const recognition =
+new SpeechRecognition();
+
+recognition.lang="pa-IN";
+
+recognition.interimResults=false;
+
+recognition.onresult=function(event){
+
+document.getElementById("message")
+.value =
+event.results[0][0].transcript;
+
+};
+
+recognition.onerror=function(){
+
+alert("Mic start nahi ho sakda.");
+
+};
+
+recognition.start();
+
+}
+
+
+/* AI QUICK PROMPTS */
+
+function aiPrompt(type){
+
+const prompts={
+
+website:
+"Mainu ek modern website layi 5 ideas deo.",
+
+youtube:
+"Mainu YouTube Shorts layi 10 catchy titles deo.",
+
+caption:
+"Mainu Instagram Reel layi short Punjabi caption deo.",
+
+script:
+"Mainu 30 second di short video script bna ke deo.",
+
+hashtags:
+"Mainu meri short video layi relevant hashtags deo.",
+
+bio:
+"Mainu ek short professional social media bio bna ke deo."
+
+};
+
+const input =
+document.getElementById("message");
+
+input.value =
+prompts[type] || "";
+
+input.focus();
+
+}
+
+
+/* CALCULATORS */
+
+function percentage(){
+
+const n =
+Number(document.getElementById("num1").value);
+
+const p =
+Number(document.getElementById("num2").value);
+
+document.getElementById("calcResult")
+.textContent =
+isNaN(n)||isNaN(p)
+? "Values enter karo."
+: `${p}% of ${n} = ${(n*p/100).toFixed(2)}`;
+
+}
+
+
+function discount(){
+
+const price =
+Number(document.getElementById("num1").value);
+
+const percent =
+Number(document.getElementById("num2").value);
+
+if(!price){
+
+document.getElementById("calcResult")
+.textContent =
+"Price enter karo.";
+
+return;
+
+}
+
+const save =
+price*percent/100;
+
+const finalPrice =
+price-save;
+
+document.getElementById("calcResult")
+.textContent =
+`Saving: ${save.toFixed(2)}
+Final Price: ${finalPrice.toFixed(2)}`;
+
+}
+
+
+function ageCalc(){
+
+const year =
+Number(
+document.getElementById("birthYear").value
+);
+
+if(!year){
+
+document.getElementById("calcResult")
+.textContent =
+"Birth year enter karo.";
+
+return;
+
+}
+
+const age =
+new Date().getFullYear()-year;
+
+document.getElementById("calcResult")
+.textContent =
+`Approx age: ${age} years`;
+
+}
+
+
+/* CLOCK */
+
+setInterval(()=>{
+
+document.getElementById("clock")
+.textContent =
+new Date().toLocaleTimeString();
+
+},1000);
+
+
+/* STOPWATCH */
+
+function startStopwatch(){
+
+if(stopwatchInterval) return;
+
+stopwatchInterval =
+setInterval(()=>{
+
+stopwatchSeconds++;
+
+document.getElementById("stopwatch")
+.textContent =
+formatTime(stopwatchSeconds);
+
+},1000);
+
+}
+
+
+function stopStopwatch(){
+
+clearInterval(stopwatchInterval);
+
+stopwatchInterval=null;
+
+}
+
+
+function resetStopwatch(){
+
+stopStopwatch();
+
+stopwatchSeconds=0;
+
+document.getElementById("stopwatch")
+.textContent="00:00";
+
+}
+
+
+function formatTime(seconds){
+
+const min =
+Math.floor(seconds/60);
+
+const sec =
+seconds%60;
+
+return String(min).padStart(2,"0")
++":"+String(sec).padStart(2,"0");
+
+}
+
+
+/* TIMER */
+
+function startTimer(){
+
+let seconds =
+Number(
+document.getElementById("timerSeconds").value
+);
+
+if(!seconds){
+
+document.getElementById("timerResult")
+.textContent =
+"Seconds enter karo.";
+
+return;
+
+}
+
+clearInterval(timerInterval);
+
+document.getElementById("timerResult")
+.textContent =
+`⏳ ${seconds} seconds remaining`;
+
+timerInterval =
+setInterval(()=>{
+
+seconds--;
+
+document.getElementById("timerResult")
+.textContent =
+`⏳ ${seconds} seconds remaining`;
+
+if(seconds<=0){
+
+clearInterval(timerInterval);
+
+document.getElementById("timerResult")
+.textContent =
+"⏰ Timer complete!";
+
+}
+
+},1000);
+
+}
+
+
+/* PASSWORD */
+
+function generatePassword(){
+
+const length =
+Number(
+document.getElementById("passwordLength").value
+)||12;
+
+const chars =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+
+let password="";
+
+for(let i=0;i<length;i++){
+
+password +=
+chars[Math.floor(
+Math.random()*chars.length
+)];
+
+}
+
+document.getElementById("securityResult")
+.textContent=password;
+
+}
+
+
+function randomNumber(){
+
+const number =
+Math.floor(
+Math.random()*100000
+)+1;
+
+document.getElementById("securityResult")
+.textContent =
+`Random number: ${number}`;
+
+}
+
+
+/* URL */
+
+function urlEncode(){
+
+const text =
+document.getElementById("urlText").value;
+
+document.getElementById("urlResult")
+.textContent =
+encodeURIComponent(text);
+
+}
+
+
+function urlDecode(){
+
+const text =
+document.getElementById("urlText").value;
+
+try{
+
+document.getElementById("urlResult")
+.textContent =
+decodeURIComponent(text);
+
+}
+catch(e){
+
+document.getElementById("urlResult")
+.textContent =
+"❌ Invalid encoded URL";
+
+}
+
+}
+
+
+function base64Encode(){
+
+const text =
+document.getElementById("urlText").value;
+
+try{
+
+document.getElementById("urlResult")
+.textContent =
+btoa(
+unescape(
+encodeURIComponent(text)
+)
+);
+
+}
+catch(e){
+
+document.getElementById("urlResult")
+.textContent =
+"❌ Base64 encode error";
+
+}
+
+}
+
+
+function base64Decode(){
+
+const text =
+document.getElementById("urlText").value;
+
+try{
+
+document.getElementById("urlResult")
+.textContent =
+decodeURIComponent(
+escape(
+atob(text)
+)
+);
+
+}
+catch(e){
+
+document.getElementById("urlResult")
+.textContent =
+"❌ Invalid Base64";
+
+}
+
+}
+
+
+/* JSON */
+
+function formatJSON(){
+
+try{
+
+const data =
+JSON.parse(
+document.getElementById("jsonText").value
+);
+
+document.getElementById("jsonText")
+.value =
+JSON.stringify(data,null,2);
+
+}
+catch(e){
+
+alert("❌ Invalid JSON");
+
+}
+
+}
+
+
+function minifyJSON(){
+
+try{
+
+const data =
+JSON.parse(
+document.getElementById("jsonText").value
+);
+
+document.getElementById("jsonText")
+.value =
+JSON.stringify(data);
+
+}
+catch(e){
+
+alert("❌ Invalid JSON");
+
+}
+
+}
+
+
+/* COLOR */
+
+function showColor(){
+
+const color =
+document.getElementById("colorPicker").value;
+
+document.getElementById("colorResult")
+.textContent=color;
+
+}
+
+
+/* TEXT TOOLS */
+
+function getToolText(){
+
+return document.getElementById("toolText");
+
+}
+
+
+function upperText(){
+
+const box=getToolText();
+
+box.value=box.value.toUpperCase();
+
+}
+
+
+function lowerText(){
+
+const box=getToolText();
+
+box.value=box.value.toLowerCase();
+
+}
+
+
+function titleText(){
+
+const box=getToolText();
+
+box.value=
+box.value.toLowerCase()
+.replace(/\b\w/g,
+c=>c.toUpperCase()
+);
+
+}
+
+
+function countText(){
+
+const text=getToolText().value;
+
+const words =
+text.trim()
+? text.trim().split(/\s+/).length
+:0;
+
+document.getElementById("textResult")
+.textContent =
+`Words: ${words}
+Characters: ${text.length}`;
+
+}
+
+
+function cleanText(){
+
+const box=getToolText();
+
+box.value =
+box.value
+.replace(/\s+/g," ")
+.trim();
+
+}
+
+
+function reverseText(){
+
+const box=getToolText();
+
+box.value =
+[...box.value]
+.reverse()
+.join("");
+
+}
+
+
+function removeSpaces(){
+
+const box=getToolText();
+
+box.value =
+box.value.replace(/\s/g,"");
+
+}
+
+
+function textToPDF(){
+
+const text =
+getToolText().value;
+
+if(!text){
+
+alert("Text enter karo.");
+
+return;
+
+}
+
+const win =
+window.open("","_blank");
+
+if(!win){
+
+alert("Popup allow karo.");
+
+return;
+
+}
+
+win.document.write(
+`<html>
+<head>
+<title>SRM Tools PDF</title>
+</head>
+<body>
+<pre style="white-space:pre-wrap;font-size:16px">${escapeHtml(text)}</pre>
+<script>
+window.onload=function(){
+window.print();
+}
+<\/script>
+</body>
+</html>`
+);
+
+win.document.close();
+
+}
+
+
+function escapeHtml(text){
+
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
