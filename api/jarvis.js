@@ -1,11 +1,8 @@
 export default async function handler(req, res) {
-
-  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Browser preflight request
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -17,7 +14,6 @@ export default async function handler(req, res) {
   }
 
   try {
-
     const { message } = req.body || {};
 
     if (!message) {
@@ -26,26 +22,30 @@ export default async function handler(req, res) {
       });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
       return res.status(500).json({
-        error: "OPENAI_API_KEY missing"
+        error: "GEMINI_API_KEY missing"
       });
     }
 
     const response = await fetch(
-      "https://api.openai.com/v1/responses",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-            `Bearer ${process.env.OPENAI_API_KEY}`
+          "x-goog-api-key": apiKey
         },
-
         body: JSON.stringify({
-          model: "gpt-5.6-luna",
-          input: message
+          contents: [
+            {
+              parts: [
+                { text: message }
+              ]
+            }
+          ]
         })
       }
     );
@@ -54,36 +54,22 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       return res.status(response.status).json({
-        error:
-          data?.error?.message ||
-          "OpenAI API error"
+        error: data?.error?.message || "Gemini API error"
       });
     }
 
-    let reply = data.output_text;
-
-    if (!reply && Array.isArray(data.output)) {
-      reply = data.output
-        .flatMap(item => item.content || [])
-        .filter(
-          item => item.type === "output_text"
-        )
-        .map(item => item.text)
+    const reply =
+      data?.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || "")
         .join("\n");
-    }
 
     return res.status(200).json({
-      reply:
-        reply ||
-        "JARVIS nu text response nahi mili."
+      reply: reply || "JARVIS nu reply nahi mili."
     });
 
   } catch (error) {
-
     return res.status(500).json({
-      error:
-        error.message ||
-        "Server error"
+      error: error.message || "Server error"
     });
   }
 }
