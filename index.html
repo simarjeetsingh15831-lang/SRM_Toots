@@ -185,7 +185,43 @@ Tusi message likho te Send dabao.</div>
 
 <div id="urlResult" class="result"></div>
 </div>
+<!-- JARVIS VIDEO AI EDITOR -->
+<div class="tool-box" id="videoEditorBox">
 
+  <h2>🎬 JARVIS AI Video Editor</h2>
+
+  <input
+    type="file"
+    id="jarvisVideo"
+    accept="video/*"
+  >
+
+  <input
+    type="text"
+    id="videoCommand"
+    placeholder='JARVIS nu command: "Full HD cinematic bana dio"'
+  >
+
+  <button onclick="jarvisEditVideo()">
+    🤖 JARVIS Edit Video
+  </button>
+
+  <p id="videoStatus"></p>
+
+  <video
+    id="videoPreview"
+    controls
+    style="width:100%;display:none;margin-top:15px;border-radius:12px">
+  </video>
+
+  <a
+    id="videoDownload"
+    style="display:none"
+    download="JARVIS-Cinematic-1080p.webm">
+    ⬇️ Download Edited Video
+  </a>
+
+</div>
 
 <div id="extraTools" class="tool-box">
 <h3>🧰 Extra Tools</h3>
@@ -1079,6 +1115,220 @@ return text
 }
 
 </script>
+<script>
 
+async function jarvisEditVideo(){
+
+  const file =
+    document.getElementById("jarvisVideo").files[0];
+
+  const command =
+    document.getElementById("videoCommand").value
+    .toLowerCase();
+
+  const status =
+    document.getElementById("videoStatus");
+
+  const preview =
+    document.getElementById("videoPreview");
+
+  const download =
+    document.getElementById("videoDownload");
+
+  if(!file){
+
+    status.innerText =
+      "❌ Pehla video upload karo.";
+
+    return;
+  }
+
+  if(!command){
+
+    status.innerText =
+      '❌ JARVIS nu command likho, example: "Full HD cinematic bana dio"';
+
+    return;
+  }
+
+  status.innerText =
+    "🤖 JARVIS video prepare kar reha hai...";
+
+  const video =
+    document.createElement("video");
+
+  video.src =
+    URL.createObjectURL(file);
+
+  video.muted = true;
+
+  await new Promise(resolve => {
+
+    video.onloadedmetadata =
+      resolve;
+
+  });
+
+  /*
+    OUTPUT = 1920 × 1080
+  */
+
+  const canvas =
+    document.createElement("canvas");
+
+  canvas.width = 1920;
+  canvas.height = 1080;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  /*
+    CINEMATIC LOOK
+  */
+
+  const cinematic =
+    command.includes("cinematic") ||
+    command.includes("cinema") ||
+    command.includes("film") ||
+    command.includes("full hd");
+
+  const stream =
+    canvas.captureStream(30);
+
+  const recorder =
+    new MediaRecorder(
+      stream,
+      {
+        mimeType:
+          "video/webm;codecs=vp9"
+      }
+    );
+
+  const chunks = [];
+
+  recorder.ondataavailable =
+    e => {
+
+      if(e.data.size > 0)
+        chunks.push(e.data);
+
+    };
+
+  recorder.onstop = () => {
+
+    const blob =
+      new Blob(
+        chunks,
+        {type:"video/webm"}
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    preview.src = url;
+
+    preview.style.display =
+      "block";
+
+    download.href =
+      url;
+
+    download.style.display =
+      "inline-block";
+
+    status.innerText =
+      "✅ JARVIS ne video Full HD cinematic bana ditti! 🎬";
+
+  };
+
+  recorder.start();
+
+  video.currentTime = 0;
+
+  video.play();
+
+  status.innerText =
+    "🎬 JARVIS editing... 0%";
+
+  function draw(){
+
+    if(video.paused ||
+       video.ended){
+
+      recorder.stop();
+
+      return;
+    }
+
+    /*
+      Cinematic processing
+    */
+
+    if(cinematic){
+
+      ctx.filter =
+        "contrast(1.12) " +
+        "saturate(1.08) " +
+        "brightness(0.98)";
+
+    }else{
+
+      ctx.filter =
+        "none";
+
+    }
+
+    /*
+      Fit video inside 1920x1080
+    */
+
+    const scale =
+      Math.max(
+        canvas.width / video.videoWidth,
+        canvas.height / video.videoHeight
+      );
+
+    const width =
+      video.videoWidth * scale;
+
+    const height =
+      video.videoHeight * scale;
+
+    const x =
+      (canvas.width - width) / 2;
+
+    const y =
+      (canvas.height - height) / 2;
+
+    ctx.fillStyle =
+      "black";
+
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    ctx.drawImage(
+      video,
+      x,
+      y,
+      width,
+      height
+    );
+
+    ctx.filter =
+      "none";
+
+    requestAnimationFrame(draw);
+
+  }
+
+  draw();
+
+}
+
+</script>
 </body>
 </html>
