@@ -160,7 +160,7 @@ async function sendJarvis(){
  sendBtn.disabled=true;
  statusBox.textContent="● JARVIS soch reha hai...";
  try{
-  const response=await fetch("/api/jarvis",{
+  const response=await fetch("https://srm-toots.vercel.app/api/jarvis",{
    method:"POST",
    headers:{"Content-Type":"application/json"},
    body:JSON.stringify({message:text})
@@ -264,7 +264,7 @@ async function askPhotoJarvis(){
  addMessage("🖼️ Photo Assistant: "+prompt,"user");
  document.getElementById("photoPrompt").value="";
  try{
-  const response=await fetch("/api/jarvis",{
+  const response=await fetch("https://srm-toots.vercel.app/api/jarvis",{
    method:"POST",
    headers:{"Content-Type":"application/json"},
    body:JSON.stringify({message:"User is using JARVIS AI Photo Studio. Photo editing question: "+prompt})
